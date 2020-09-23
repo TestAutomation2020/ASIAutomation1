@@ -1,6 +1,7 @@
 package Execution;
 
 import org.testng.annotations.Test;
+import pages.BasicNavigation;
 import pages.Login;
 import pages.UserBlock;
 import pages.UserMenuNavigation;
@@ -18,5 +19,7 @@ public class ASIAutomation extends Base {
 
         UserBlock userblock = new UserBlock();
         userblock.Userblock(driver);
+
+        BasicNavigation basicuser =new BasicNavigation();
     }
 }
