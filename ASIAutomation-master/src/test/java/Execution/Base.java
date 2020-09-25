@@ -17,13 +17,13 @@ static WebDriver driver;
 public static void setup(){
     String s = ConfigReader.getProperty("test.browser.name").toLowerCase();
     if ("chrome".equals(s)) {
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\Administrator\\Downloads\\ASIAutomation-master\\ASIAutomation-master\\drivers\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\drivers\\chromedriver.exe");
         driver = new ChromeDriver();
     } else if ("firefox".equals(s)) {
-        System.setProperty("webdriver.gecko.driver", "c:/driver/geckodriver.exe");
+        System.setProperty("webdriver.gecko.driver", System.getProperty("user.dir")+"\\drivers\\geckodriver.exe");
         driver = new FirefoxDriver();
     } else {
-        System.setProperty("webdriver.chrome.driver", "c:/driver/chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir")+"\\drivers\\chromedriver.exe");
         driver = new ChromeDriver();
 
     }
