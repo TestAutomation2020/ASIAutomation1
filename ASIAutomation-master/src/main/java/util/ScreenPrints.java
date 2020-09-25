@@ -16,7 +16,6 @@ public class ScreenPrints {
     public static void ScreenCapture(WebDriver driver)throws IOException
     {
         Date d = new Date();
-
         System.out.println(d.toString());
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
