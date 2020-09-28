@@ -17,7 +17,6 @@ public class ScreenPrints {
     {
         Date d = new Date();
         System.out.println(d.toString());
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
         File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(scrFile,  new File("C:\\Users\\Administrator\\Downloads\\ASIAutomation-master\\ASIAutomation-master\\Screenshots\\"+sdf.format(d)+".png"));

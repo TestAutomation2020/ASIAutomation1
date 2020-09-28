@@ -39,6 +39,6 @@ public class Login
     }
     public void LaunchApplication(WebDriver driver){
         driver.get(ConfigReader.getProperty("url"));
-        WebDriverWait wait = new WebDriverWait(driver,120);
+        WebDriverWait wait = new WebDriverWait(driver,220);
     }
 }
