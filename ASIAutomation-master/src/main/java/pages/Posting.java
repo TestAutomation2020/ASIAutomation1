@@ -2,7 +2,6 @@ package pages;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,6 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import util.ConfigReader;
 import util.Constants;
+
+import java.io.IOException;
 
 public class Posting extends BasePage {
 
@@ -47,6 +48,12 @@ public class Posting extends BasePage {
     @FindBy(xpath = "//textarea[@name='message']")
     private WebElement txtMessage;
 
+    @FindBy(xpath = "//input[@name='patternpath']")
+    private WebElement txtURL;
+
+    @FindBy(xpath = "(//div[@class='x-btn x-form-file-btn x-unselectable x-btn-default-small'])[1]")
+    private WebElement btnFileUpload;
+
     @FindBy(xpath = "//span[text()='Upload to Live']/../../../div/div/label")
     private WebElement switchUploadToLive;
 
@@ -81,7 +88,6 @@ public class Posting extends BasePage {
     private WebElement searchResultPagination;
 
     @FindBy(xpath = "//div[@role='columnheader' and .//span[text()='Title']]//input")
-//    @FindBy(xpath = "(//div[@class='x-form-text-wrap x-form-text-wrap-default'])[1]//input")
     private WebElement txtTitleFilter;
 
     @FindBy(xpath = "(//div[@class='x-form-text-wrap x-form-text-wrap-default'])[1]//input")
@@ -109,7 +115,7 @@ public class Posting extends BasePage {
     }
 
     public void validatePostingScreen() {
-        Assert.assertEquals(validatePosting.getText(), "Postings", "Verification of Posting screen open.");
+        Assert.assertEquals(validatePosting.getText(), "Postings", "Posting screen is not opened.");
     }
 
     public void addMessagePosting() {
@@ -124,7 +130,34 @@ public class Posting extends BasePage {
         }
         clickAfterVisibilityOfElement(btnNext);
         clickAfterVisibilityOfElement(btnSave);
+    }
 
+    public void addLinkPosting() {
+        clickAfterVisibilityOfElement(btnAddNew);
+        clickAfterVisibilityOfElement(drpSelectType);
+        clickAfterVisibilityOfElement(selectLink);
+
+        txtTitle.sendKeys(Constants.postingTitle);
+        txtURL.sendKeys(ConfigReader.getProperty("linkpostingurl"));
+        if (shouldUploadToLive()) {
+            clickAfterVisibilityOfElement(switchUploadToLive);
+        }
+        clickAfterVisibilityOfElement(btnNext);
+        clickAfterVisibilityOfElement(btnSave);
+    }
+
+    public void addFilePosting() throws IOException, InterruptedException {
+        clickAfterVisibilityOfElement(btnAddNew);
+        clickAfterVisibilityOfElement(btnFileUpload);
+        Thread.sleep(2000);
+        Runtime.getRuntime().exec(ConfigReader.getProperty("documentpostingpath"));
+        Thread.sleep(2000);
+        txtTitle.sendKeys(Constants.postingTitle);
+        if (shouldUploadToLive()) {
+            clickAfterVisibilityOfElement(switchUploadToLive);
+        }
+        clickAfterVisibilityOfElement(btnNext);
+        clickAfterVisibilityOfElement(btnSave);
     }
 
 
@@ -138,9 +171,9 @@ public class Posting extends BasePage {
     public void validateSearchedPosting(String postingName) {
         String txtAllResult = labelAllResults.getText();
         int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));
-        Assert.assertTrue(searchResultCount > 0, "Verification of Search Result");
-        Assert.assertTrue(searchResultPagination.isDisplayed(), "Verification of Pagination");
-        Assert.assertEquals(postingName, lnkSearchedDocument.getText(), "Verification of Searched posting");
+        Assert.assertTrue(searchResultCount > 0, "Searched Result count is 0.");
+        Assert.assertTrue(searchResultPagination.isDisplayed(), "Pagination is not displayed on search result page.");
+        Assert.assertEquals(postingName, lnkSearchedDocument.getText(), "Searched Posting is not displayed on search result page. ");
     }
 
     public void openSearchedPosting() {
@@ -149,14 +182,11 @@ public class Posting extends BasePage {
 
     public void filterPosting(String postingName) throws InterruptedException {
         wait.until(ExpectedConditions.visibilityOf(txtTitleFilter));
-//        clearAfterVisibilityOfElement(txtTitleFilter);
-//         JavascriptExecutor js = (JavascriptExecutor) webDriver;
-//         js.executeScript("arguments[0].value=arguments[1]",txtTitleFilter,postingName);
         txtTitleFilter.clear();
         txtTitleFilter.sendKeys(postingName);
         txtTitleFilter.sendKeys(Keys.ENTER);
         waitForLoadingIconToBeDisappeared();
-        Assert.assertEquals(postingName, lnkPostingGrid.getText(), "Verification of Filter applied successfully");
+        Assert.assertEquals(postingName, lnkPostingGrid.getText(), "Filtered posting is not present in grid.");
     }
 
     public void updatePosting() {
@@ -175,15 +205,15 @@ public class Posting extends BasePage {
     }
 
     public void validatePostingAdded() {
-        Assert.assertEquals(notificationAddedSuccessfully.getText(), "Added Successfully", "Verification of Posting added.");
+        Assert.assertEquals(notificationAddedSuccessfully.getText(), "Added Successfully", "Posting added related message is not appeared.");
     }
 
     public void validatePostingUpdated() {
-        Assert.assertEquals(notificationUpdatedSuccessfully.getText(), "Updated Successfully", "Verification of Posting updated.");
+        Assert.assertEquals(notificationUpdatedSuccessfully.getText(), "Updated Successfully", "Posting updated related message is not appeared.");
     }
 
     public void validatePostingDeleted() {
-        Assert.assertEquals(notificationDeletedSuccessfully.getText(), "Deleted Successfully", "Verification of Posting deleted.");
+        Assert.assertEquals(notificationDeletedSuccessfully.getText(), "Deleted Successfully", "Posting delete related message is not appeared.");
     }
 
     private boolean shouldUploadToLive() {

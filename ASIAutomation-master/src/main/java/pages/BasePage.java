@@ -21,6 +21,12 @@ public class BasePage {
     @FindBy(xpath = "//span[text()='Knowledgebase Admin']")
     private WebElement lnkKnowledgebaseAdmin;
 
+    @FindBy(xpath = "//span[text()='Analytics']")
+    private WebElement lnkAnalytics;
+
+    @FindBy(xpath = "//span[text()='Knowledgebase Analytics']")
+    private WebElement lnkKnowledgebaseAnalytics;
+
     @FindBy(xpath = "//div[text()='Loading...']")
     private WebElement loading;
 
@@ -34,15 +40,6 @@ public class BasePage {
         wait = new WebDriverWait(webDriver, 30);
     }
 
-    public void clickAfterVisibilityOfElement(WebElement element) {
-        getElement(element).click();
-    }
-
-
-    public void clearAfterVisibilityOfElement(WebElement element) {
-        getElement(element).clear();
-    }
-
     public void waitForLoadingIconToBeDisappeared() {
         try {
             WebDriverWait wait = new WebDriverWait(webDriver, 5);
@@ -53,11 +50,16 @@ public class BasePage {
         wait.until(ExpectedConditions.invisibilityOf(loading));
     }
 
-
     public void navigateToKbAdmin() {
         clickAfterVisibilityOfElement(lnkKnowledgebase);
         clickAfterVisibilityOfElement(lnkAdministration);
         clickAfterVisibilityOfElement(lnkKnowledgebaseAdmin);
+    }
+
+    public void navigateToKbAnalytics() {
+        clickAfterVisibilityOfElement(lnkKnowledgebase);
+        clickAfterVisibilityOfElement(lnkAnalytics);
+        clickAfterVisibilityOfElement(lnkKnowledgebaseAnalytics);
     }
 
     public void switchAnotherTab() {
@@ -84,6 +86,14 @@ public class BasePage {
         js.executeScript(link);
         System.out.println("Duplicate Tab open successfully");
 
+    }
+
+    public void clickAfterVisibilityOfElement(WebElement element) {
+        getElement(element).click();
+    }
+
+    public void clearAfterVisibilityOfElement(WebElement element) {
+        getElement(element).clear();
     }
 
     private WebElement getElement(WebElement element) {

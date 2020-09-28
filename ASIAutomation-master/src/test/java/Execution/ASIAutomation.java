@@ -11,14 +11,14 @@ public class ASIAutomation extends Base {
     @Test
     public void SmokeTest() throws InterruptedException {
         Login login = new Login();
-        login.LaunchApplication(driver);
-        login.Loginpage(driver);
+        login.LaunchApplication(getDriver());
+        login.Loginpage(getDriver());
 
         UserMenuNavigation usermenu = new UserMenuNavigation();
-        usermenu.UserMenu(driver);
+        usermenu.UserMenu(getDriver());
 
         UserBlock userblock = new UserBlock();
-        userblock.Userblock(driver);
+        userblock.Userblock(getDriver());
 
         BasicNavigation Basicuser= new BasicNavigation();
         Basicuser.Buttons();

@@ -1,12 +1,14 @@
 package pages;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.PageFactory;
 
 public class BasicNavigation extends EActions{
 
-    @FindBy(how = How.XPATH, using = "//span[@class=\"x-btn-inner x-btn-inner-default-toolbar-small\"][text()='Ask HR']")
+    @FindBy(how = How.XPATH, using = "//span[@data-ref='btnInnerEl'][contains(.,'Ask HR')]")
     private WebElement AskHRIconbtn;
     @FindBy(how = How.XPATH, using = "//span[@class=\"x-btn-inner x-btn-inner-default-toolbar-small\"][text()='Favorites']")
     private WebElement Favoritesbtn;
@@ -27,7 +29,7 @@ public class BasicNavigation extends EActions{
 
         waitForLoadingIconToBeDisappeared();
 
-        AskHRIconbtn.isDisplayed();
+       AskHRIconbtn.click();
         System.out.println("Ask HR Button  is displayed");
         Favoritesbtn.isDisplayed();
         System.out.println("Favorite Button is displayed");
