@@ -20,6 +20,8 @@ public class ASIAutomation extends Base {
         UserBlock userblock = new UserBlock();
         userblock.Userblock(driver);
 
-        BasicNavigation basicuser =new BasicNavigation();
+        BasicNavigation Basicuser= new BasicNavigation();
+        Basicuser.Buttons();
+
     }
 }
