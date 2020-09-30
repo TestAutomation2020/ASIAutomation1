@@ -13,10 +13,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public class EActions {
     protected WebDriver driver;
     protected WebDriverWait wait;
+
     @FindBy(xpath = "//div[text()='Loading...']")
     private WebElement loading;
 
-    public void Actions(WebDriver driver) {
+    public void EActions(WebDriver driver) {
         PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
         this.driver = driver;
         wait = new WebDriverWait(driver, 30);
