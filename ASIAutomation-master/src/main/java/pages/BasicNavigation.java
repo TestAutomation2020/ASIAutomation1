@@ -55,8 +55,7 @@ public class BasicNavigation extends BasePage {
         super(webDriver);
     }
 
-    public void AskHR(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public void AskHR() {
         waitForLoadingIconToBeDisappeared();
         AskHRIconbtn.isDisplayed();
         System.out.println("Ask HR Button  is displayed");
@@ -96,6 +95,7 @@ public class BasicNavigation extends BasePage {
         Searchtxtbox.sendKeys(Keys.ENTER);
 
     }
+
     public void validateSearchedPosting(String postingName) {
         String txtAllResult = labelAllResults.getText();
         int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));

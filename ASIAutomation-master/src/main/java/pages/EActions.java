@@ -11,17 +11,19 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class EActions {
-    protected WebDriver driver;
+    //protected WebDriver driver;
+    protected WebDriver webDriver;
     protected WebDriverWait wait;
 
     @FindBy(xpath = "//div[text()='Loading...']")
     private WebElement loading;
 
-    public void EActions(WebDriver driver) {
-        PageFactory.initElements(new AjaxElementLocatorFactory(driver, 10), this);
-        this.driver = driver;
-        wait = new WebDriverWait(driver, 30);
+    public EActions(WebDriver webDriver) {
+        PageFactory.initElements(new AjaxElementLocatorFactory(webDriver, 10), this);
+        this.webDriver = webDriver;
+        wait = new WebDriverWait(webDriver, 30);
     }
+
 
     public void clickwhenready(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
@@ -36,11 +38,38 @@ public class EActions {
     }
     public void waitForLoadingIconToBeDisappeared() {
         try {
-            WebDriverWait wait = new WebDriverWait(driver, 5);
+            WebDriverWait wait = new WebDriverWait(webDriver, 5);
             wait.until(ExpectedConditions.visibilityOf(loading));
         } catch (Exception e) {
             return;
         }
         wait.until(ExpectedConditions.invisibilityOf(loading));
+    }
+
+    public boolean IsElementExists(WebElement element)
+    {
+        try
+        {
+            WebDriverWait wait = new WebDriverWait(webDriver, 5);
+            wait.until(ExpectedConditions.visibilityOf(element));
+            return true;
+        }
+        catch (Exception ex)
+        {
+            return false;
+        }
+
+    }
+
+    public void EnterText(WebElement element, String text)
+    {
+        try
+        {
+            element.clear();
+            element.sendKeys(text);
+        }
+        catch (Exception ex){
+            System.out.println(ex);
+    }
     }
 }
