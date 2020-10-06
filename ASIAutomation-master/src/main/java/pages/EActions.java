@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -9,11 +10,15 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import util.ConfigReader;
+
+import java.util.Set;
 
 public class EActions {
     //protected WebDriver driver;
     protected WebDriver webDriver;
     protected WebDriverWait wait;
+    private String currentTab;
 
     @FindBy(xpath = "//div[text()='Loading...']")
     private WebElement loading;
@@ -60,7 +65,28 @@ public class EActions {
         }
 
     }
+    public void openDuplicateTab() {
+        currentTab = webDriver.getWindowHandle();
+        String currentUrl = webDriver.getCurrentUrl();
+        String link = String.format("window.open('%s','_blank');", currentUrl);
+        JavascriptExecutor js = (JavascriptExecutor) webDriver;
+        js.executeScript(link);
+        System.out.println("Duplicate Tab open successfully");
 
+    }
+    public void switchAnotherTab() {
+        Set<String> handles = webDriver.getWindowHandles();
+        for (String actual : handles) {
+            if (!actual.equals(currentTab)) { //switching to the opened tab
+                webDriver.switchTo().window(actual); //opening the URL saved.
+            }
+        }
+        System.out.println("Switch to another tab successfully");
+    }
+    public void LaunchApplication(WebDriver driver){
+        driver.get(ConfigReader.getProperty("url"));
+        WebDriverWait wait = new WebDriverWait(driver,220);
+    }
     public void EnterText(WebElement element, String text)
     {
         try

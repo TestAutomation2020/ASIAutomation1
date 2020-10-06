@@ -1,9 +1,14 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import util.ConfigReader;
+
+import javax.swing.*;
+import java.util.List;
 
 public class MobileProfile extends EActions{
     //Mobile profile link on Home Page
@@ -44,19 +49,59 @@ public class MobileProfile extends EActions{
 
     public void createmobileprofile(String Name, int pin, String Email)
     {
-        //Click on Add Mobile profile link
-        clickwhenready(AddMobileProfilelink);
-        IsElementExists(AddMobileProfileText);
-        EnterText(NameTxtboxonaddmobileform,"smane");
-        EnterText(NameTxtboxonaddmobileform,"1234");
-        EnterText(NameTxtboxonaddmobileform,"smita.mane@harbingergroup.com");
+        try {
+            //Click on Add Mobile profile link
+            clickwhenready(AddMobileProfilelink);
+            IsElementExists(AddMobileProfileText);
+            EnterText(NameTxtboxonaddmobileform, ConfigReader.getProperty("userid"));
+            EnterText(PinTxtboxonaddmobileform, ConfigReader.getProperty("pin"));
+            EnterText(EmailTxtboxonaddmobileform, ConfigReader.getProperty("email"));
+            clickwhenready(Addbuttononmobileform);
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+
+    }
+    public void searchnewmobileprofile(String Name)
+    {
+
+        try {
+            waitForLoadingIconToBeDisappeared();
+            IsElementExists(Linkofmobileuserscreated);
+            List<WebElement> Listofmobileusers = webDriver.findElements(By.xpath("//div[@class='x-grid-cell-inner ']/a"));
+            for(WebElement mobileuser:Listofmobileusers)
+            {
+                String mouser=mobileuser.getText();
+                if(mobileuser.getText().equalsIgnoreCase(ConfigReader.getProperty("userid")))
+                {
+                    mobileuser.click();
+                    break;
+                }
+                else
+                {
+                    System.out.println("Mobile user not found");
+                }
+            }
+            waitForLoadingIconToBeDisappeared();
+            IsElementExists(Labelonmobileprofileform);
+            clickwhenready(Copylinkbtn);
+            String mobilelink=Copylinkbtn.getText();
+
+            openDuplicateTab();
+            switchAnotherTab();
+            
+
+            clickwhenready(Closeform);
 
 
 
-
-
-        
-
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
 
     }
 

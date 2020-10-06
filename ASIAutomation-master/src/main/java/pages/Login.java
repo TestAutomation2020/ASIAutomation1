@@ -41,4 +41,13 @@ public class Login
         driver.get(ConfigReader.getProperty("url"));
         WebDriverWait wait = new WebDriverWait(driver,220);
     }
+    public void LoginBasicuser(WebDriver driver) throws InterruptedException {
+        PageFactory.initElements(driver, this);
+        txtUserName.sendKeys(ConfigReader.getProperty("basicuser"));
+        txtPassword.sendKeys(ConfigReader.getProperty("basicpassword"));
+        txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
+        btnLogin.click();
+        Thread.sleep(7000);
+        txtKnowledgebase.isDisplayed();
+    }
 }
