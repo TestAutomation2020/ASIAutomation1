@@ -1,17 +1,23 @@
 package pages;
 
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
+import java.time.temporal.ChronoUnit;
+import static java.lang.String.format;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Month;
+import java.util.Date;
 import java.util.Set;
 
-public class BasePage {
+public class BasePage  {
     @FindBy(xpath = "//span[text()='Knowledgebase']")
     private WebElement lnkKnowledgebase;
 
@@ -100,6 +106,25 @@ public class BasePage {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
+    public void ScreenPrints(WebDriver driver) throws IOException
+    {
+        Date d = new Date();
+        System.out.println(d.toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(scrFile,  new File(System.getProperty("user.dir")+"\\Screenshots\\"+sdf.format(d)+".png"));
+    }
+
+    public void clickwhenready(WebElement element) {
+        wait.until(ExpectedConditions.visibilityOf(element));
+        if(element!=null) {
+            element.click();
+        }
+        else
+        {
+            throw new ElementNotVisibleException("Element not found");
+        }
+    }
 
 }
 
