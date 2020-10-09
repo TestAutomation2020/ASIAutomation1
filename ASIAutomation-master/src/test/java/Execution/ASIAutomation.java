@@ -1,5 +1,6 @@
 package Execution;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
 import pages.BasicNavigation;
 import pages.Login;
@@ -20,12 +21,7 @@ public class ASIAutomation extends Base {
         UserBlock userblock = new UserBlock();
         userblock.Userblock(getDriver());
 */
-        BasicNavigation Basicuser= new BasicNavigation(getDriver());
-        Basicuser.AskHR(getDriver());
-        Basicuser.Favorite(getDriver());
-        Basicuser.Print(getDriver());
-        Basicuser.SearchForBasicUser(getDriver());
-        Basicuser.validateSearchedPosting("Health");
+
 
     }
 }

@@ -55,8 +55,7 @@ public class BasicNavigation extends BasePage {
         super(webDriver);
     }
 
-    public void AskHR(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public void AskHR() {
         waitForLoadingIconToBeDisappeared();
         AskHRIconbtn.isDisplayed();
         System.out.println("Ask HR Button  is displayed");
@@ -66,8 +65,7 @@ public class BasicNavigation extends BasePage {
         AskHRCloseform.click();
     }
 
-    public void Favorite(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public void Favorite() {
         waitForLoadingIconToBeDisappeared();
         Favoritesbtn.isDisplayed();
         System.out.println("Favorite Button is displayed");
@@ -75,8 +73,7 @@ public class BasicNavigation extends BasePage {
         Assert.assertTrue(SavebuttoninFavoriteform.isDisplayed(), "Save button in Favorite form is displayed.");
     }
 
-    public void Print(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public void Print() {
         waitForLoadingIconToBeDisappeared();
         Printbtn.isDisplayed();
         System.out.println("Print Button is displayed");
@@ -85,8 +82,8 @@ public class BasicNavigation extends BasePage {
 
     }
 
-    public void SearchForBasicUser(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public void SearchForBasicUser() {
+
         waitForLoadingIconToBeDisappeared();
         Searchtxtbox.isDisplayed();
         System.out.println("Search text box is displayed");
@@ -96,6 +93,7 @@ public class BasicNavigation extends BasePage {
         Searchtxtbox.sendKeys(Keys.ENTER);
 
     }
+
     public void validateSearchedPosting(String postingName) {
         String txtAllResult = labelAllResults.getText();
         int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));
