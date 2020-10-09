@@ -10,7 +10,7 @@ import util.ConfigReader;
 import javax.swing.*;
 import java.util.List;
 
-public class MobileProfile extends EActions{
+public class MobileProfile extends EActions {
     //Mobile profile link on Home Page
     @FindBy(how = How.XPATH, using = "//*[@id='lnk_mobile']")
     private WebElement AddMobileProfilelink;
@@ -40,6 +40,18 @@ public class MobileProfile extends EActions{
     private WebElement Copylinkbtn;
     @FindBy(how = How.XPATH, using = "//*[@id=\"hcm-button-1502-btnEl\"]")
     private WebElement Closeform;
+    @FindBy(how = How.XPATH, using = "//div[@id='PinCodeLogo']//img[@src='resources/img/logo.png'][1]")
+    private WebElement Logoforpinscreen;
+    @FindBy(how = How.XPATH, using = "//*[@class=\"x-button-label\" and text()='1']")
+    private WebElement Buttonpin1;
+    @FindBy(how = How.XPATH, using = "//*[@class=\"x-button-label\" and text()='2']")
+    private WebElement Buttonpin2;
+    @FindBy(how = How.XPATH, using = "//*[@class=\"x-button-label\" and text()='3']")
+    private WebElement Buttonpin3;
+    @FindBy(how = How.XPATH, using = "//*[@class=\"x-button-label\" and text()='4']")
+    private WebElement Buttonpin4;
+    @FindBy(how = How.XPATH, using = "//*[@class=\"x-button-label\" and text()='OK']")
+    private WebElement Buttonpinok;
 
 
     public MobileProfile(WebDriver webDriver) {
@@ -47,8 +59,7 @@ public class MobileProfile extends EActions{
     }
 
 
-    public void createmobileprofile(String Name, int pin, String Email)
-    {
+    public void createmobileprofile(String Name, int pin, String Email) {
         try {
             //Click on Add Mobile profile link
             clickwhenready(AddMobileProfilelink);
@@ -57,53 +68,53 @@ public class MobileProfile extends EActions{
             EnterText(PinTxtboxonaddmobileform, ConfigReader.getProperty("pin"));
             EnterText(EmailTxtboxonaddmobileform, ConfigReader.getProperty("email"));
             clickwhenready(Addbuttononmobileform);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
     }
-    public void searchnewmobileprofile(String Name)
-    {
+
+    //Select user from list on home page widget
+    public void searchnewmobileprofile(String Name) {
 
         try {
             waitForLoadingIconToBeDisappeared();
             IsElementExists(Linkofmobileuserscreated);
             List<WebElement> Listofmobileusers = webDriver.findElements(By.xpath("//div[@class='x-grid-cell-inner ']/a"));
-            for(WebElement mobileuser:Listofmobileusers)
-            {
-                String mouser=mobileuser.getText();
-                if(mobileuser.getText().equalsIgnoreCase(ConfigReader.getProperty("userid")))
-                {
+            for (WebElement mobileuser : Listofmobileusers) {
+                String mouser = mobileuser.getText();
+                if (mobileuser.getText().equalsIgnoreCase(ConfigReader.getProperty("userid"))) {
                     mobileuser.click();
                     break;
-                }
-                else
-                {
+                } else {
                     System.out.println("Mobile user not found");
                 }
             }
             waitForLoadingIconToBeDisappeared();
             IsElementExists(Labelonmobileprofileform);
             clickwhenready(Copylinkbtn);
-            String mobilelink=Copylinkbtn.getText();
+            String mobilelink = Copylinkbtn.getText();
 
+            //To check mobile screen login
             openDuplicateTab();
             switchAnotherTab();
-            
+            webDriver.navigate().to(mobilelink);
+            IsElementExists(Logoforpinscreen);
+            clickwhenready(Buttonpin1);
+            clickwhenready(Buttonpin2);
+            clickwhenready(Buttonpin3);
+            clickwhenready(Buttonpin4);
+            clickwhenready(Buttonpinok);
+            waitForLoadingIconToBeDisappeared();
+            waitForLoadingIconToBeDisappeared();
 
-            clickwhenready(Closeform);
-
-
-
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
     }
-
-
 }
+
+
+
+

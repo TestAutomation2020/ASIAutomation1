@@ -3,7 +3,9 @@ package Execution;
 import org.testng.annotations.Test;
 import pages.BasePage;
 import pages.Login;
+import pages.MobileProfile;
 import pages.Posting;
+import util.Constants;
 
 public class MobileTestCase extends Base{
     @Test(priority = 0)
@@ -14,10 +16,14 @@ public class MobileTestCase extends Base{
     }
 
     @Test(priority = 1)
-    private void navigateToMobileUser() throws InterruptedException {
-        Login login = new Login();
-        login.LaunchApplication(getDriver());
-        login.Loginpage(getDriver());
+    private void Addmobileuser() throws InterruptedException {
+        MobileProfile Mobileuser = new MobileProfile(getDriver());
+        Mobileuser.createmobileprofile(Constants.MobileUser,Constants.mobilepin,Constants.mobileEmail);
+        Mobileuser.searchnewmobileprofile(Constants.MobileUser);
+        Posting posting = new Posting(getDriver());
+        posting.searchPosting(Constants.Searchtermforbasicuser);
+        posting.validateSearchedPosting(Constants.Searchtermforbasicuser);
     }
+
 
 }

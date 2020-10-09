@@ -56,33 +56,52 @@ public class BasicNavigation extends BasePage {
     }
 
     public void AskHR() {
-        waitForLoadingIconToBeDisappeared();
-        AskHRIconbtn.isDisplayed();
-        System.out.println("Ask HR Button  is displayed");
-        AskHRIconbtn.click();
-        waitForLoadingIconToBeDisappeared();
-        Assert.assertTrue(AskHRlabelonform.isDisplayed(), "AskHR label on form is displayed on click of ASK HR button.");
-        AskHRCloseform.click();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            AskHRIconbtn.isDisplayed();
+            System.out.println("Ask HR Button  is displayed");
+            AskHRIconbtn.click();
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertTrue(AskHRlabelonform.isDisplayed(), "AskHR label on form is displayed on click of ASK HR button.");
+            AskHRCloseform.click();
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+
+        }
     }
 
     public void Favorite() {
+        try{
         waitForLoadingIconToBeDisappeared();
         Favoritesbtn.isDisplayed();
         System.out.println("Favorite Button is displayed");
         waitForLoadingIconToBeDisappeared();
         Assert.assertTrue(SavebuttoninFavoriteform.isDisplayed(), "Save button in Favorite form is displayed.");
     }
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+    }
 
     public void Print() {
+        try{
         waitForLoadingIconToBeDisappeared();
         Printbtn.isDisplayed();
         System.out.println("Print Button is displayed");
         waitForLoadingIconToBeDisappeared();
         Assert.assertTrue(PagecodeonPrint.isDisplayed(), "Page code on Print form is displayed.");
 
+    }catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
 
     public void SearchForBasicUser() {
+        try{
 
         waitForLoadingIconToBeDisappeared();
         Searchtxtbox.isDisplayed();
@@ -93,15 +112,23 @@ public class BasicNavigation extends BasePage {
         Searchtxtbox.sendKeys(Keys.ENTER);
 
     }
-
-    public void validateSearchedPosting(String postingName) {
-        String txtAllResult = labelAllResults.getText();
-        int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));
-        Assert.assertTrue(searchResultCount > 0, "Searched Result count is 0.");
-        Assert.assertTrue(searchResultPagination.isDisplayed(), "Pagination is displayed on search result page.");
-        Assert.assertEquals(postingName, lnkSearchedDocument.getText(), "Searched Posting is displayed on search result page. ");
+        catch (Exception ex)
+        {
+            System.out.println(ex.getMessage());
+        }
     }
 
+    public void validateSearchedPosting(String postingName) {
+        try {
+            String txtAllResult = labelAllResults.getText();
+            int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));
+            Assert.assertTrue(searchResultCount > 0, "Searched Result count is 0.");
+            Assert.assertTrue(searchResultPagination.isDisplayed(), "Pagination is displayed on search result page.");
+            Assert.assertEquals(postingName, lnkSearchedDocument.getText(), "Searched Posting is displayed on search result page. ");
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }
 
 
