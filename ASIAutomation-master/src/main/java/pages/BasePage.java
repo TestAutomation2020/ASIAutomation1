@@ -17,7 +17,7 @@ import java.time.Month;
 import java.util.Date;
 import java.util.Set;
 
-public class BasePage {
+public class BasePage  {
     @FindBy(xpath = "//span[text()='Knowledgebase']")
     private WebElement lnkKnowledgebase;
 
