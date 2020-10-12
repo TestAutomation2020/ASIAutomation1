@@ -1,9 +1,7 @@
 package pages;
 
-import org.openqa.selenium.ElementNotVisibleException;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
@@ -12,6 +10,10 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ConfigReader;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Set;
 
 public class EActions {
@@ -93,9 +95,17 @@ public class EActions {
         {
             element.clear();
             element.sendKeys(text);
-        }
+                }
         catch (Exception ex){
-            System.out.println(ex);
+            System.out.println(ex.getMessage());
     }
+    }
+    public void ScreenPrints(WebDriver webDriver) throws IOException
+    {
+        Date d = new Date();
+        System.out.println(d.toString());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+        File scrFile = ((TakesScreenshot)webDriver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(scrFile,  new File(System.getProperty("user.dir")+"\\Screenshots\\"+sdf.format(d)+".png"));
     }
 }

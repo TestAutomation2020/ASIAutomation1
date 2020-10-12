@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 import pages.*;
 import util.Constants;
 
+import java.io.IOException;
+
 public class BasicNavigationTestCase extends Base{
     @Test(priority = 0)
     private void navigateToHomePage() throws InterruptedException {
@@ -13,16 +15,16 @@ public class BasicNavigationTestCase extends Base{
     }
 
     @Test(priority = 1)
-    private void Searchandvalidatebuttons() throws InterruptedException {
+    private void Searchandvalidatebuttons() throws InterruptedException, IOException {
 
         BasicNavigation Basicuser = new BasicNavigation(getDriver());
-        Basicuser.AskHR();
-        Basicuser.Favorite();
+       // Basicuser.AskHR();
+       // Basicuser.Favorite();
         Basicuser.Print();
 
-        BasePage basePage = new BasePage(getDriver());
+       /* BasePage basePage = new BasePage(getDriver());
         basePage.openDuplicateTab();
-        basePage.switchAnotherTab();
+        basePage.switchAnotherTab();*/
 
         Posting posting = new Posting(getDriver());
         posting.searchPosting(Constants.Searchtermforbasicuser);

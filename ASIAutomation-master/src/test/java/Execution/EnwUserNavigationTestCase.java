@@ -4,6 +4,8 @@ import org.testng.annotations.Test;
 import pages.*;
 import util.Constants;
 
+import java.io.IOException;
+
 public class EnwUserNavigationTestCase extends Base{
     @Test(priority = 0)
     private void navigateToHomePage() throws InterruptedException {
@@ -14,7 +16,7 @@ public class EnwUserNavigationTestCase extends Base{
         //usermenu.UserMenu();
     }
     @Test(priority =1)
-    private void EnwuseronHomePage() throws InterruptedException {
+    private void EnwuseronHomePage() throws InterruptedException, IOException {
 
         BasicNavigation Basicuser = new BasicNavigation(getDriver());
 
