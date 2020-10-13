@@ -5,7 +5,7 @@ public interface Constants {
     String KEYWORD_YES = "yes";
     String postingTitle = ConfigReader.getProperty("postingtitle") + Constants.RANDOM_NUMBER;
     String Searchtermforbasicuser=ConfigReader.getProperty("Searchtermforbasicuser");
-    String UpdateTitle=ConfigReader.getProperty("updatemessage") + Constants.RANDOM_NUMBER;
+    String UpdateTitle = ConfigReader.getProperty("updatemessage") + Constants.RANDOM_NUMBER;
 
     String MobileUser=ConfigReader.getProperty("Mobileuser");
     int mobilepin= Integer.parseInt(ConfigReader.getProperty("pin"));

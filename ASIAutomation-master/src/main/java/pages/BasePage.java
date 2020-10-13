@@ -4,16 +4,13 @@ import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import java.time.temporal.ChronoUnit;
-import static java.lang.String.format;
+import org.testng.Reporter;
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Month;
 import java.util.Date;
 import java.util.Set;
 
@@ -41,7 +38,7 @@ public class BasePage  {
     private String currentTab;
 
     public BasePage(WebDriver webDriver) {
-        PageFactory.initElements(new AjaxElementLocatorFactory(webDriver, 10), this);
+        PageFactory.initElements(webDriver, this);
         this.webDriver = webDriver;
         wait = new WebDriverWait(webDriver, 30);
     }
@@ -57,40 +54,70 @@ public class BasePage  {
     }
 
     public void navigateToKbAdmin() {
-        clickAfterVisibilityOfElement(lnkKnowledgebase);
-        clickAfterVisibilityOfElement(lnkAdministration);
-        clickAfterVisibilityOfElement(lnkKnowledgebaseAdmin);
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(lnkKnowledgebase);
+            clickAfterVisibilityOfElement(lnkAdministration);
+            clickAfterVisibilityOfElement(lnkKnowledgebaseAdmin);
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            throw e;
+        }
     }
 
     public void navigateToKbAnalytics() {
-        clickAfterVisibilityOfElement(lnkKnowledgebase);
-        clickAfterVisibilityOfElement(lnkAnalytics);
-        clickAfterVisibilityOfElement(lnkKnowledgebaseAnalytics);
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(lnkKnowledgebase);
+            clickAfterVisibilityOfElement(lnkAnalytics);
+            clickAfterVisibilityOfElement(lnkKnowledgebaseAnalytics);
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            throw e;
+        }
     }
 
     public void switchAnotherTab() {
-        Set<String> handles = webDriver.getWindowHandles();
-        for (String actual : handles) {
-            if (!actual.equals(currentTab)) { //switching to the opened tab
-                webDriver.switchTo().window(actual); //opening the URL saved.
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            Set<String> handles = webDriver.getWindowHandles();
+            for (String actual : handles) {
+                if (!actual.equals(currentTab)) { //switching to the opened tab
+                    webDriver.switchTo().window(actual); //opening the URL saved.
+                }
             }
+            Reporter.log("Switch to another tab successfully");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            throw e;
         }
-        System.out.println("Switch to another tab successfully");
     }
 
     public void navigateDefaultTab() {
-        webDriver.switchTo().window(currentTab);
-        webDriver.switchTo().defaultContent();
-        System.out.println("Navigate to main tab Successfully");
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            webDriver.switchTo().window(currentTab);
+            webDriver.switchTo().defaultContent();
+            Reporter.log("Navigate to main tab Successfully");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            throw e;
+        }
     }
 
     public void openDuplicateTab() {
-        currentTab = webDriver.getWindowHandle();
-        String currentUrl = webDriver.getCurrentUrl();
-        String link = String.format("window.open('%s','_blank');", currentUrl);
-        JavascriptExecutor js = (JavascriptExecutor) webDriver;
-        js.executeScript(link);
-        System.out.println("Duplicate Tab open successfully");
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            currentTab = webDriver.getWindowHandle();
+            String currentUrl = webDriver.getCurrentUrl();
+            String link = String.format("window.open('%s','_blank');", currentUrl);
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            js.executeScript(link);
+            Reporter.log("Duplicate Tab open successfully");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            throw e;
+        }
 
     }
 

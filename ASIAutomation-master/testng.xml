@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="Smoke suite">
 
-    <test name="smoke">
+    <test name="Posting">
         <classes>
             <class name="Execution.PostingTestCase"/>
         </classes>
