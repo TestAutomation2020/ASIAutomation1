@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ConfigReader;
 
-public class Login
+public class Login extends BasePage
 {
     @FindBy(how = How.NAME, using = "txtUserId")
     private static WebElement txtUserName;
@@ -27,9 +27,13 @@ public class Login
     @FindBy(how = How.XPATH, using = "//span[text()='Knowledgebase']")
     private WebElement txtKnowledgebase;
 
+    public Login(WebDriver webDriver) {
+        super(webDriver);
+    }
 
-    public void Loginpage(WebDriver driver) throws InterruptedException {
-        PageFactory.initElements(driver, this);
+
+    public void Loginpage(WebDriver webDriver) throws InterruptedException {
+        PageFactory.initElements(webDriver, this);
         txtUserName.sendKeys(ConfigReader.getProperty("userid"));
         txtPassword.sendKeys(ConfigReader.getProperty("password"));
         txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
