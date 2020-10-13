@@ -21,14 +21,10 @@ public class MobileTestCase extends Base{
     @Test(priority = 1)
     private void Addmobileuser() throws InterruptedException, IOException {
         MobileProfile Mobileuser = new MobileProfile(getDriver());
-        Mobileuser.createmobileprofile(Constants.MobileUser,Constants.mobilepin,Constants.mobileEmail);
-        /*Mobileuser.searchnewmobileprofile(Constants.MobileUser);
+     //   Mobileuser.createmobileprofile(Constants.MobileUser,Constants.mobilepin,Constants.mobileEmail);
+        Mobileuser.searchnewmobileprofile(Constants.MobileUser);
 
-        BasePage basePage = new BasePage(getDriver());
-        basePage.openDuplicateTab();
-        basePage.switchAnotherTab();
-
-        Posting posting = new Posting(getDriver());
+       /*Posting posting = new Posting(getDriver());
         posting.searchPosting(Constants.Searchtermforbasicuser);
         posting.validateSearchedPosting(Constants.Searchtermforbasicuser);*/
     }
