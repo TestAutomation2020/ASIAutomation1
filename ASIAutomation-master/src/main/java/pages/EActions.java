@@ -1,6 +1,7 @@
 package pages;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
@@ -8,6 +9,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.pagefactory.AjaxElementLocatorFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import util.ConfigReader;
 
 import java.io.File;
@@ -24,6 +26,12 @@ public class EActions {
 
     @FindBy(xpath = "//div[text()='Loading...']")
     private WebElement loading;
+    @FindBy(xpath = "(//a[@class='x-tree-node-text  cls-treecolumn-link-item'])[1]")
+    private WebElement labelAllResults;
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner ']/h4/b/a)[1]")
+    private WebElement lnkSearchedDocument;
+    @FindBy(xpath = "//a[@class='x-btn list-page-arrow list-page-prev x-unselectable x-box-item x-toolbar-item x-btn-plain-toolbar-small x-btn-no-text x-item-disabled x-btn-disabled']")
+    private WebElement searchResultPagination;
 
     public EActions(WebDriver webDriver) {
         PageFactory.initElements(new AjaxElementLocatorFactory(webDriver, 10), this);
@@ -108,4 +116,18 @@ public class EActions {
         File scrFile = ((TakesScreenshot)webDriver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(scrFile,  new File(System.getProperty("user.dir")+"\\Screenshots\\"+sdf.format(d)+".png"));
     }
+    public void validateSearchedPosting(String postingName) {
+        String txtAllResult = labelAllResults.getText();
+        int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));
+        Assert.assertTrue(searchResultCount > 0, "Searched Result count is 0.");
+        Assert.assertTrue(searchResultPagination.isDisplayed(), "Pagination is not displayed on search result page.");
+       // Assert.assertEquals(postingName, lnkSearchedDocument.getText(), "Searched Posting is not displayed on search result page. ");
+    }
+   /* public static void highlighted(WebElement element)
+    {
+        var javaScriptDriver = (IJavaScriptExecutor)HrsdBrowserFactory._driver;
+        String highlightJavascript = @"arguments[0].style.cssText = ""border-width: 3px; border-style: solid;border-color: blue"";";
+        javaScriptDriver.ExecuteScript(highlightJavascript, new object[] { elem });
+    }*/
+
 }

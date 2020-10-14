@@ -9,6 +9,11 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import static java.sql.DriverManager.getDriver;
+
 public class BasicNavigation extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//span[@class='x-btn-inner x-btn-inner-default-toolbar-small'][text()='Ask HR']")
@@ -33,10 +38,21 @@ public class BasicNavigation extends BasePage {
     @FindBy(how = How.XPATH, using = "//span[@data-ref='btnInnerEl' and text ()='Save']")
     private WebElement SavebuttoninFavoriteform;
 
-    @FindBy(how = How.XPATH, using = "//div[@id='hcm-displayfield-1072-inputEl']")
-    private WebElement PagecodeonPrint;
-    @FindBy(how = How.XPATH, using = "//span[@id='hcm-button-1731-btnEl']")
+    @FindBy(how = How.XPATH, using = "//div[@data-ref='inputEl'][contains(.,'Page Code: ')]")
+    private WebElement PrintPageCode;
+    @FindBy(how = How.XPATH, using = "//span[contains(@data-ref,'btnEl')]")
+    private WebElement PrintIcon;
+    @FindBy(how = How.XPATH, using = "//div[@class='x-window-bodyWrap']//span[contains(@data-ref,'btnEl')]")
+    private WebElement CloseBtn;
+    @FindBy(how = How.XPATH, using = "//iframe[@class='x-component x-fit-item x-component-default']")
+    private WebElement PrintScreenFrame;
+
+
+
+    @FindBy(how = How.XPATH, using = "//div[5]//div//a[@class='x-btn sw-tertiary x-unselectable x-box-item x-toolbar-item x-btn-default-toolbar-small x-btn-no-text']")
     private WebElement AskHRCloseform;
+    @FindBy(how = How.XPATH, using = "//*[@data-ref='instrEl' and text()='Ask HR instructions.']")
+    private WebElement AskHRLabelonAskHRform;
 
     //Search Home page
     @FindBy(how = How.XPATH, using = "//span[@data-ref='btnInnerEl' and text ()='Search Help']")
@@ -55,7 +71,7 @@ public class BasicNavigation extends BasePage {
         super(webDriver);
     }
 
-    public void AskHR() {
+    public void AskHR() throws IOException {
         try {
             waitForLoadingIconToBeDisappeared();
             AskHRIconbtn.isDisplayed();
@@ -63,44 +79,70 @@ public class BasicNavigation extends BasePage {
             AskHRIconbtn.click();
             waitForLoadingIconToBeDisappeared();
             Assert.assertTrue(AskHRlabelonform.isDisplayed(), "AskHR label on form is displayed on click of ASK HR button.");
+            Assert.assertTrue(AskHRLabelonAskHRform.isDisplayed(),"Ask HR Instructions are displayed");
+            System.out.println("Ask HR form is open successfully");
+            waitForLoadingIconToBeDisappeared();
+            ScreenPrints(webDriver);
             AskHRCloseform.click();
+            System.out.println("Ask HR form is closed successfully");
         }
         catch (Exception ex)
         {
             System.out.println(ex.getMessage());
-
+            ScreenPrints(webDriver);
         }
     }
 
-    public void Favorite() {
+    public void Favorite() throws IOException {
         try{
         waitForLoadingIconToBeDisappeared();
-        Favoritesbtn.isDisplayed();
+        clickAfterVisibilityOfElement(Favoritesbtn);
         System.out.println("Favorite Button is displayed");
         waitForLoadingIconToBeDisappeared();
         Assert.assertTrue(SavebuttoninFavoriteform.isDisplayed(), "Save button in Favorite form is displayed.");
+        System.out.println("Favorites button functionality is as expected");
+        ScreenPrints(webDriver);
     }
         catch (Exception ex)
         {
             System.out.println(ex.getMessage());
+            ScreenPrints(webDriver);
         }
     }
 
-    public void Print() {
+    public void Print() throws IOException {
         try{
         waitForLoadingIconToBeDisappeared();
-        Printbtn.isDisplayed();
-        System.out.println("Print Button is displayed");
-        waitForLoadingIconToBeDisappeared();
-        Assert.assertTrue(PagecodeonPrint.isDisplayed(), "Page code on Print form is displayed.");
+            Printbtn.click();
+            Thread.sleep(5000);
+            webDriver.switchTo().frame(PrintScreenFrame);
+            Thread.sleep(3000);
+            String abc = PrintPageCode.getText();
+            System.out.println(abc);
+            PrintIcon.click();
+            Thread.sleep(5000);
+            ArrayList<String> tabs = new ArrayList<String>(webDriver.getWindowHandles());
+            webDriver.switchTo().window(tabs.get(1));
+            webDriver.close();
+            webDriver.switchTo().window(tabs.get(0));
+            Thread.sleep(5000);
+            webDriver.switchTo().defaultContent();
+            CloseBtn.click();
+            Thread.sleep(5000);
+            System.out.println("Print Button functionality is as expected");
+        ScreenPrints(webDriver);
 
     }catch (Exception ex)
         {
             System.out.println(ex.getMessage());
+            ScreenPrints(webDriver);
         }
     }
 
-    public void SearchForBasicUser() {
+
+
+
+    public void SearchForBasicUser() throws IOException {
         try{
 
         waitForLoadingIconToBeDisappeared();
@@ -110,15 +152,17 @@ public class BasicNavigation extends BasePage {
         waitForLoadingIconToBeDisappeared();
         Searchtxtbox.sendKeys("Health");
         Searchtxtbox.sendKeys(Keys.ENTER);
+        System.out.println("Basic user is searched successfully");
 
     }
         catch (Exception ex)
         {
             System.out.println(ex.getMessage());
+            ScreenPrints(webDriver);
         }
     }
 
-    public void validateSearchedPosting(String postingName) {
+    public void validateSearchedPosting(String postingName) throws IOException {
         try {
             String txtAllResult = labelAllResults.getText();
             int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));
@@ -127,8 +171,11 @@ public class BasicNavigation extends BasePage {
             Assert.assertEquals(postingName, lnkSearchedDocument.getText(), "Searched Posting is displayed on search result page. ");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
+            ScreenPrints(webDriver);
         }
     }
+
+
 }
 
 

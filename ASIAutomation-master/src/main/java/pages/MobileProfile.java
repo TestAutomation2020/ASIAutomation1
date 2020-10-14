@@ -35,15 +35,18 @@ public class MobileProfile extends EActions {
     private WebElement NoteonMobileForm;
 
     //Click on mobile user created
-    @FindBy(how = How.XPATH, using = "//a[contains(text(),'mobile')]")
+    @FindBy(how = How.XPATH, using = "//a[@href='#'][contains(.,'aasmobile')]")
     private WebElement Linkofmobileuserscreated;
 
-    @FindBy(how = How.XPATH, using = "//*[@data-ref='textEl' and text()='Edit Mobile Profile']")
-    private WebElement Labelonmobileprofileform;
+    @FindBy(how = How.XPATH, using = "//iframe[@class='x-component x-fit-item x-component-default']")
+    private WebElement MobileFrame;
 
-    @FindBy(how = How.XPATH, using = "//*[@data-ref='btnInnerEl' and text()='Copy to Clipboard']")
-    private WebElement Copylinkbtn;
-    @FindBy(how = How.XPATH, using = "//*[@id=\"hcm-button-1502-btnEl\"]")
+    @FindBy(how = How.XPATH, using = "//span[@data-ref='textEl'][contains(.,'Edit Mobile Profile')]")
+    private WebElement EditMobileProfile;
+
+    @FindBy(how = How.XPATH, using = "//div[@data-ref='inputEl'][contains(.,'https://uat.enwisen.com/asi/mobile/index.html')]")
+    private WebElement clipboardlink;
+    @FindBy(how = How.XPATH, using = "//div[@class='x-window x-layer x-window-default x-border-box x-resizable x-window-resizable x-window-default-resizable']//span[contains(@class,'x-btn-button x-btn-button-default-toolbar-small  x-btn-no-text x-btn-icon x-btn-icon-left x-btn-button-center ')]")
     private WebElement Closeform;
     @FindBy(how = How.XPATH, using = "//div[@id='PinCodeLogo']//img[@src='resources/img/logo.png'][1]")
     private WebElement Logoforpinscreen;
@@ -81,42 +84,37 @@ public class MobileProfile extends EActions {
     }
 
     //Select user from list on home page widget
-    public void searchnewmobileprofile(String Name) throws IOException {
+    public boolean searchnewmobileprofile(String Name) throws IOException {
 
         try {
            waitForLoadingIconToBeDisappeared();
-            wait(5000);
-           /* JavascriptExecutor js = (JavascriptExecutor) webDriver;
-            WebElement Element = webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner '][contains(.,'mobile')]"));
+            Thread.sleep(5000);
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            WebElement Element = webDriver.findElement(By.xpath("//a[@href='#'][contains(.,'mobile')]"));
             js.executeScript("arguments[0].scrollIntoView();", Element);
-
-            */
-            //Thread.sleep(5000);
+            System.out.println("Add Mobile Profile link clicked !!!");
+            Thread.sleep(5000);
 //Click on Add Mobile profile link
-            IsElementExists(Linkofmobileuserscreated);
-            Linkofmobileuserscreated.click();
+            Element.click();
+            Thread.sleep(10000);
+            String abc = EditMobileProfile.getText();
+            System.out.println(abc);
+           // clipboardlink.click();
+            String copylink= clipboardlink.getText();
+            System.out.println(copylink);
 
-            /*System.out.println("Newly added Mobile Profile link is displayed");
-            List<WebElement> Listofmobileusers = webDriver.findElements(By.xpath("//div[@class='x-grid-cell-inner '][contains(.,'mobile')]"));
-            for (WebElement mobileuser : Listofmobileusers) {
-                System.out.println("User found in list"+mobileuser);
-                System.out.println("");
 
-                if (mobileuser.getText().equalsIgnoreCase(ConfigReader.getProperty("mobileuser"))) {
-                    wait(2000);
-                    //System.out.println("User found in list"+mouser);
-                    mobileuser.click();
-                    break;
-                } else {
-                    System.out.println("Mobile user not found");
-                    ScreenPrints(webDriver);
-                    }
-            }*/
             wait(5000);
-            IsElementExists(Labelonmobileprofileform);
-            clickwhenready(Copylinkbtn);
+            webDriver.switchTo().frame(MobileFrame);
+            Thread.sleep(3000);
+           /* Labelonmobileprofileform.isDisplayed();
+            String label=Labelonmobileprofileform.getText();
+            System.out.println("Mobile Edit form is displayed as expected"+label);
+*/
+
             System.out.println("Mobile link is copied successfully");
-            String mobilelink = Copylinkbtn.getText();
+            String mobilelink = clipboardlink.getText();
+            System.out.println(mobilelink);
 
             //To check mobile screen login
             webDriver.navigate().to(mobilelink);
@@ -135,6 +133,7 @@ public class MobileProfile extends EActions {
             ScreenPrints(webDriver);
         }
 
+        return false;
     }
 
 }

@@ -12,25 +12,27 @@ public class EnwUserNavigationTestCase extends Base{
         Login login = new Login();
         login.LaunchApplication(getDriver());
         login.Loginpage(getDriver());
-        //UserMenuNavigation usermenu = new UserMenuNavigation(getDriver());
-        //usermenu.UserMenu();
     }
     @Test(priority =1)
     private void EnwuseronHomePage() throws InterruptedException, IOException {
 
         BasicNavigation Basicuser = new BasicNavigation(getDriver());
 
-        Basicuser.AskHR();
-        Basicuser.Favorite();
-        Basicuser.Print();
-
-        BasePage basePage = new BasePage(getDriver());
-        basePage.openDuplicateTab();
-        basePage.switchAnotherTab();
+       // Basicuser.AskHR();
+        //Basicuser.Favorite();
+        //Basicuser.Print();
 
         Posting posting = new Posting(getDriver());
-        posting.searchPosting(Constants.postingTitle);
-        posting.validateSearchedPosting(Constants.postingTitle);
+        posting.searchPosting(Constants.Searchtermforbasicuser);
+
+        EActions eActions=new EActions(getDriver());
+        eActions.validateSearchedPosting(Constants.Searchtermforbasicuser);
+
+        UserMenuNavigation usermenu = new UserMenuNavigation();
+        usermenu.UserMenu(getDriver());
+        wait(2000);
+
+
 
 
     }
