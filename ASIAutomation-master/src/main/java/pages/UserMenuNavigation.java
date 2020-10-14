@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ConfigReader;
 
-public class UserMenuNavigation {
+public class UserMenuNavigation extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//span[text()='Knowledgebase']")
     private WebElement txtKnowledgebase;
@@ -28,18 +28,24 @@ public class UserMenuNavigation {
     @FindBy(how = How.XPATH, using = "//span[text()='User ID']")
     private WebElement txtUserID;
 
-    public void UserMenu(WebDriver driver) {
-        PageFactory.initElements(driver, this);
+    public UserMenuNavigation(WebDriver webDriver) {
+        super(webDriver);
+    }
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+    public void UserMenu(WebDriver webDriver) throws InterruptedException {
+        PageFactory.initElements(webDriver, this);
+
+        WebDriverWait wait = new WebDriverWait(webDriver, 10);
         txtKnowledgebase.isDisplayed();
         txtKnowledgebase.click();
         txtAdministration.isDisplayed();
         txtAdministration.click();
         txtKnowledgebaseAdmin.isDisplayed();
         txtKnowledgebaseAdmin.click();
+        Thread.sleep(5000);
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Users']")));
         txtUsers.click();
+        Thread.sleep(5000);
         txtUserID.isDisplayed();
 
     }

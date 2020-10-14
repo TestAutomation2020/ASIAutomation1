@@ -1,9 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Smoke suite">
+<suite name="Report suite">
 
-    <test name="Posting">
+    <test name="Report">
         <classes>
-            <class name="Execution.PostingTestCase"/>
+            <class name="Execution.ReportTest"/>
         </classes>
     </test>
 </suite>

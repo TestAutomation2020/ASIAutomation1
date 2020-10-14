@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,7 +12,10 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ConfigReader;
 
-public class UserUpdate {
+import java.io.IOException;
+import java.util.List;
+
+public class UserUpdate extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//span[text()='Add New']")
     private WebElement AddNew;
@@ -22,7 +26,7 @@ public class UserUpdate {
     @FindBy(how = How.XPATH, using = "//span[@data-ref='btnInnerEl'][contains(.,'Apply')]")
     private WebElement ApplyBtn;
 
-    @FindBy(how = How.XPATH, using = "//a[contains(.,'test080914')]")
+    @FindBy(how = How.XPATH, using = "(//div[@class='x-grid-cell-inner '])[1]")
     private WebElement Userlink;
 
     @FindBy(how = How.XPATH, using = "//input[@name='accountid']")
@@ -98,9 +102,6 @@ public class UserUpdate {
 
     @FindBy(how = How.XPATH, using = "//textarea[@name='addressline2']")
     private WebElement addressLine2;
-    //Add 1
-    //Add 2
-    //textarea[@name='addressline2']
 
     @FindBy(how = How.XPATH, using = "//input[@name='city']")
     private WebElement txtCity;
@@ -120,7 +121,8 @@ public class UserUpdate {
     @FindBy(how = How.XPATH, using = "//input[@name='gendercode']")
     private WebElement txtGendercode;
 
-    //Birthdate
+    @FindBy(how = How.XPATH, using = "//input[@name='birthdate']")
+    private WebElement birthDate;
 
     @FindBy(how = How.XPATH, using = "//input[@name='spousename']")
     private WebElement txtSpousename;
@@ -166,9 +168,11 @@ public class UserUpdate {
     @FindBy(how = How.XPATH, using = "//input[@name='location4']")
     private WebElement txtLocation4;
 
-    //Hire date
+    @FindBy(how = How.XPATH, using = "//input[@name='hiredate']")
+    private WebElement hireDate;
 
-    //Start date
+    @FindBy(how = How.XPATH, using = "//input[@name='startdate']")
+    private WebElement startDate;
 
     @FindBy(how = How.XPATH, using = "//input[@name='salary']")
     private WebElement txtSalary;
@@ -212,7 +216,8 @@ public class UserUpdate {
     @FindBy(how = How.XPATH, using = "//input[@name='classification4']")
     private WebElement txtClassification4;
 
-    //Termination date
+    @FindBy(how = How.XPATH, using = "//input[@name='terminationdate']")
+    private WebElement terminationDate;
 
     @FindBy(how = How.XPATH, using = "//input[@name='erclocationcode']")
     private WebElement txtErclocationcode;
@@ -242,7 +247,6 @@ public class UserUpdate {
     private WebElement txtUnion;
 
     //Custom Fields
-
     @FindBy(how = How.XPATH, using = "//input[@name='custom1']")
     private WebElement txtCustom1;
 
@@ -294,190 +298,218 @@ public class UserUpdate {
     @FindBy(how = How.XPATH, using = "//div[text()='Updated Successfully']")
     private WebElement UpdatedSuccessfully;
 
+    public UserUpdate(WebDriver webDriver) {
+        super(webDriver);
+    }
 
-    public void UserUpdate(WebDriver driver) throws InterruptedException {
-        PageFactory.initElements(driver, this);
+    public boolean UpdateUser() throws IOException
+    {
+        try
+        {
+            clearAfterVisibilityOfElement(txtUserid);
+            txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
+            clickwhenready(ApplyBtn);
+            Thread.sleep(3000);
+            clickwhenready(Userlink);
+            Thread.sleep(5000);
+            clearAfterVisibilityOfElement(txtPrefix);
+            txtPrefix.sendKeys(ConfigReader.getProperty("prefix"));
+            clearAfterVisibilityOfElement(txtFirstname);
+            txtFirstname.sendKeys(ConfigReader.getProperty("firstname"));
+            clearAfterVisibilityOfElement(txtMiddlename);
+            txtMiddlename.sendKeys(ConfigReader.getProperty("middlename"));
+            clearAfterVisibilityOfElement(txtLastname);
+            txtLastname.sendKeys(ConfigReader.getProperty("lastname"));
+            clearAfterVisibilityOfElement(txtSuffix);
+            txtSuffix.sendKeys(ConfigReader.getProperty("suffix"));
+            clearAfterVisibilityOfElement(txtEmailaddress);
+            txtEmailaddress.sendKeys(ConfigReader.getProperty("emailaddress"));
+            clickwhenready(txtLevelnumber);
+            clickwhenready(txtLevelnumber_select_8);
+            clickwhenready(Click_Startpage);
+            clickwhenready(Select_Startpage);
+            clearAfterVisibilityOfElement(txtUseripaddress);
+            txtUseripaddress.sendKeys(ConfigReader.getProperty("useripaddress"));
+            Click_Timezone.click();
+            Thread.sleep(2000);
+            List<WebElement> list = webDriver.findElements(By.xpath("//ul[@class='x-list-plain']/li"));
+            ((JavascriptExecutor)webDriver).executeScript("arguments[0].scrollIntoView(true);", list.get(228));
+            list.get(228).click();
+            Thread.sleep(2000);
+            clickwhenready(Click_Locale);
+            clickwhenready(Select_EnUS);
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        //AddNew.isDisplayed();
-        //AddNew.click();
-        txtUserid.isDisplayed();
-        txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
-        ApplyBtn.click();
-        Thread.sleep(5000);
-        Userlink.click();
-        Thread.sleep(5000);
-        //txtaccountid.isDisplayed();
-        //txtaccountid.sendKeys(ConfigReader.getProperty("accountid"));
-        //txtPassword.sendKeys(ConfigReader.getProperty("userpassword"));
-        //txtConfirmPassword.sendKeys(ConfigReader.getProperty("userconfirmpassword"));
-        txtPrefix.clear();
-        txtPrefix.sendKeys(ConfigReader.getProperty("prefix"));
-        txtFirstname.clear();
-        txtFirstname.sendKeys(ConfigReader.getProperty("firstname"));
-        txtMiddlename.clear();
-        txtMiddlename.sendKeys(ConfigReader.getProperty("middlename"));
-        txtLastname.clear();
-        txtLastname.sendKeys(ConfigReader.getProperty("lastname"));
-        txtSuffix.clear();
-        txtSuffix.sendKeys(ConfigReader.getProperty("suffix"));
-        txtEmailaddress.clear();
-        txtEmailaddress.sendKeys(ConfigReader.getProperty("emailaddress"));
-        txtLevelnumber.click();
-        txtLevelnumber_select_8.click();
-        Click_Startpage.click();
-        Select_Startpage.click();
-        txtUseripaddress.clear();
-        txtUseripaddress.sendKeys(ConfigReader.getProperty("useripaddress"));
-        //Click_Timezone.click();
-        //Select dropdown = new Select(driver.findElement(By.xpath("//input[@name='timezoneiana']")));
-        //dropdown.selectByVisibleText("(GMT+05:30) Asia/Calcutta')");
-        //dropdown.selectByValue("(GMT+05:30) Asia/Calcutta')");
-        //Click_Timezone.sendKeys("(GMT+05:30");
-        //Click_Timezone.click();
-        //driver.findElement(By.)
-        //Select_AsiaCalcutta.click();
-        Click_Locale.click();
-        Select_EnUS.click();
-        txtSSN.click();
-        Thread.sleep(2000);
-        txtPassword2.clear();
-        txtPassword2.sendKeys(ConfigReader.getProperty("userpassword2"));
-        Click_Validate.click();
-        Thread.sleep(2000);
-        txtSSN.clear();
-        txtSSN.sendKeys(ConfigReader.getProperty("ssn"));
-        addressLine1.clear();
-        addressLine1.sendKeys(ConfigReader.getProperty("addressLine1"));
-        addressLine2.clear();
-        addressLine2.sendKeys(ConfigReader.getProperty("addressLine2"));
-        txtCity.clear();
-        txtCity.sendKeys(ConfigReader.getProperty("city"));
-        txtState.clear();
-        txtState.sendKeys(ConfigReader.getProperty("state"));
-        txtCountry.clear();
-        txtCountry.sendKeys(ConfigReader.getProperty("country"));
-        txtZipcode.clear();
-        txtZipcode.sendKeys(ConfigReader.getProperty("zipcode"));
-        txtHomephone.clear();
-        txtHomephone.sendKeys(ConfigReader.getProperty("homephone"));
-        txtGendercode.clear();
-        txtGendercode.sendKeys(ConfigReader.getProperty("gender"));
-        //BIRTH DATE
-        txtSpousename.clear();
-        txtSpousename.sendKeys(ConfigReader.getProperty("spouse"));
-        txtCellphone.clear();
-        txtCellphone.sendKeys(ConfigReader.getProperty("cellphone"));
+            //Personal Information
+            clickwhenready(txtSSN);
+            Thread.sleep(2000);
+            clearAfterVisibilityOfElement(txtPassword2);
+            txtPassword2.sendKeys(ConfigReader.getProperty("userpassword2"));
+            clickwhenready(Click_Validate);
+            Thread.sleep(2000);
+            clearAfterVisibilityOfElement(txtSSN);
+            txtSSN.sendKeys(ConfigReader.getProperty("ssn"));
+            clearAfterVisibilityOfElement(addressLine1);
+            addressLine1.sendKeys(ConfigReader.getProperty("addressLine1"));
+            clearAfterVisibilityOfElement(addressLine2);
+            addressLine2.sendKeys(ConfigReader.getProperty("addressLine2"));
+            clearAfterVisibilityOfElement(txtCity);
+            txtCity.sendKeys(ConfigReader.getProperty("city"));
+            clearAfterVisibilityOfElement(txtState);
+            txtState.sendKeys(ConfigReader.getProperty("state"));
+            clearAfterVisibilityOfElement(txtCountry);
+            txtCountry.sendKeys(ConfigReader.getProperty("country"));
+            clearAfterVisibilityOfElement(txtZipcode);
+            txtZipcode.sendKeys(ConfigReader.getProperty("zipcode"));
+            clearAfterVisibilityOfElement(txtHomephone);
+            txtHomephone.sendKeys(ConfigReader.getProperty("homephone"));
+            clearAfterVisibilityOfElement(txtGendercode);
+            txtGendercode.sendKeys(ConfigReader.getProperty("gender"));
+            clearAfterVisibilityOfElement(birthDate);
+            birthDate.sendKeys(ConfigReader.getProperty("birthdate"));
+            clearAfterVisibilityOfElement(txtSpousename);
+            txtSpousename.sendKeys(ConfigReader.getProperty("spouse"));
+            clearAfterVisibilityOfElement(txtCellphone);
+            txtCellphone.sendKeys(ConfigReader.getProperty("cellphone"));
 
-        txtCompany.clear();
-        txtCompany.sendKeys(ConfigReader.getProperty("company"));
-        txtBusinessunit.clear();
-        txtBusinessunit.sendKeys(ConfigReader.getProperty("businessunit"));
-        txtCostcenter.clear();
-        txtCostcenter.sendKeys(ConfigReader.getProperty("costcenter"));
-        txtManagerid.clear();
-        txtManagerid.sendKeys(ConfigReader.getProperty("managerid"));
-        txtOnboardingid.clear();
-        txtOnboardingid.sendKeys(ConfigReader.getProperty("onboardingid"));
-        txtEmployeenumber.clear();
-        txtEmployeenumber.sendKeys(ConfigReader.getProperty("employeenumber"));
-        txtJobtitle.clear();
-        txtJobtitle.sendKeys(ConfigReader.getProperty("jobtitle"));
-        txtOfficelocation.clear();
-        txtOfficelocation.sendKeys(ConfigReader.getProperty("officelocation"));
-        txtLocation.clear();
-        txtLocation.sendKeys(ConfigReader.getProperty("location"));
-        txtLocation2.clear();
-        txtLocation2.sendKeys(ConfigReader.getProperty("location2"));
-        txtLocation3.clear();
-        txtLocation3.sendKeys(ConfigReader.getProperty("location3"));
-        txtLocation4.clear();
-        txtLocation4.sendKeys(ConfigReader.getProperty("location4"));
+            //Employee Information
+            clearAfterVisibilityOfElement(txtCompany);
+            txtCompany.sendKeys(ConfigReader.getProperty("company"));
+            clearAfterVisibilityOfElement(txtBusinessunit);
+            txtBusinessunit.sendKeys(ConfigReader.getProperty("businessunit"));
+            clearAfterVisibilityOfElement(txtCostcenter);
+            txtCostcenter.sendKeys(ConfigReader.getProperty("costcenter"));
+            clearAfterVisibilityOfElement(txtManagerid);
+            txtManagerid.sendKeys(ConfigReader.getProperty("managerid"));
+            clearAfterVisibilityOfElement(txtOnboardingid);
+            txtOnboardingid.sendKeys(ConfigReader.getProperty("onboardingid"));
+            clearAfterVisibilityOfElement(txtEmployeenumber);
+            txtEmployeenumber.sendKeys(ConfigReader.getProperty("employeenumber"));
+            clearAfterVisibilityOfElement(txtJobtitle);
+            txtJobtitle.sendKeys(ConfigReader.getProperty("jobtitle"));
+            clearAfterVisibilityOfElement(txtOfficelocation);
+            txtOfficelocation.sendKeys(ConfigReader.getProperty("officelocation"));
+            clearAfterVisibilityOfElement(txtLocation);
+            txtLocation.sendKeys(ConfigReader.getProperty("location"));
+            clearAfterVisibilityOfElement(txtLocation2);
+            txtLocation2.sendKeys(ConfigReader.getProperty("location2"));
+            clearAfterVisibilityOfElement(txtLocation3);
+            txtLocation3.sendKeys(ConfigReader.getProperty("location3"));
+            clearAfterVisibilityOfElement(txtLocation4);
+            txtLocation4.sendKeys(ConfigReader.getProperty("location4"));
+            clearAfterVisibilityOfElement(hireDate);
+            hireDate.sendKeys(ConfigReader.getProperty("hiredate"));
+            clearAfterVisibilityOfElement(startDate);
+            startDate.sendKeys(ConfigReader.getProperty("startdate"));
+            clearAfterVisibilityOfElement(txtSalary);
+            txtSalary.sendKeys(ConfigReader.getProperty("salary"));
+            clearAfterVisibilityOfElement(txtOfficephone);
+            txtOfficephone.sendKeys(ConfigReader.getProperty("officephone"));
+            clearAfterVisibilityOfElement(txtOfficefax);
+            txtOfficefax.sendKeys(ConfigReader.getProperty("officefax"));
+            clearAfterVisibilityOfElement(txtEmployeetype);
+            txtEmployeetype.sendKeys(ConfigReader.getProperty("employeetype"));
+            clearAfterVisibilityOfElement(txtDivision);
+            txtDivision.sendKeys(ConfigReader.getProperty("division"));
+            clearAfterVisibilityOfElement(txtDivision2);
+            txtDivision2.sendKeys(ConfigReader.getProperty("division2"));
+            clearAfterVisibilityOfElement(txtDivision3);
+            txtDivision3.sendKeys(ConfigReader.getProperty("division3"));
+            clearAfterVisibilityOfElement(txtDivision4);
+            txtDivision4.sendKeys(ConfigReader.getProperty("division4"));
+            clearAfterVisibilityOfElement(txtHrstatus);
+            txtHrstatus.sendKeys(ConfigReader.getProperty("hrstatus"));
+            clearAfterVisibilityOfElement(txtFulltime);
+            txtFulltime.sendKeys(ConfigReader.getProperty("fulltime"));
+            clearAfterVisibilityOfElement(txtClassification);
+            txtClassification.sendKeys(ConfigReader.getProperty("classification"));
+            clearAfterVisibilityOfElement(txtClassification2);
+            txtClassification2.sendKeys(ConfigReader.getProperty("classification2"));
+            clearAfterVisibilityOfElement(txtClassification3);
+            txtClassification3.sendKeys(ConfigReader.getProperty("classification3"));
+            clearAfterVisibilityOfElement(txtClassification4);
+            txtClassification4.sendKeys(ConfigReader.getProperty("classification4"));
+            clearAfterVisibilityOfElement(terminationDate);
+            terminationDate.sendKeys(ConfigReader.getProperty("terminationdate"));
+            clearAfterVisibilityOfElement(txtErclocationcode);
+            txtErclocationcode.sendKeys(ConfigReader.getProperty("erclocationcode"));
+            clearAfterVisibilityOfElement(txtRole1);
+            txtRole1.sendKeys(ConfigReader.getProperty("role1"));
+            clearAfterVisibilityOfElement(txtRole2);
+            txtRole2.sendKeys(ConfigReader.getProperty("role2"));
+            clearAfterVisibilityOfElement(txtRole3);
+            txtRole3.sendKeys(ConfigReader.getProperty("role3"));
+            clearAfterVisibilityOfElement(txtRole4);
+            txtRole4.sendKeys(ConfigReader.getProperty("role4"));
+            clearAfterVisibilityOfElement(txtRole5);
+            txtRole5.sendKeys(ConfigReader.getProperty("role5"));
+            clearAfterVisibilityOfElement(txtRole6);
+            txtRole6.sendKeys(ConfigReader.getProperty("role6"));
+            clearAfterVisibilityOfElement(txtServicerep);
+            txtServicerep.sendKeys(ConfigReader.getProperty("servicerep"));
+            clearAfterVisibilityOfElement(txtUnion);
+            txtUnion.sendKeys(ConfigReader.getProperty("union"));
 
-        //HIRE DATE and START DATE
+            //Custom Fields
+            clearAfterVisibilityOfElement(txtCustom1);
+            txtCustom1.sendKeys(ConfigReader.getProperty("custom1"));
+            clearAfterVisibilityOfElement(txtCustom2);
+            txtCustom2.sendKeys(ConfigReader.getProperty("custom2"));
+            clearAfterVisibilityOfElement(txtCustom3);
+            txtCustom3.sendKeys(ConfigReader.getProperty("custom3"));
+            clearAfterVisibilityOfElement(txtCustom4);
+            txtCustom4.sendKeys(ConfigReader.getProperty("custom4"));
+            clearAfterVisibilityOfElement(txtCustom5);
+            txtCustom5.sendKeys(ConfigReader.getProperty("custom5"));
+            clearAfterVisibilityOfElement(txtCustom6);
+            txtCustom6.sendKeys(ConfigReader.getProperty("custom6"));
+            clearAfterVisibilityOfElement(txtCustom7);
+            txtCustom7.sendKeys(ConfigReader.getProperty("custom7"));
+            clearAfterVisibilityOfElement(txtCustom8);
+            txtCustom8.sendKeys(ConfigReader.getProperty("custom8"));
+            clearAfterVisibilityOfElement(txtCustom9);
+            txtCustom9.sendKeys(ConfigReader.getProperty("custom9"));
+            clearAfterVisibilityOfElement(txtCustom10);
+            txtCustom10.sendKeys(ConfigReader.getProperty("custom10"));
+            clearAfterVisibilityOfElement(txtCustom11);
+            txtCustom11.sendKeys(ConfigReader.getProperty("custom11"));
+            clearAfterVisibilityOfElement(txtCustom12);
+            txtCustom12.sendKeys(ConfigReader.getProperty("custom12"));
+            clearAfterVisibilityOfElement(txtRuleString);
+            txtRuleString.sendKeys(ConfigReader.getProperty("rulestring"));
+            clickwhenready(Userupdate);
+            Thread.sleep(5000);
 
-        txtSalary.clear();
-        txtSalary.sendKeys(ConfigReader.getProperty("salary"));
-        txtOfficephone.clear();
-        txtOfficephone.sendKeys(ConfigReader.getProperty("officephone"));
-        txtOfficefax.clear();
-        txtOfficefax.sendKeys(ConfigReader.getProperty("officefax"));
-        txtEmployeetype.clear();
-        txtEmployeetype.sendKeys(ConfigReader.getProperty("employeetype"));
-        txtDivision.clear();
-        txtDivision.sendKeys(ConfigReader.getProperty("division"));
-        txtDivision2.clear();
-        txtDivision2.sendKeys(ConfigReader.getProperty("division2"));
-        txtDivision3.clear();
-        txtDivision3.sendKeys(ConfigReader.getProperty("division3"));
-        txtDivision4.clear();
-        txtDivision4.sendKeys(ConfigReader.getProperty("division4"));
-        txtHrstatus.clear();
-        txtHrstatus.sendKeys(ConfigReader.getProperty("hrstatus"));
-        txtFulltime.clear();
-        txtFulltime.sendKeys(ConfigReader.getProperty("fulltime"));
-        txtClassification.clear();
-        txtClassification.sendKeys(ConfigReader.getProperty("classification"));
-        txtClassification2.clear();
-        txtClassification2.sendKeys(ConfigReader.getProperty("classification2"));
-        txtClassification3.clear();
-        txtClassification3.sendKeys(ConfigReader.getProperty("classification3"));
-        txtClassification4.clear();
-        txtClassification4.sendKeys(ConfigReader.getProperty("classification4"));
-
-        //TERMINATION DATE
-
-        txtErclocationcode.clear();
-        txtErclocationcode.sendKeys(ConfigReader.getProperty("erclocationcode"));
-        txtRole1.clear();
-        txtRole1.sendKeys(ConfigReader.getProperty("role1"));
-        txtRole2.clear();
-        txtRole2.sendKeys(ConfigReader.getProperty("role2"));
-        txtRole3.clear();
-        txtRole3.sendKeys(ConfigReader.getProperty("role3"));
-        txtRole4.clear();
-        txtRole4.sendKeys(ConfigReader.getProperty("role4"));
-        txtRole5.clear();
-        txtRole5.sendKeys(ConfigReader.getProperty("role5"));
-        txtRole6.clear();
-        txtRole6.sendKeys(ConfigReader.getProperty("role6"));
-        txtServicerep.clear();
-        txtServicerep.sendKeys(ConfigReader.getProperty("servicerep"));
-        txtUnion.clear();
-        txtUnion.sendKeys(ConfigReader.getProperty("union"));
-
-        //Custom Fields
-
-        txtCustom1.clear();
-        txtCustom1.sendKeys(ConfigReader.getProperty("custom1"));
-        txtCustom2.clear();
-        txtCustom2.sendKeys(ConfigReader.getProperty("custom2"));
-        txtCustom3.clear();
-        txtCustom3.sendKeys(ConfigReader.getProperty("custom3"));
-        txtCustom4.clear();
-        txtCustom4.sendKeys(ConfigReader.getProperty("custom4"));
-        txtCustom5.clear();
-        txtCustom5.sendKeys(ConfigReader.getProperty("custom5"));
-        txtCustom6.clear();
-        txtCustom6.sendKeys(ConfigReader.getProperty("custom6"));
-        txtCustom7.clear();
-        txtCustom7.sendKeys(ConfigReader.getProperty("custom7"));
-        txtCustom8.clear();
-        txtCustom8.sendKeys(ConfigReader.getProperty("custom8"));
-        txtCustom9.clear();
-        txtCustom9.sendKeys(ConfigReader.getProperty("custom9"));
-        txtCustom10.clear();
-        txtCustom10.sendKeys(ConfigReader.getProperty("custom10"));
-        txtCustom11.clear();
-        txtCustom11.sendKeys(ConfigReader.getProperty("custom11"));
-        txtCustom12.clear();
-        txtCustom12.sendKeys(ConfigReader.getProperty("custom12"));
-        txtRuleString.clear();
-        txtRuleString.sendKeys(ConfigReader.getProperty("rulestring"));
-        Thread.sleep(5000);
-        Userupdate.click();
-        Thread.sleep(5000);
-        UpdatedSuccessfully.isDisplayed();
-        Thread.sleep(5000);
+            if (UpdatedSuccessfully.isDisplayed())
+            {
+                Thread.sleep(3000);
+                clearAfterVisibilityOfElement(txtUserid);
+                //clickwhenready(txtUserid);
+                txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
+                String ActualUser = ConfigReader.getProperty(("useridfilter"));
+                clickwhenready(ApplyBtn);
+                Thread.sleep(5000);
+                String NewlyUpdatedUser = Userlink.getText();
+                System.out.println(NewlyUpdatedUser);
+                //Assert.assertEquals(ActualUser,NewlyAddedUser);
+                if (ActualUser.equals(NewlyUpdatedUser))
+                {
+                    System.out.println(ActualUser);
+                    clickwhenready(Userlink);
+                    Thread.sleep(5000);
+                    return true;
+                }
+                ScreenPrints(webDriver);
+                return false;
+            }
+            ScreenPrints(webDriver);
+            return false;
+        }
+        catch (Exception e)
+        {
+            System.out.println("Selected user is not present");
+            ScreenPrints(webDriver);
+            e.printStackTrace();
+            return false;
+        }
     }
 }

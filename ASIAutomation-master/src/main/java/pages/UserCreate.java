@@ -1,21 +1,21 @@
 package pages;
 
-import junit.framework.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
+import sun.font.TrueTypeFont;
 import util.ConfigReader;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class UserCreate {
+public class UserCreate extends BasePage{
 
     @FindBy(how = How.XPATH, using = "//span[text()='Add New']")
     private WebElement AddNew;
@@ -26,8 +26,8 @@ public class UserCreate {
     @FindBy(how = How.XPATH, using = "//span[@data-ref='btnInnerEl'][contains(.,'Apply')]")
     private WebElement ApplyBtn;
 
-    @FindBy(how = How.XPATH, using = "//a[contains(.,'test080915')]")
-    private String Userlink;
+    @FindBy(how = How.XPATH, using = "(//div[@class='x-grid-cell-inner '])[1]")
+    private WebElement Userlink;
 
     @FindBy(how = How.XPATH, using = "//input[@name='accountid']")
     private WebElement txtaccountid;
@@ -77,8 +77,8 @@ public class UserCreate {
     @FindBy(how = How.XPATH, using = "//input[@value='(GMT+05:30) Asia/Calcutta']")
     private WebElement Select_AsiaCalcutta;
 
-    //@FindBy(how = How.XPATH, using = "//li[text()='(GMT+05:30) Asia/Calcutta']")
-    //private WebElement Select_AsiaCalcutta;
+   // @FindBy(how = How.XPATH, using = "//li[text()='(GMT+05:30) Asia/Calcutta']")
+   // private WebElement Select_AsiaCalcutta;
 
     @FindBy(how = How.XPATH, using = "//input[@name='locale']")
     private WebElement Click_Locale;
@@ -87,7 +87,6 @@ public class UserCreate {
     private WebElement Select_EnUS;
 
     //Personal Information
-
     @FindBy(how = How.XPATH, using = "(//input[@name='ssn'])[1]")
     private WebElement txtSSN;
 
@@ -102,9 +101,6 @@ public class UserCreate {
 
     @FindBy(how = How.XPATH, using = "//textarea[@name='addressline2']")
     private WebElement addressLine2;
-    //Add 1
-    //Add 2
-    //textarea[@name='addressline2']
 
     @FindBy(how = How.XPATH, using = "//input[@name='city']")
     private WebElement txtCity;
@@ -124,7 +120,8 @@ public class UserCreate {
     @FindBy(how = How.XPATH, using = "//input[@name='gendercode']")
     private WebElement txtGendercode;
 
-    //Birthdate
+    @FindBy(how = How.XPATH, using = "//input[@name='birthdate']")
+    private WebElement birthDate;
 
     @FindBy(how = How.XPATH, using = "//input[@name='spousename']")
     private WebElement txtSpousename;
@@ -133,7 +130,6 @@ public class UserCreate {
     private WebElement txtCellphone;
 
     //Employee Information
-
     @FindBy(how = How.XPATH, using = "//input[@name='company']")
     private WebElement txtCompany;
 
@@ -170,9 +166,11 @@ public class UserCreate {
     @FindBy(how = How.XPATH, using = "//input[@name='location4']")
     private WebElement txtLocation4;
 
-    //Hire date
+    @FindBy(how = How.XPATH, using = "//input[@name='hiredate']")
+    private WebElement hireDate;
 
-    //Start date
+    @FindBy(how = How.XPATH, using = "//input[@name='startdate']")
+    private WebElement startDate;
 
     @FindBy(how = How.XPATH, using = "//input[@name='salary']")
     private WebElement txtSalary;
@@ -216,7 +214,8 @@ public class UserCreate {
     @FindBy(how = How.XPATH, using = "//input[@name='classification4']")
     private WebElement txtClassification4;
 
-    //Termination date
+    @FindBy(how = How.XPATH, using = "//input[@name='terminationdate']")
+    private WebElement terminationDate;
 
     @FindBy(how = How.XPATH, using = "//input[@name='erclocationcode']")
     private WebElement txtErclocationcode;
@@ -246,7 +245,6 @@ public class UserCreate {
     private WebElement txtUnion;
 
     //Custom Fields
-
     @FindBy(how = How.XPATH, using = "//input[@name='custom1']")
     private WebElement txtCustom1;
 
@@ -292,140 +290,219 @@ public class UserCreate {
     @FindBy(how = How.XPATH, using = "//div[text()='Added Successfully']")
     private WebElement AddedSuccessfully;
 
+    public UserCreate(WebDriver webDriver) {
+        super(webDriver);
+    }
 
-    public void UserAdd(WebDriver driver) throws InterruptedException {
-        PageFactory.initElements(driver, this);
+    public boolean UserAdd() throws InterruptedException, IOException
+    {
+        try
+        {
+                clickwhenready(AddNew);
+                //ScreenPrints(webDriver);
+                clickwhenready(txtaccountid);
+                txtaccountid.sendKeys(ConfigReader.getProperty("accountid"));
+                clickwhenready(txtPassword);
+                txtPassword.sendKeys(ConfigReader.getProperty("userpassword"));
+                clickwhenready(txtConfirmPassword);
+                txtConfirmPassword.sendKeys(ConfigReader.getProperty("userconfirmpassword"));
+                clickwhenready(txtPrefix);
+                txtPrefix.sendKeys(ConfigReader.getProperty("prefix"));
+                clickwhenready(txtFirstname);
+                txtFirstname.sendKeys(ConfigReader.getProperty("firstname"));
+                clickwhenready(txtMiddlename);
+                txtMiddlename.sendKeys(ConfigReader.getProperty("middlename"));
+                clickwhenready(txtLastname);
+                txtLastname.sendKeys(ConfigReader.getProperty("lastname"));
+                clickwhenready(txtSuffix);
+                txtSuffix.sendKeys(ConfigReader.getProperty("suffix"));
+                clickwhenready(txtEmailaddress);
+                txtEmailaddress.sendKeys(ConfigReader.getProperty("emailaddress"));
+                clickwhenready(txtLevelnumber);
+                clickwhenready(txtLevelnumber_select_8);
+                clickwhenready(Click_Startpage);
+                clickwhenready(Select_Startpage);
+                clickwhenready(txtUseripaddress);
+                txtUseripaddress.sendKeys(ConfigReader.getProperty("useripaddress"));
+                Click_Timezone.click();
+                Thread.sleep(2000);
+                List<WebElement> list = webDriver.findElements(By.xpath("//ul[@class='x-list-plain']/li"));
+                ((JavascriptExecutor)webDriver).executeScript("arguments[0].scrollIntoView(true);", list.get(228));
+                list.get(228).click();
+                //System.out.println(list.size());
+                Thread.sleep(2000);
+                clickwhenready(Click_Locale);
+                clickwhenready(Select_EnUS);
 
-        WebDriverWait wait = new WebDriverWait(driver, 10);
-        AddNew.isDisplayed();
-        AddNew.click();
-        txtaccountid.isDisplayed();
-        txtaccountid.sendKeys(ConfigReader.getProperty("accountid"));
-        txtPassword.sendKeys(ConfigReader.getProperty("userpassword"));
-        txtConfirmPassword.sendKeys(ConfigReader.getProperty("userconfirmpassword"));
-        txtPrefix.sendKeys(ConfigReader.getProperty("prefix"));
-        txtFirstname.sendKeys(ConfigReader.getProperty("firstname"));
-        txtMiddlename.sendKeys(ConfigReader.getProperty("middlename"));
-        txtLastname.sendKeys(ConfigReader.getProperty("lastname"));
-        txtSuffix.sendKeys(ConfigReader.getProperty("suffix"));
-        txtEmailaddress.sendKeys(ConfigReader.getProperty("emailaddress"));
-        txtLevelnumber.click();
-        txtLevelnumber_select_8.click();
-        Click_Startpage.click();
-        Select_Startpage.click();
-        txtUseripaddress.sendKeys(ConfigReader.getProperty("useripaddress"));
-        Click_Timezone.click();
+                //Personal Information
+                clickwhenready(txtSSN);
+                Thread.sleep(2000);
+                clickwhenready(txtPassword2);
+                txtPassword2.sendKeys(ConfigReader.getProperty("userpassword2"));
+                clickwhenready(Click_Validate);
+                Thread.sleep(2000);
+                clickwhenready(txtSSN);
+                txtSSN.sendKeys(ConfigReader.getProperty("ssn"));
+                clickwhenready(addressLine1);
+                addressLine1.sendKeys(ConfigReader.getProperty("addressLine1"));
+                clickwhenready(addressLine2);
+                addressLine2.sendKeys(ConfigReader.getProperty("addressLine2"));
+                clickwhenready(txtCity);
+                txtCity.sendKeys(ConfigReader.getProperty("city"));
+                clickwhenready(txtState);
+                txtState.sendKeys(ConfigReader.getProperty("state"));
+                clickwhenready(txtCountry);
+                txtCountry.sendKeys(ConfigReader.getProperty("country"));
+                clickwhenready(txtZipcode);
+                txtZipcode.sendKeys(ConfigReader.getProperty("zipcode"));
+                clickwhenready(txtHomephone);
+                txtHomephone.sendKeys(ConfigReader.getProperty("homephone"));
+                clickwhenready(txtGendercode);
+                txtGendercode.sendKeys(ConfigReader.getProperty("gender"));
+                clickwhenready(birthDate);
+                birthDate.sendKeys(ConfigReader.getProperty("birthdate"));
+                clickwhenready(txtSpousename);
+                txtSpousename.sendKeys(ConfigReader.getProperty("spouse"));
+                clickwhenready(txtCellphone);
+                txtCellphone.sendKeys(ConfigReader.getProperty("cellphone"));
 
-        List<WebElement> timezoneList = driver.findElements(By.xpath("//input[@name='timezoneiana']/li"));
+                //Employee Information
+                clickwhenready(txtCompany);
+                txtCompany.sendKeys(ConfigReader.getProperty("company"));
+                clickwhenready(txtBusinessunit);
+                txtBusinessunit.sendKeys(ConfigReader.getProperty("businessunit"));
+                clickwhenready(txtCostcenter);
+                txtCostcenter.sendKeys(ConfigReader.getProperty("costcenter"));
+                clickwhenready(txtManagerid);
+                txtManagerid.sendKeys(ConfigReader.getProperty("managerid"));
+                clickwhenready(txtOnboardingid);
+                txtOnboardingid.sendKeys(ConfigReader.getProperty("onboardingid"));
+                clickwhenready(txtEmployeenumber);
+                txtEmployeenumber.sendKeys(ConfigReader.getProperty("employeenumber"));
+                clickwhenready(txtJobtitle);
+                txtJobtitle.sendKeys(ConfigReader.getProperty("jobtitle"));
+                clickwhenready(txtOfficelocation);
+                txtOfficelocation.sendKeys(ConfigReader.getProperty("officelocation"));
+                clickwhenready(txtLocation);
+                txtLocation.sendKeys(ConfigReader.getProperty("location"));
+                clickwhenready(txtLocation2);
+                txtLocation2.sendKeys(ConfigReader.getProperty("location2"));
+                clickwhenready(txtLocation3);
+                txtLocation3.sendKeys(ConfigReader.getProperty("location3"));
+                clickwhenready(txtLocation4);
+                txtLocation4.sendKeys(ConfigReader.getProperty("location4"));
+                clickwhenready(hireDate);
+                hireDate.sendKeys(ConfigReader.getProperty("hiredate"));
+                clickwhenready(startDate);
+                startDate.sendKeys(ConfigReader.getProperty("startdate"));
+                clickwhenready(txtSalary);
+                txtSalary.sendKeys(ConfigReader.getProperty("salary"));
+                clickwhenready(txtOfficephone);
+                txtOfficephone.sendKeys(ConfigReader.getProperty("officephone"));
+                clickwhenready(txtOfficefax);
+                txtOfficefax.sendKeys(ConfigReader.getProperty("officefax"));
+                clickwhenready(txtEmployeetype);
+                txtEmployeetype.sendKeys(ConfigReader.getProperty("employeetype"));
+                clickwhenready(txtDivision);
+                txtDivision.sendKeys(ConfigReader.getProperty("division"));
+                clickwhenready(txtDivision2);
+                txtDivision2.sendKeys(ConfigReader.getProperty("division2"));
+                clickwhenready(txtDivision3);
+                txtDivision3.sendKeys(ConfigReader.getProperty("division3"));
+                clickwhenready(txtDivision4);
+                txtDivision4.sendKeys(ConfigReader.getProperty("division4"));
+                clickwhenready(txtHrstatus);
+                txtHrstatus.sendKeys(ConfigReader.getProperty("hrstatus"));
+                clickwhenready(txtFulltime);
+                txtFulltime.sendKeys(ConfigReader.getProperty("fulltime"));
+                clickwhenready(txtClassification);
+                txtClassification.sendKeys(ConfigReader.getProperty("classification"));
+                clickwhenready(txtClassification2);
+                txtClassification2.sendKeys(ConfigReader.getProperty("classification2"));
+                clickwhenready(txtClassification3);
+                txtClassification3.sendKeys(ConfigReader.getProperty("classification3"));
+                clickwhenready(txtClassification4);
+                txtClassification4.sendKeys(ConfigReader.getProperty("classification4"));
+                clickwhenready(terminationDate);
+                terminationDate.sendKeys(ConfigReader.getProperty("terminationdate"));
+                clickwhenready(txtErclocationcode);
+                txtErclocationcode.sendKeys(ConfigReader.getProperty("erclocationcode"));
+                clickwhenready(txtRole1);
+                txtRole1.sendKeys(ConfigReader.getProperty("role1"));
+                clickwhenready(txtRole2);
+                txtRole2.sendKeys(ConfigReader.getProperty("role2"));
+                clickwhenready(txtRole3);
+                txtRole3.sendKeys(ConfigReader.getProperty("role3"));
+                clickwhenready(txtRole4);
+                txtRole4.sendKeys(ConfigReader.getProperty("role4"));
+                clickwhenready(txtRole5);
+                txtRole5.sendKeys(ConfigReader.getProperty("role5"));
+                clickwhenready(txtRole6);
+                txtRole6.sendKeys(ConfigReader.getProperty("role6"));
+                clickwhenready(txtServicerep);
+                txtServicerep.sendKeys(ConfigReader.getProperty("servicerep"));
+                clickwhenready(txtUnion);
+                txtUnion.sendKeys(ConfigReader.getProperty("union"));
 
-        //((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", timezoneList);
+                //Custom Fields
+                clickwhenready(txtCustom1);
+                txtCustom1.sendKeys(ConfigReader.getProperty("custom1"));
+                clickwhenready(txtCustom2);
+                txtCustom2.sendKeys(ConfigReader.getProperty("custom2"));
+                clickwhenready(txtCustom3);
+                txtCustom3.sendKeys(ConfigReader.getProperty("custom3"));
+                clickwhenready(txtCustom4);
+                txtCustom4.sendKeys(ConfigReader.getProperty("custom4"));
+                clickwhenready(txtCustom5);
+                txtCustom5.sendKeys(ConfigReader.getProperty("custom5"));
+                clickwhenready(txtCustom6);
+                txtCustom6.sendKeys(ConfigReader.getProperty("custom6"));
+                clickwhenready(txtCustom7);
+                txtCustom7.sendKeys(ConfigReader.getProperty("custom7"));
+                clickwhenready(txtCustom8);
+                txtCustom8.sendKeys(ConfigReader.getProperty("custom8"));
+                clickwhenready(txtCustom9);
+                txtCustom9.sendKeys(ConfigReader.getProperty("custom9"));
+                clickwhenready(txtCustom10);
+                txtCustom10.sendKeys(ConfigReader.getProperty("custom10"));
+                clickwhenready(txtCustom11);
+                txtCustom11.sendKeys(ConfigReader.getProperty("custom11"));
+                clickwhenready(txtCustom12);
+                txtCustom12.sendKeys(ConfigReader.getProperty("custom12"));
+                clickwhenready(txtRuleString);
+                txtRuleString.sendKeys(ConfigReader.getProperty("rulestring"));
+                clickwhenready(Usersave);
+                Thread.sleep(2000);
 
-        WebElement element = driver.findElement(By.xpath("//input[contains(@value,'(GMT+05:30) Asia/Calcutta')]"));
-        ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);", element);
-        Thread.sleep(500);
-
-        // Other there way that I prefer is:
-        //input[contains(@value,'(GMT+05:30) Asia/Calcutta')]
-        //Select dropdown = new Select(driver.findElement(By.xpath("//input[@name='timezoneiana']")));
-        //dropdown.selectByVisibleText("(GMT+05:30) Asia/Calcutta')");
-        //dropdown.selectByValue("(GMT+05:30) Asia/Calcutta')");
-        //Click_Timezone.sendKeys("(GMT+05:30");
-        //Click_Timezone.click();
-        //driver.findElement(By.)
-        //Select_AsiaCalcutta.click();
-
-    /*    Click_Locale.click();
-        Select_EnUS.click();
-        txtSSN.click();
-        Thread.sleep(2000);
-        txtPassword2.sendKeys(ConfigReader.getProperty("userpassword2"));
-        Click_Validate.click();
-        Thread.sleep(2000);
-        txtSSN.sendKeys(ConfigReader.getProperty("ssn"));
-        addressLine1.sendKeys(ConfigReader.getProperty("addressLine1"));
-        addressLine2.sendKeys(ConfigReader.getProperty("addressLine2"));
-        txtCity.sendKeys(ConfigReader.getProperty("city"));
-        txtState.sendKeys(ConfigReader.getProperty("state"));
-        txtCountry.sendKeys(ConfigReader.getProperty("country"));
-        txtZipcode.sendKeys(ConfigReader.getProperty("zipcode"));
-        txtHomephone.sendKeys(ConfigReader.getProperty("homephone"));
-        txtGendercode.sendKeys(ConfigReader.getProperty("gender"));
-        //BIRTH DATE
-        txtSpousename.sendKeys(ConfigReader.getProperty("spouse"));
-        txtCellphone.sendKeys(ConfigReader.getProperty("cellphone"));
-
-        txtCompany.sendKeys(ConfigReader.getProperty("company"));
-        txtBusinessunit.sendKeys(ConfigReader.getProperty("businessunit"));
-        txtCostcenter.sendKeys(ConfigReader.getProperty("costcenter"));
-        txtManagerid.sendKeys(ConfigReader.getProperty("managerid"));
-        txtOnboardingid.sendKeys(ConfigReader.getProperty("onboardingid"));
-        txtEmployeenumber.sendKeys(ConfigReader.getProperty("employeenumber"));
-        txtJobtitle.sendKeys(ConfigReader.getProperty("jobtitle"));
-        txtOfficelocation.sendKeys(ConfigReader.getProperty("officelocation"));
-        txtLocation.sendKeys(ConfigReader.getProperty("location"));
-        txtLocation2.sendKeys(ConfigReader.getProperty("location2"));
-        txtLocation3.sendKeys(ConfigReader.getProperty("location3"));
-        txtLocation4.sendKeys(ConfigReader.getProperty("location4"));
-
-        //HIRE DATE and START DATE
-
-        txtSalary.sendKeys(ConfigReader.getProperty("salary"));
-        txtOfficephone.sendKeys(ConfigReader.getProperty("officephone"));
-        txtOfficefax.sendKeys(ConfigReader.getProperty("officefax"));
-        txtEmployeetype.sendKeys(ConfigReader.getProperty("employeetype"));
-        txtDivision.sendKeys(ConfigReader.getProperty("division"));
-        txtDivision2.sendKeys(ConfigReader.getProperty("division2"));
-        txtDivision3.sendKeys(ConfigReader.getProperty("division3"));
-        txtDivision4.sendKeys(ConfigReader.getProperty("division4"));
-        txtHrstatus.sendKeys(ConfigReader.getProperty("hrstatus"));
-        txtFulltime.sendKeys(ConfigReader.getProperty("fulltime"));
-        txtClassification.sendKeys(ConfigReader.getProperty("classification"));
-        txtClassification2.sendKeys(ConfigReader.getProperty("classification2"));
-        txtClassification3.sendKeys(ConfigReader.getProperty("classification3"));
-        txtClassification4.sendKeys(ConfigReader.getProperty("classification4"));
-
-        //TERMINATION DATE
-
-        txtErclocationcode.sendKeys(ConfigReader.getProperty("erclocationcode"));
-        txtRole1.sendKeys(ConfigReader.getProperty("role1"));
-        txtRole2.sendKeys(ConfigReader.getProperty("role2"));
-        txtRole3.sendKeys(ConfigReader.getProperty("role3"));
-        txtRole4.sendKeys(ConfigReader.getProperty("role4"));
-        txtRole5.sendKeys(ConfigReader.getProperty("role5"));
-        txtRole6.sendKeys(ConfigReader.getProperty("role6"));
-        txtServicerep.sendKeys(ConfigReader.getProperty("servicerep"));
-        txtUnion.sendKeys(ConfigReader.getProperty("union"));
-
-        //Custom Fields
-
-        txtCustom1.sendKeys(ConfigReader.getProperty("custom1"));
-        txtCustom2.sendKeys(ConfigReader.getProperty("custom2"));
-        txtCustom3.sendKeys(ConfigReader.getProperty("custom3"));
-        txtCustom4.sendKeys(ConfigReader.getProperty("custom4"));
-        txtCustom5.sendKeys(ConfigReader.getProperty("custom5"));
-        txtCustom6.sendKeys(ConfigReader.getProperty("custom6"));
-        txtCustom7.sendKeys(ConfigReader.getProperty("custom7"));
-        txtCustom8.sendKeys(ConfigReader.getProperty("custom8"));
-        txtCustom9.sendKeys(ConfigReader.getProperty("custom9"));
-        txtCustom10.sendKeys(ConfigReader.getProperty("custom10"));
-        txtCustom11.sendKeys(ConfigReader.getProperty("custom11"));
-        txtCustom12.sendKeys(ConfigReader.getProperty("custom12"));
-        txtRuleString.sendKeys(ConfigReader.getProperty("rulestring"));
-        Thread.sleep(10000);
-        Usersave.click();
-        Thread.sleep(2000);
-        AddedSuccessfully.isDisplayed();
-        Thread.sleep(5000);
-        txtUserid.isDisplayed();
-        txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
-        ApplyBtn.click();
-        Thread.sleep(5000);
-        //String actualid="test080915";
-        //String expectedid= Userlink;
-        //Assert.assertEquals(expectedid,actualid);
-
-     */
-        Thread.sleep(5000);
-
-      }
+                if (AddedSuccessfully.isDisplayed())
+                {
+                    Thread.sleep(3000);
+                    clickwhenready(txtUserid);
+                    txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
+                    String ActualUser = ConfigReader.getProperty(("useridfilter"));
+                    clickwhenready(ApplyBtn);
+                    Thread.sleep(5000);
+                    String NewlyAddedUser = Userlink.getText();
+                    System.out.println(NewlyAddedUser);
+                    //Assert.assertEquals(ActualUser,NewlyAddedUser);
+                    if (ActualUser.equals(NewlyAddedUser))
+                    {
+                        System.out.println(ActualUser);
+                        clickwhenready(Userlink);
+                        Thread.sleep(5000);
+                        return true;
+                    }
+                    ScreenPrints(webDriver);
+                    return false;
+                  }
+                ScreenPrints(webDriver);
+                return false;
+            }
+        catch (Exception e)
+        {
+            ScreenPrints(webDriver);
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
