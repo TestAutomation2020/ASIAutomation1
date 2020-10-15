@@ -1,6 +1,5 @@
 package pages;
 
-import com.sun.deploy.security.SelectableSecurityManager;
 import junit.framework.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import sun.invoke.empty.Empty;
+import org.testng.Reporter;
 import util.ConfigReader;
 import org.apache.commons.lang3.StringUtils;
 
@@ -82,36 +81,42 @@ public class UserDelete extends BasePage {
     }
 
     public boolean DeleteUser() throws InterruptedException, IOException {
-
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
-                    clickwhenready(txtUserid);
+              /*      clickwhenready(txtUserid);
                     clickwhenready(ClearBtn);
                     Thread.sleep(3000);
                     clearAfterVisibilityOfElement(txtUserid);
                     txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
                     clickwhenready(ApplyBtn);
                     Thread.sleep(4000);
-                    clickwhenready(Userlink);
+                    clickwhenready(Userlink); */
+                    Reporter.log("---------- Delete User Script ----------");
                     Thread.sleep(3000);
                     clickwhenready(UserRptChkBox1);
                     UserRptChkBox1.isSelected();
                     clickwhenready(Userdelete);
                     Thread.sleep(3000);
                     clickwhenready(BtnOK);
+                    Reporter.log("OK button clicked");
                     Thread.sleep(3000);
 
                     if (DeletedSuccessfully.isDisplayed())
                     {
+                        Reporter.log("Delete successful message displayed");
                         Thread.sleep(2000);
                         clearAfterVisibilityOfElement(txtUserid);
                         txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
                         //String ActualUser = ConfigReader.getProperty(("useridfilter"));
                         clickwhenready(ApplyBtn);
+                        Reporter.log("Apply button clicked");
                         Thread.sleep(4000);
                         if (Emptygrid.isDisplayed())
                         {
+                            Reporter.log("Empty report displayed");
                             Thread.sleep(3000);
                             System.out.println("User deletion successful");
+                            Reporter.log("---------- End of Delete User Script ----------");
                             return true;
                         }
                         ScreenPrints(webDriver);
@@ -125,6 +130,7 @@ public class UserDelete extends BasePage {
             System.out.println("Selected user is already deleted");
             ScreenPrints(webDriver);
             e.printStackTrace();
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             return false;
         }
     }

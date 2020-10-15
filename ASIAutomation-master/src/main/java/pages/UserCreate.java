@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
+import org.testng.Reporter;
 import sun.font.TrueTypeFont;
 import util.ConfigReader;
 
@@ -295,10 +296,12 @@ public class UserCreate extends BasePage{
     }
 
     public boolean UserAdd() throws InterruptedException, IOException
-    {
+    {   String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try
         {
+                Reporter.log("---------- Add User Script ----------");
                 clickwhenready(AddNew);
+                Reporter.log("Add button clicked");
                 //ScreenPrints(webDriver);
                 clickwhenready(txtaccountid);
                 txtaccountid.sendKeys(ConfigReader.getProperty("accountid"));
@@ -472,23 +475,29 @@ public class UserCreate extends BasePage{
                 clickwhenready(txtRuleString);
                 txtRuleString.sendKeys(ConfigReader.getProperty("rulestring"));
                 clickwhenready(Usersave);
+                Reporter.log("Save button clicked.");
                 Thread.sleep(2000);
 
                 if (AddedSuccessfully.isDisplayed())
                 {
+                    Reporter.log("Add successfully message displayed");
                     Thread.sleep(3000);
                     clickwhenready(txtUserid);
                     txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
                     String ActualUser = ConfigReader.getProperty(("useridfilter"));
                     clickwhenready(ApplyBtn);
+                    Reporter.log("Apply button clicked");
                     Thread.sleep(5000);
                     String NewlyAddedUser = Userlink.getText();
                     System.out.println(NewlyAddedUser);
                     //Assert.assertEquals(ActualUser,NewlyAddedUser);
                     if (ActualUser.equals(NewlyAddedUser))
                     {
+                        Reporter.log("User compare successful");
                         System.out.println(ActualUser);
                         clickwhenready(Userlink);
+                        Reporter.log("Username link clicked");
+                        Reporter.log("---------- End of Add User Script ----------");
                         Thread.sleep(5000);
                         return true;
                     }
@@ -502,6 +511,7 @@ public class UserCreate extends BasePage{
         {
             ScreenPrints(webDriver);
             e.printStackTrace();
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             return false;
         }
     }

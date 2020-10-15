@@ -7,6 +7,7 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
 import util.ConfigReader;
 import util.ScreenPrints;
 import java.io.File;
@@ -78,20 +79,26 @@ public class UserBlock extends BasePage{
     public UserBlock(WebDriver webDriver) {   super(webDriver);  }
 
     public boolean Userblock() throws InterruptedException, IOException {
-
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
+            Reporter.log("---------- Block/Unblock User Script ----------");
             clearAfterVisibilityOfElement(useridfield);
             useridfield.sendKeys(ConfigReader.getProperty("userblock1"));
             clickwhenready(ApplyBtn);
+            Reporter.log("Apply button clicked");
             Thread.sleep(4000);
             clickwhenready(UserRptChkBox1);
             UserRptChkBox1.isSelected();
             clickwhenready(BtnBlock);
+            Reporter.log("Block menu selected");
             Thread.sleep(2000);
             clickwhenready(BtnSubmit);
+            Reporter.log("Submit button clicked");
             Thread.sleep(2000);
             clickwhenready(Logoutlink);
+            Reporter.log("Logout link clicked");
             clickwhenready(Signout);
+            Reporter.log("Signout link clicked");
             clearAfterVisibilityOfElement(txtUserName);
             txtUserName.sendKeys(ConfigReader.getProperty("testblockuser1"));
             clearAfterVisibilityOfElement(txtPassword);
@@ -99,8 +106,10 @@ public class UserBlock extends BasePage{
             clearAfterVisibilityOfElement(txtOrganization);
             txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
             clickwhenready(btnLogin);
+            Reporter.log("Login button clicked");
             Thread.sleep(7000);
             if(AccountBlockMsg.isDisplayed()) {
+                Reporter.log("Account block message is displayed");
                 System.out.println(AccountBlockMsg);
                 clearAfterVisibilityOfElement(txtUserName);
                 txtUserName.sendKeys(ConfigReader.getProperty("userid"));
@@ -109,13 +118,15 @@ public class UserBlock extends BasePage{
                 clearAfterVisibilityOfElement(txtOrganization);
                 txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
                 clickwhenready(btnLogin);
+                Reporter.log("Login button clicked");
             }
             Thread.sleep(10000);
-            UserMenuNavigation usermenu = new UserMenuNavigation();
+            UserMenuNavigation usermenu = new UserMenuNavigation(webDriver);
             usermenu.UserMenu(webDriver);
             clearAfterVisibilityOfElement(useridfield);
             useridfield.sendKeys(ConfigReader.getProperty("userblock1"));
             clickwhenready(ApplyBtn);
+            Reporter.log("Apply button clicked");
             Thread.sleep(4000);
             clickwhenready(UserRptChkBox1);
             UserRptChkBox1.isSelected();
@@ -125,9 +136,12 @@ public class UserBlock extends BasePage{
             Select_UnblockUsers.isSelected();
             clickwhenready(Select_UnblockUsers);
             clickwhenready(BtnSubmit);
+            Reporter.log("Submit button clicked");
             Thread.sleep(5000);
             clickwhenready(Logoutlink);
+            Reporter.log("Logout link clicked");
             clickwhenready(Signout);
+            Reporter.log("Signout link clicked");
 
             clearAfterVisibilityOfElement(txtUserName);
             txtUserName.sendKeys(ConfigReader.getProperty("testblockuser1"));
@@ -136,10 +150,14 @@ public class UserBlock extends BasePage{
             clearAfterVisibilityOfElement(txtOrganization);
             txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
             clickwhenready(btnLogin);
+            Reporter.log("Login button clicked");
             Thread.sleep(10000);
             if(txtKnowledgebase.isDisplayed()) {
                 clickwhenready(Logoutlink);
+                Reporter.log("Logout link clicked");
                 clickwhenready(Signout);
+                Reporter.log("Signout link clicked");
+                Reporter.log("---------- End of Block/Unblock User Script ----------");
             }
             ScreenPrints(webDriver);
             return false;
@@ -148,6 +166,7 @@ public class UserBlock extends BasePage{
         {
             ScreenPrints(webDriver);
             e.printStackTrace();
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             return false;
         }
     }

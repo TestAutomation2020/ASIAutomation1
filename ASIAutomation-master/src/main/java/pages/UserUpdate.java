@@ -10,6 +10,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
 import util.ConfigReader;
 
 import java.io.IOException;
@@ -303,14 +304,16 @@ public class UserUpdate extends BasePage {
     }
 
     public boolean UpdateUser() throws IOException
-    {
+    {   String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try
         {
-            clearAfterVisibilityOfElement(txtUserid);
-            txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
-            clickwhenready(ApplyBtn);
-            Thread.sleep(3000);
-            clickwhenready(Userlink);
+           // clearAfterVisibilityOfElement(txtUserid);
+           // txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
+           // clickwhenready(ApplyBtn);
+           // Thread.sleep(3000);
+          //  clickwhenready(Userlink);
+            Reporter.log("---------- Update User Script ----------");
+            Reporter.log("Update user details started");
             Thread.sleep(5000);
             clearAfterVisibilityOfElement(txtPrefix);
             txtPrefix.sendKeys(ConfigReader.getProperty("prefix"));
@@ -477,24 +480,30 @@ public class UserUpdate extends BasePage {
             clearAfterVisibilityOfElement(txtRuleString);
             txtRuleString.sendKeys(ConfigReader.getProperty("rulestring"));
             clickwhenready(Userupdate);
+            Reporter.log("Update button clicked.");
             Thread.sleep(5000);
 
             if (UpdatedSuccessfully.isDisplayed())
             {
+                Reporter.log("Update successful message displayed");
                 Thread.sleep(3000);
                 clearAfterVisibilityOfElement(txtUserid);
                 //clickwhenready(txtUserid);
                 txtUserid.sendKeys(ConfigReader.getProperty("useridfilter"));
                 String ActualUser = ConfigReader.getProperty(("useridfilter"));
                 clickwhenready(ApplyBtn);
+                Reporter.log("Apply button clicked");
                 Thread.sleep(5000);
                 String NewlyUpdatedUser = Userlink.getText();
                 System.out.println(NewlyUpdatedUser);
                 //Assert.assertEquals(ActualUser,NewlyAddedUser);
                 if (ActualUser.equals(NewlyUpdatedUser))
                 {
+                    Reporter.log("User compare successful");
                     System.out.println(ActualUser);
                     clickwhenready(Userlink);
+                    Reporter.log("Username link clicked");
+                    Reporter.log("---------- End of Update User Script ----------");
                     Thread.sleep(5000);
                     return true;
                 }
@@ -509,6 +518,7 @@ public class UserUpdate extends BasePage {
             System.out.println("Selected user is not present");
             ScreenPrints(webDriver);
             e.printStackTrace();
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             return false;
         }
     }
