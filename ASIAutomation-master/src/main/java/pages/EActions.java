@@ -121,7 +121,7 @@ public class EActions {
         int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));
         Assert.assertTrue(searchResultCount > 0, "Searched Result count is 0.");
         Assert.assertTrue(searchResultPagination.isDisplayed(), "Pagination is not displayed on search result page.");
-       // Assert.assertEquals(postingName, lnkSearchedDocument.getText(), "Searched Posting is not displayed on search result page. ");
+
     }
    /* public static void highlighted(WebElement element)
     {

@@ -18,18 +18,18 @@ public class EnwUserNavigationTestCase extends Base{
 
         BasicNavigation Basicuser = new BasicNavigation(getDriver());
 
-       Basicuser.AskHR();
-       Basicuser.Favorite();
-       Basicuser.Print();
-
-        UserMenuNavigation usermenu = new UserMenuNavigation(getDriver());
-        usermenu.UserMenu(getDriver());
+        Basicuser.AskHR();
+        Basicuser.Favorite();
+        Basicuser.Print();
 
         Posting posting = new Posting(getDriver());
         posting.searchPosting(Constants.Searchtermforbasicuser);
 
         EActions eActions=new EActions(getDriver());
         eActions.validateSearchedPosting(Constants.Searchtermforbasicuser);
+
+        UserMenuNavigation usermenu = new UserMenuNavigation(getDriver());
+        usermenu.UserMenu(getDriver());
 
 
 
