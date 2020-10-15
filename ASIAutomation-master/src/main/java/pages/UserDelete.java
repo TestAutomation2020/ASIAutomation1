@@ -76,7 +76,7 @@ public class UserDelete extends BasePage {
     private WebElement Emptyresult;
 
 
-    public UserDelete(WebDriver webDriver) {
+    public UserDelete(WebDriver webDriver)  {
         super(webDriver);
     }
 

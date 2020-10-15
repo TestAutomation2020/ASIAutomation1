@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import org.testng.Assert;
 
-public class UserBlock extends BasePage{
+public class UserBlock extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//span[text()='User ID']")
     private WebElement txtUserID;

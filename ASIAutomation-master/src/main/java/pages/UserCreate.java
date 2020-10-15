@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserCreate extends BasePage{
+public class UserCreate extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//span[text()='Add New']")
     private WebElement AddNew;

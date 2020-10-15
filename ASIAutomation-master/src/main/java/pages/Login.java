@@ -27,10 +27,9 @@ public class Login extends BasePage
     @FindBy(how = How.XPATH, using = "//span[text()='Knowledgebase']")
     private WebElement txtKnowledgebase;
 
-    public Login(WebDriver webDriver) {
+    public Login(WebDriver webDriver)  {
         super(webDriver);
     }
-
 
     public void Loginpage(WebDriver webDriver) throws InterruptedException {
         PageFactory.initElements(webDriver, this);

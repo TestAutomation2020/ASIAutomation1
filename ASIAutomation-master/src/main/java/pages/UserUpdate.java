@@ -304,7 +304,7 @@ public class UserUpdate extends BasePage {
     }
 
     public boolean UpdateUser() throws IOException
-    {   String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+    {    String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try
         {
            // clearAfterVisibilityOfElement(txtUserid);

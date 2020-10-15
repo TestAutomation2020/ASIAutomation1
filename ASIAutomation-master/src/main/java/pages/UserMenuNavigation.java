@@ -36,7 +36,7 @@ public class UserMenuNavigation extends BasePage {
     }
 
     public boolean UserMenu(WebDriver webDriver) throws InterruptedException, IOException {
-        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             Reporter.log("---------- User menu navigation script ----------");
             Thread.sleep(5000);

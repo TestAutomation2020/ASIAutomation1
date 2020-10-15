@@ -18,7 +18,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-public class UserStartPage extends BasePage {
+public class UserStartPage extends BasePage  {
 
     @FindBy(how = How.XPATH, using = "//span[text()='Add New']")
     private WebElement AddNew;
