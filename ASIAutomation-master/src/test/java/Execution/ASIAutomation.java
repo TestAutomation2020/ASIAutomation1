@@ -17,22 +17,25 @@ public class ASIAutomation extends Base {
         UserMenuNavigation usermenu = new UserMenuNavigation(getDriver());
         usermenu.UserMenu(getDriver());
 
-    //    UserCreate ucreate = new UserCreate(getDriver());
-    //    ucreate.UserAdd();
+        UserCreate ucreate = new UserCreate(getDriver());
+        ucreate.UserAdd();
 
-     //  UserUpdate uupdate = new UserUpdate(getDriver());
-     //   uupdate.UpdateUser();
+        UserUpdate uupdate = new UserUpdate(getDriver());
+        uupdate.UpdateUser();
 
-     //   UserDelete udelete = new UserDelete(getDriver());
-     //   udelete.DeleteUser();
+        UserDelete udelete = new UserDelete(getDriver());
+        udelete.DeleteUser();
 
         UserBlock ublock = new UserBlock(getDriver());
         ublock.Userblock();
 
-    //    UserStartPage ustartpage = new UserStartPage(getDriver());
-    //    ustartpage.UStartPage();
+        UserStartPage ustartpage = new UserStartPage(getDriver());
+        ustartpage.UStartPage();
 
-     //   MobileProfile mprofile = new MobileProfile(getDriver());
+        //    BasicNavigationTestCase basicn = new BasicNavigationTestCase();
+        //    basicn.Searchandvalidatebuttons();
+
+    //    MobileProfile mprofile = new MobileProfile(getDriver());
     //    mprofile.createmobileprofile();
 
     }
