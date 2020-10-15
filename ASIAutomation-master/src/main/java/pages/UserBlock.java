@@ -13,9 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import org.testng.Assert;
 
-import static java.sql.DriverManager.getDriver;
-
-public class UserBlock extends BasePage{
+public class UserBlock extends BasePage {
 
     @FindBy(how = How.XPATH, using = "//span[text()='User ID']")
     private WebElement txtUserID;
@@ -113,8 +111,8 @@ public class UserBlock extends BasePage{
                 clickwhenready(btnLogin);
             }
             Thread.sleep(10000);
-            //UserMenuNavigation usermenu = new UserMenuNavigation(getDriver());
-            //usermenu.UserMenu(getDriver());
+            UserMenuNavigation usermenu = new UserMenuNavigation();
+            usermenu.UserMenu(webDriver);
             clearAfterVisibilityOfElement(useridfield);
             useridfield.sendKeys(ConfigReader.getProperty("userblock1"));
             clickwhenready(ApplyBtn);

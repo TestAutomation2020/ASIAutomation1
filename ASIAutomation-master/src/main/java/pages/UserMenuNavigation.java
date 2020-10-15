@@ -9,7 +9,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
 import util.ConfigReader;
+
+import java.io.IOException;
 
 public class UserMenuNavigation extends BasePage {
 
@@ -32,21 +35,34 @@ public class UserMenuNavigation extends BasePage {
         super(webDriver);
     }
 
-    public void UserMenu(WebDriver webDriver) throws InterruptedException {
-        PageFactory.initElements(webDriver, this);
-
-        WebDriverWait wait = new WebDriverWait(webDriver, 10);
-        txtKnowledgebase.isDisplayed();
-        txtKnowledgebase.click();
-        txtAdministration.isDisplayed();
-        txtAdministration.click();
-        txtKnowledgebaseAdmin.isDisplayed();
-        txtKnowledgebaseAdmin.click();
-        Thread.sleep(5000);
-        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Users']")));
-        txtUsers.click();
-        Thread.sleep(5000);
-        txtUserID.isDisplayed();
-
+    public boolean UserMenu(WebDriver webDriver) throws InterruptedException, IOException {
+         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            Reporter.log("---------- User menu navigation script ----------");
+            Thread.sleep(5000);
+            clickwhenready(txtKnowledgebase);
+            Reporter.log("Knowledgebase menu link clicked");
+            clickwhenready(txtAdministration);
+            Reporter.log("Administration menu clicked");
+            clickwhenready(txtKnowledgebaseAdmin);
+            Reporter.log("Knowledgebase Admin menu clicked");
+            Thread.sleep(5000);
+            WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//span[text()='Users']")));
+            txtUsers.click();
+            Reporter.log("User menu clicked");
+            Thread.sleep(5000);
+            txtUserID.isDisplayed();
+            Reporter.log("UserID text is displayed");
+            Reporter.log("---------- End of User menu navigation script ----------");
+            ScreenPrints(webDriver);
+            return false;
+        }
+        catch (Exception e)
+        {
+            ScreenPrints(webDriver);
+            e.printStackTrace();
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            return false;
+        }
     }
 }
