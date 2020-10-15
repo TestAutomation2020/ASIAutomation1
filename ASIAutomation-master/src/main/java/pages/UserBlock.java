@@ -111,8 +111,8 @@ public class UserBlock extends BasePage {
                 clickwhenready(btnLogin);
             }
             Thread.sleep(10000);
-            UserMenuNavigation usermenu = new UserMenuNavigation();
-            usermenu.UserMenu(webDriver);
+            //UserMenuNavigation usermenu = new UserMenuNavigation(getDriver());
+           // usermenu.UserMenu(getDriver());
             clearAfterVisibilityOfElement(useridfield);
             useridfield.sendKeys(ConfigReader.getProperty("userblock1"));
             clickwhenready(ApplyBtn);

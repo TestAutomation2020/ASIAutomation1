@@ -7,6 +7,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
 import util.ConfigReader;
 import util.ScreenPrints;
 
@@ -69,6 +70,7 @@ public class MobileProfile extends EActions {
 
 
     public void createmobileprofile(String Name, int pin, String Email) throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             //Click on Add Mobile profile link
             clickwhenready(AddMobileProfilelink);
@@ -77,15 +79,18 @@ public class MobileProfile extends EActions {
             EnterText(PinTxtboxonaddmobileform, ConfigReader.getProperty("pin"));
             EnterText(EmailTxtboxonaddmobileform, ConfigReader.getProperty("email"));
             clickwhenready(Addbuttononmobileform);
+            Reporter.log("Mobile Profile user is added as expected");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
+            Reporter.log(nameOfCurrMethod +ex.toString());
         }
 
     }
 
     //Select user from list on home page widget
-    public boolean searchnewmobileprofile(String Name) throws IOException {
+    public void searchnewmobileprofile(String Name) throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
 
         try {
            waitForLoadingIconToBeDisappeared();
@@ -94,6 +99,7 @@ public class MobileProfile extends EActions {
             WebElement Element = webDriver.findElement(By.xpath("//a[@href='#'][contains(.,'mobile')]"));
             js.executeScript("arguments[0].scrollIntoView();", Element);
             System.out.println("Add Mobile Profile link clicked !!!");
+            Reporter.log("Add Mobile Profile link clicked as expected");
             Thread.sleep(5000);
             //Click on Add Mobile profile link
             Element.click();
@@ -104,15 +110,18 @@ public class MobileProfile extends EActions {
             String copylink= clipboardlink.getText();
             System.out.println(copylink);
             System.out.println("Mobile link is copied successfully");
+            Reporter.log("Mobile link is copied successfully");
             String mobilelink = clipboardlink.getText();
             System.out.println(mobilelink);
 
             webDriver.navigate().to(mobilelink);
             WebDriverWait wait = new WebDriverWait(webDriver,220);
             System.out.println("Mobile user link is opened");
+            Reporter.log("Mobile link is copied successfully");
 
             IsElementExists(Logoforpinscreen);
             System.out.println("Logo of Mobile screen is displayed as expected");
+            Reporter.log("Logo of Mobile screen is displayed as expected");
             clickwhenready(Buttonpin1);
             clickwhenready(Buttonpin2);
             clickwhenready(Buttonpin3);
@@ -120,15 +129,16 @@ public class MobileProfile extends EActions {
             Thread.sleep(2000);
             ScreenPrints(webDriver);
             clickwhenready(Buttonpinok);
+            Reporter.log("Mobile user login screen is displayed as expected");
             Thread.sleep(2000);
             ScreenPrints(webDriver);
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
+            Reporter.log(nameOfCurrMethod +ex.toString());
         }
 
-        return false;
     }
 
 }

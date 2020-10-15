@@ -13,7 +13,7 @@ public class PostingTestCase extends Base {
     @Test(priority = 0)
     private void navigateToPostingMenu() throws InterruptedException {
         try {
-            Login login = new Login();
+            Login login = new Login(getDriver());
             login.LaunchApplication(getDriver());
             login.Loginpage(getDriver());
 
