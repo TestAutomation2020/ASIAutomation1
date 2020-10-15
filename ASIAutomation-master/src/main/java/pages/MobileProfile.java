@@ -1,12 +1,12 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import util.ConfigReader;
-import util.Constants;
 import util.ScreenPrints;
 
 import javax.swing.*;
@@ -23,13 +23,11 @@ public class MobileProfile extends EActions {
     //Mobile profile form
     @FindBy(how = How.XPATH, using = "//*[@class='cls-text' and text()='Add Mobile Profile']")
     private WebElement AddMobileProfileText;
-    @FindBy(how = How.XPATH, using = "//input[@name='name']")
-    //input[@name='name']
-    //*[@data-ref='inputEl' and @name='name']
+    @FindBy(how = How.XPATH, using = "//*[@name='name']")
     private WebElement NameTxtboxonaddmobileform;
-    @FindBy(how = How.XPATH, using = "//*[@data-ref='inputEl' and @name='pin']")
+    @FindBy(how = How.XPATH, using = "//*[@name='pin']")
     private WebElement PinTxtboxonaddmobileform;
-    @FindBy(how = How.XPATH, using = "//*[@data-ref='inputEl' and @name='emailaddress']")
+    @FindBy(how = How.XPATH, using = "//*[@name='emailaddress']")
     private WebElement EmailTxtboxonaddmobileform;
     @FindBy(how = How.XPATH, using = "//*[@data-ref='btnInnerEl' and text()='Add']")
     private WebElement Addbuttononmobileform;
@@ -37,15 +35,18 @@ public class MobileProfile extends EActions {
     private WebElement NoteonMobileForm;
 
     //Click on mobile user created
-    @FindBy(how = How.XPATH, using = "//div[@class='x-grid-cell-inner ']/a")
+    @FindBy(how = How.XPATH, using = "//a[@href='#'][contains(.,'aasmobile')]")
     private WebElement Linkofmobileuserscreated;
 
-    @FindBy(how = How.XPATH, using = "//*[@data-ref='textEl' and text()='Edit Mobile Profile']")
-    private WebElement Labelonmobileprofileform;
+    @FindBy(how = How.XPATH, using = "//iframe[@class='x-component x-fit-item x-component-default']")
+    private WebElement MobileFrame;
 
-    @FindBy(how = How.XPATH, using = "//*[@data-ref='btnInnerEl' and text()='Copy to Clipboard']")
-    private WebElement Copylinkbtn;
-    @FindBy(how = How.XPATH, using = "//*[@id=\"hcm-button-1502-btnEl\"]")
+    @FindBy(how = How.XPATH, using = "//span[@data-ref='textEl'][contains(.,'Edit Mobile Profile')]")
+    private WebElement EditMobileProfile;
+
+    @FindBy(how = How.XPATH, using = "//div[@data-ref='inputEl'][contains(.,'https://uat.enwisen.com/asi/mobile/index.html')]")
+    private WebElement clipboardlink;
+    @FindBy(how = How.XPATH, using = "//div[@class='x-window x-layer x-window-default x-border-box x-resizable x-window-resizable x-window-default-resizable']//span[contains(@class,'x-btn-button x-btn-button-default-toolbar-small  x-btn-no-text x-btn-icon x-btn-icon-left x-btn-button-center ')]")
     private WebElement Closeform;
     @FindBy(how = How.XPATH, using = "//div[@id='PinCodeLogo']//img[@src='resources/img/logo.png'][1]")
     private WebElement Logoforpinscreen;
@@ -68,34 +69,13 @@ public class MobileProfile extends EActions {
 
     public void createmobileprofile(String Name, int pin, String Email) throws IOException {
         try {
-            waitForLoadingIconToBeDisappeared();
-            waitForLoadingIconToBeDisappeared();
+            //Click on Add Mobile profile link
             clickwhenready(AddMobileProfilelink);
             IsElementExists(AddMobileProfileText);
-            System.out.println("Add mobile form is open as expected");
-            wait(2000);
-             //NameTxtboxonaddmobileform.clear();
-           /* EnterText(NameTxtboxonaddmobileform, Constants.MobileUser);
-            EnterText(PinTxtboxonaddmobileform, String.valueOf(Constants.mobilepin));
-            EnterText(EmailTxtboxonaddmobileform, Constants.mobileEmail);
-            clickwhenready(Addbuttononmobileform);*/
-
-            /*EnterText(NameTxtboxonaddmobileform, ConfigReader.getProperty("Mobileuser"));
+            EnterText(NameTxtboxonaddmobileform, ConfigReader.getProperty("mobileuser"));
             EnterText(PinTxtboxonaddmobileform, ConfigReader.getProperty("pin"));
             EnterText(EmailTxtboxonaddmobileform, ConfigReader.getProperty("email"));
-            clickwhenready(Addbuttononmobileform);*/
-            String tedt= NameTxtboxonaddmobileform.getText();
-            System.out.println("Name is displayed:"+tedt);
-
-            NameTxtboxonaddmobileform.sendKeys("samne");
-
-            /*NameTxtboxonaddmobileform.sendKeys(Constants.MobileUser);
-            PinTxtboxonaddmobileform.sendKeys("1234");
-            EmailTxtboxonaddmobileform.sendKeys(Constants.mobileEmail);*/
-
-
-            System.out.println("Mobile Profile created successfully");
-
+            clickwhenready(Addbuttononmobileform);
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
@@ -104,31 +84,41 @@ public class MobileProfile extends EActions {
     }
 
     //Select user from list on home page widget
-    public void searchnewmobileprofile(String Name) throws IOException {
+    public boolean searchnewmobileprofile(String Name) throws IOException {
 
         try {
-            waitForLoadingIconToBeDisappeared();
-            IsElementExists(Linkofmobileuserscreated);
-            List<WebElement> Listofmobileusers = webDriver.findElements(By.xpath("//div[@class='x-grid-cell-inner ']/a"));
-            for (WebElement mobileuser : Listofmobileusers) {
-                String mouser = mobileuser.getText();
-                if (mobileuser.getText().equalsIgnoreCase(ConfigReader.getProperty("userid"))) {
-                    mobileuser.click();
-                    break;
-                } else {
-                    System.out.println("Mobile user not found");
-                    ScreenPrints(webDriver);
-                }
-            }
-            waitForLoadingIconToBeDisappeared();
-            IsElementExists(Labelonmobileprofileform);
-            clickwhenready(Copylinkbtn);
-            String mobilelink = Copylinkbtn.getText();
+           waitForLoadingIconToBeDisappeared();
+            Thread.sleep(5000);
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            WebElement Element = webDriver.findElement(By.xpath("//a[@href='#'][contains(.,'mobile')]"));
+            js.executeScript("arguments[0].scrollIntoView();", Element);
+            System.out.println("Add Mobile Profile link clicked !!!");
+            Thread.sleep(5000);
+//Click on Add Mobile profile link
+            Element.click();
+            Thread.sleep(10000);
+            String abc = EditMobileProfile.getText();
+            System.out.println(abc);
+           // clipboardlink.click();
+            String copylink= clipboardlink.getText();
+            System.out.println(copylink);
+
+
+            wait(5000);
+            webDriver.switchTo().frame(MobileFrame);
+            Thread.sleep(3000);
+           /* Labelonmobileprofileform.isDisplayed();
+            String label=Labelonmobileprofileform.getText();
+            System.out.println("Mobile Edit form is displayed as expected"+label);
+*/
+
+            System.out.println("Mobile link is copied successfully");
+            String mobilelink = clipboardlink.getText();
+            System.out.println(mobilelink);
 
             //To check mobile screen login
-            openDuplicateTab();
-            switchAnotherTab();
             webDriver.navigate().to(mobilelink);
+            System.out.println("Mobile user link is opened");
             IsElementExists(Logoforpinscreen);
             clickwhenready(Buttonpin1);
             clickwhenready(Buttonpin2);
@@ -137,14 +127,15 @@ public class MobileProfile extends EActions {
             clickwhenready(Buttonpinok);
             waitForLoadingIconToBeDisappeared();
             waitForLoadingIconToBeDisappeared();
-            System.out.println("Mobile login successful");
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
         }
 
+        return false;
     }
+
 }
 
 
