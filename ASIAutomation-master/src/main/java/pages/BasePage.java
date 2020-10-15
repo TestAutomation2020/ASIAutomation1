@@ -53,7 +53,7 @@ public class BasePage  {
         wait.until(ExpectedConditions.invisibilityOf(loading));
     }
 
-    public void navigateToKbAdmin() {
+    public void navigateToKbAdmin() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(lnkKnowledgebase);
@@ -61,11 +61,12 @@ public class BasePage  {
             clickAfterVisibilityOfElement(lnkKnowledgebaseAdmin);
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void navigateToKbAnalytics() {
+    public void navigateToKbAnalytics() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(lnkKnowledgebase);
@@ -73,11 +74,12 @@ public class BasePage  {
             clickAfterVisibilityOfElement(lnkKnowledgebaseAnalytics);
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void switchAnotherTab() {
+    public void switchAnotherTab() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             Set<String> handles = webDriver.getWindowHandles();
@@ -89,11 +91,12 @@ public class BasePage  {
             Reporter.log("Switch to another tab successfully");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void navigateDefaultTab() {
+    public void navigateDefaultTab() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             webDriver.switchTo().window(currentTab);
@@ -101,11 +104,12 @@ public class BasePage  {
             Reporter.log("Navigate to main tab Successfully");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void openDuplicateTab() {
+    public void openDuplicateTab() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             currentTab = webDriver.getWindowHandle();
@@ -116,6 +120,7 @@ public class BasePage  {
             Reporter.log("Duplicate Tab open successfully");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
 

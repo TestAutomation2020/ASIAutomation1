@@ -6,4 +6,24 @@
             <class name="Execution.PostingTestCase"/>
         </classes>
     </test>
+    <test name="Posting">
+        <classes>
+            <class name="Execution.PostingTestCase"/>
+        </classes>
+    </test>
+    <test name="BasicNavigation">
+        <classes>
+            <class name="Execution.BasicNavigationTestCase"/>
+        </classes>
+    </test>
+    <test name="MobileProfile">
+        <classes>
+            <class name="Execution.MobileTestCase"/>
+        </classes>
+    </test>
+    <test name="Enwuservavigation">
+        <classes>
+            <class name="Execution.EnwUserNavigationTestCase"/>
+        </classes>
+    </test>
 </suite>

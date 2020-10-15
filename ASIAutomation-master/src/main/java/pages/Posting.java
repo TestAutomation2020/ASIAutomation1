@@ -110,7 +110,7 @@ public class Posting extends BasePage {
         super(webDriver);
     }
 
-    public void navigateToPostingMenu() {
+    public void navigateToPostingMenu() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(postingsMenu);
@@ -119,24 +119,26 @@ public class Posting extends BasePage {
             Reporter.log("Posting screen opened.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
 
     }
 
-    public void validatePostingScreen() {
+    public void validatePostingScreen() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             Assert.assertEquals(validatePosting.getText(), "Postings", "Posting screen is not opened.");
             Reporter.log("Validated Posting screen");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
 
     }
 
-    public void addMessagePosting() {
+    public void addMessagePosting() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(btnAddNew);
@@ -159,12 +161,13 @@ public class Posting extends BasePage {
             Reporter.log("Save button clicked.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
 
     }
 
-    public void addLinkPosting() {
+    public void addLinkPosting() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(btnAddNew);
@@ -187,6 +190,7 @@ public class Posting extends BasePage {
             Reporter.log("Save button clicked.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
 
@@ -215,13 +219,14 @@ public class Posting extends BasePage {
             Reporter.log("Save button clicked.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
 
     }
 
 
-    public void searchPosting(String postingName) {
+    public void searchPosting(String postingName) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clearAfterVisibilityOfElement(txtSearchbar);
@@ -233,11 +238,12 @@ public class Posting extends BasePage {
             Reporter.log("Enter button clicked.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void validateSearchedPosting(String postingName) {
+    public void validateSearchedPosting(String postingName) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             String txtAllResult = labelAllResults.getText();
@@ -252,22 +258,24 @@ public class Posting extends BasePage {
             Reporter.log("Searched Posting Present on Search result page.");
         } catch (NumberFormatException e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void openSearchedPosting() {
+    public void openSearchedPosting() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(lnkSearchedDocument);
             Reporter.log("Searched Posting able to open.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void filterPosting(String postingName) throws InterruptedException {
+    public void filterPosting(String postingName) throws InterruptedException, IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             wait.until(ExpectedConditions.visibilityOf(txtTitleFilter));
@@ -282,11 +290,12 @@ public class Posting extends BasePage {
             Reporter.log("Filtered Posting present in grid.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void updatePosting() {
+    public void updatePosting() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(lnkPostingGrid);
@@ -300,11 +309,12 @@ public class Posting extends BasePage {
             Reporter.log("Clicked on Update button.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void deletePosting() {
+    public void deletePosting() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(checkboxPostingGrid);
@@ -316,42 +326,46 @@ public class Posting extends BasePage {
             validatePostingDeleted();
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }
 
-    public void validatePostingAdded() {
+    public void validatePostingAdded() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             Assert.assertEquals(notificationAddedSuccessfully.getText(), "Added Successfully", "Posting is not added successfully.");
             Reporter.log("Posting added successfully.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
 
 
     }
 
-    public void validatePostingUpdated() {
+    public void validatePostingUpdated() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             Assert.assertEquals(notificationUpdatedSuccessfully.getText(), "Updated Successfully", "Posting is not Updated successfully.");
             Reporter.log("Posting updated successfully.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
 
     }
 
-    public void validatePostingDeleted() {
+    public void validatePostingDeleted() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             Assert.assertEquals(notificationDeletedSuccessfully.getText(), "Deleted Successfully", "Posting is not delete successfully.");
             Reporter.log("Posting deleted successfully.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
             throw e;
         }
     }

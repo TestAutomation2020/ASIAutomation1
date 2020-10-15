@@ -9,7 +9,7 @@ import java.io.IOException;
 public class BasicNavigationTestCase extends Base{
     @Test(priority = 0)
     private void navigateToHomePage() throws InterruptedException {
-        Login login = new Login();
+        Login login = new Login(getDriver());
         login.LaunchApplication(getDriver());
         login.LoginBasicuser(getDriver());
     }
@@ -18,17 +18,14 @@ public class BasicNavigationTestCase extends Base{
     private void Searchandvalidatebuttons() throws InterruptedException, IOException {
 
         BasicNavigation Basicuser = new BasicNavigation(getDriver());
-       // Basicuser.AskHR();
-       // Basicuser.Favorite();
-        Basicuser.Print();
-
-       /* BasePage basePage = new BasePage(getDriver());
-        basePage.openDuplicateTab();
-        basePage.switchAnotherTab();*/
+        Basicuser.AskHR();
+        Basicuser.Favorite();
 
         Posting posting = new Posting(getDriver());
         posting.searchPosting(Constants.Searchtermforbasicuser);
-        posting.validateSearchedPosting(Constants.Searchtermforbasicuser);
+
+        EActions eActions=new EActions(getDriver());
+        eActions.validateSearchedPosting(Constants.Searchtermforbasicuser);
 
     }
 

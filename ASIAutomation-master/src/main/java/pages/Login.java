@@ -40,12 +40,12 @@ public class Login extends BasePage
         Thread.sleep(7000);
         txtKnowledgebase.isDisplayed();
     }
-    public void LaunchApplication(WebDriver driver){
-        driver.get(ConfigReader.getProperty("url"));
-        WebDriverWait wait = new WebDriverWait(driver,220);
+    public void LaunchApplication(WebDriver webDriver){
+        webDriver.get(ConfigReader.getProperty("url"));
+        WebDriverWait wait = new WebDriverWait(webDriver,220);
     }
-    public void LoginBasicuser(WebDriver driver) throws InterruptedException {
-        PageFactory.initElements(driver, this);
+    public void LoginBasicuser(WebDriver webDriver) throws InterruptedException {
+        PageFactory.initElements(webDriver, this);
         txtUserName.sendKeys(ConfigReader.getProperty("basicuser"));
         txtPassword.sendKeys(ConfigReader.getProperty("basicpassword"));
         txtOrganization.sendKeys(ConfigReader.getProperty("organization"));

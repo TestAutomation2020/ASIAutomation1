@@ -9,7 +9,7 @@ import java.io.IOException;
 public class EnwUserNavigationTestCase extends Base{
     @Test(priority = 0)
     private void navigateToHomePage() throws InterruptedException {
-        Login login = new Login();
+        Login login = new Login(getDriver());
         login.LaunchApplication(getDriver());
         login.Loginpage(getDriver());
     }
@@ -18,20 +18,18 @@ public class EnwUserNavigationTestCase extends Base{
 
         BasicNavigation Basicuser = new BasicNavigation(getDriver());
 
-       // Basicuser.AskHR();
-        //Basicuser.Favorite();
-        //Basicuser.Print();
+       Basicuser.AskHR();
+       Basicuser.Favorite();
+       Basicuser.Print();
+
+        UserMenuNavigation usermenu = new UserMenuNavigation(getDriver());
+        usermenu.UserMenu(getDriver());
 
         Posting posting = new Posting(getDriver());
         posting.searchPosting(Constants.Searchtermforbasicuser);
 
         EActions eActions=new EActions(getDriver());
         eActions.validateSearchedPosting(Constants.Searchtermforbasicuser);
-
-        UserMenuNavigation usermenu = new UserMenuNavigation();
-        usermenu.UserMenu(getDriver());
-        wait(2000);
-
 
 
 

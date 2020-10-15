@@ -8,6 +8,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.PageFactory;
 import org.testng.Assert;
+import org.testng.Reporter;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -72,53 +73,65 @@ public class BasicNavigation extends BasePage {
     }
 
     public void AskHR() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             waitForLoadingIconToBeDisappeared();
             AskHRIconbtn.isDisplayed();
             System.out.println("Ask HR Button  is displayed");
+            Reporter.log("Ask HR Button  is displayed");
             AskHRIconbtn.click();
             waitForLoadingIconToBeDisappeared();
             Assert.assertTrue(AskHRlabelonform.isDisplayed(), "AskHR label on form is displayed on click of ASK HR button.");
             Assert.assertTrue(AskHRLabelonAskHRform.isDisplayed(),"Ask HR Instructions are displayed");
             System.out.println("Ask HR form is open successfully");
+            Reporter.log("Ask HR Form is displayed as Expected");
             waitForLoadingIconToBeDisappeared();
             ScreenPrints(webDriver);
             AskHRCloseform.click();
             System.out.println("Ask HR form is closed successfully");
+            Reporter.log("Ask HR Form is displayed as Expected");
         }
         catch (Exception ex)
         {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
+            Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
         }
     }
 
     public void Favorite() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try{
         waitForLoadingIconToBeDisappeared();
         clickAfterVisibilityOfElement(Favoritesbtn);
         System.out.println("Favorite Button is displayed");
+        Reporter.log("Favorite Button is displayed as Expected");
         waitForLoadingIconToBeDisappeared();
         Assert.assertTrue(SavebuttoninFavoriteform.isDisplayed(), "Save button in Favorite form is displayed.");
         System.out.println("Favorites button functionality is as expected");
+        Reporter.log("Favorites button functionality is as expected");
         ScreenPrints(webDriver);
     }
         catch (Exception ex)
         {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
+            Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
         }
     }
 
     public void Print() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try{
         waitForLoadingIconToBeDisappeared();
             Printbtn.click();
+            Reporter.log("Print button functionality is as expected");
             Thread.sleep(5000);
             webDriver.switchTo().frame(PrintScreenFrame);
             Thread.sleep(3000);
             String abc = PrintPageCode.getText();
             System.out.println(abc);
+            Reporter.log("Print Page Code is displayed as expected");
             PrintIcon.click();
             Thread.sleep(5000);
             ArrayList<String> tabs = new ArrayList<String>(webDriver.getWindowHandles());
@@ -126,16 +139,19 @@ public class BasicNavigation extends BasePage {
             webDriver.close();
             webDriver.switchTo().window(tabs.get(0));
             Thread.sleep(5000);
+            Reporter.log("Print Functionality is working as expected");
             webDriver.switchTo().defaultContent();
             CloseBtn.click();
             Thread.sleep(5000);
-            System.out.println("Print Button functionality is as expected");
+            System.out.println("Print form is closed as expected");
+            Reporter.log("Print form is closed as expected");
         ScreenPrints(webDriver);
 
     }catch (Exception ex)
         {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
+            Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
         }
     }
 
@@ -143,35 +159,43 @@ public class BasicNavigation extends BasePage {
 
 
     public void SearchForBasicUser() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try{
 
         waitForLoadingIconToBeDisappeared();
         Searchtxtbox.isDisplayed();
         System.out.println("Search text box is displayed");
+        Reporter.log("Search text box is displayed");
         clearAfterVisibilityOfElement(Searchtxtbox);
         waitForLoadingIconToBeDisappeared();
         Searchtxtbox.sendKeys("Health");
         Searchtxtbox.sendKeys(Keys.ENTER);
         System.out.println("Basic user is searched successfully");
+        Reporter.log("Basic user is searched successfully");
 
     }
         catch (Exception ex)
         {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
+            Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
         }
     }
 
     public void validateSearchedPosting(String postingName) throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+
         try {
             String txtAllResult = labelAllResults.getText();
             int searchResultCount = Integer.parseInt(StringUtils.substringBetween(txtAllResult, "(", ")"));
             Assert.assertTrue(searchResultCount > 0, "Searched Result count is 0.");
             Assert.assertTrue(searchResultPagination.isDisplayed(), "Pagination is displayed on search result page.");
             Assert.assertEquals(postingName, lnkSearchedDocument.getText(), "Searched Posting is displayed on search result page. ");
+            Reporter.log("Search field is validated as expected");
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
+            Reporter.log(nameOfCurrMethod +ex.getMessage());
         }
     }
 
