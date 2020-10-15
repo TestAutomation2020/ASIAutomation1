@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Mail {
-
+    private static final String USERNAME = System.getenv("EMAIL_USERNAME");
+    private static final String PASSWORD = System.getenv("EMAIL_PASSWORD");
     public static void sendEmail() {
 
         try {
-            final String username = System.getenv("EMAIL_USERNAME");
-            final String password = System.getenv("EMAIL_PASSWORD");
+
 
             Properties props = new Properties();
             props.put("mail.smtp.auth", true);
@@ -29,7 +29,7 @@ public class Mail {
             Session session = Session.getInstance(props,
                     new Authenticator() {
                         protected PasswordAuthentication getPasswordAuthentication() {
-                            return new PasswordAuthentication(username, password);
+                            return new PasswordAuthentication(USERNAME, PASSWORD);
                         }
                     });
 

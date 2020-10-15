@@ -11,7 +11,7 @@ import java.io.IOException;
 public class PostingTestCase extends Base {
 
     @Test(priority = 0)
-    private void navigateToPostingMenu() throws InterruptedException {
+    private void navigateToPostingMenu() throws InterruptedException, IOException {
         try {
             Login login = new Login(getDriver());
             login.LaunchApplication(getDriver());
