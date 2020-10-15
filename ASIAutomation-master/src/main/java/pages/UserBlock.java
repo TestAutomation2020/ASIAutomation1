@@ -8,7 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ConfigReader;
-import util.ScreenPrints;
+
 import java.io.File;
 import java.io.IOException;
 import org.testng.Assert;

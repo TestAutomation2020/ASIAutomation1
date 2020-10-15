@@ -9,7 +9,7 @@ import org.openqa.selenium.support.How;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 import util.ConfigReader;
-import util.ScreenPrints;
+
 
 import javax.swing.*;
 import java.io.IOException;

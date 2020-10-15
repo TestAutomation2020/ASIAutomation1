@@ -34,9 +34,11 @@ public class Mail {
                     });
 
             try {
-                Address[] addresses = new InternetAddress[2];
+                Address[] addresses = new InternetAddress[4];
                 addresses[0] = new InternetAddress("riddhi.kalolia@harbingergroup.com");
                 addresses[1] = new InternetAddress("riddhi.kalolia@infor.com");
+                addresses[2] = new InternetAddress("Imran.Shaikh@infor.com");
+                addresses[3] = new InternetAddress("smita.Mane@infor.com");
 
                 Message message = new MimeMessage(session);
                 message.setFrom(new InternetAddress("riddhi.kalolia@harbingergroup.com"));
