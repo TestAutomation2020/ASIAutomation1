@@ -6,6 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ConfigReader;
 import util.ScreenPrints;
 
@@ -94,39 +95,33 @@ public class MobileProfile extends EActions {
             js.executeScript("arguments[0].scrollIntoView();", Element);
             System.out.println("Add Mobile Profile link clicked !!!");
             Thread.sleep(5000);
-//Click on Add Mobile profile link
+            //Click on Add Mobile profile link
             Element.click();
             Thread.sleep(10000);
             String abc = EditMobileProfile.getText();
             System.out.println(abc);
-           // clipboardlink.click();
+           //Copy Link
             String copylink= clipboardlink.getText();
             System.out.println(copylink);
-
-
-            wait(5000);
-            webDriver.switchTo().frame(MobileFrame);
-            Thread.sleep(3000);
-           /* Labelonmobileprofileform.isDisplayed();
-            String label=Labelonmobileprofileform.getText();
-            System.out.println("Mobile Edit form is displayed as expected"+label);
-*/
-
             System.out.println("Mobile link is copied successfully");
             String mobilelink = clipboardlink.getText();
             System.out.println(mobilelink);
 
-            //To check mobile screen login
             webDriver.navigate().to(mobilelink);
+            WebDriverWait wait = new WebDriverWait(webDriver,220);
             System.out.println("Mobile user link is opened");
+
             IsElementExists(Logoforpinscreen);
+            System.out.println("Logo of Mobile screen is displayed as expected");
             clickwhenready(Buttonpin1);
             clickwhenready(Buttonpin2);
             clickwhenready(Buttonpin3);
             clickwhenready(Buttonpin4);
+            Thread.sleep(2000);
+            ScreenPrints(webDriver);
             clickwhenready(Buttonpinok);
-            waitForLoadingIconToBeDisappeared();
-            waitForLoadingIconToBeDisappeared();
+            Thread.sleep(2000);
+            ScreenPrints(webDriver);
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
