@@ -46,9 +46,12 @@ public class Login extends BasePage
     }
     public void LoginBasicuser(WebDriver webDriver) throws InterruptedException {
         PageFactory.initElements(webDriver, this);
+
         txtUserName.sendKeys(ConfigReader.getProperty("basicuser"));
         txtPassword.sendKeys(ConfigReader.getProperty("basicpassword"));
-        txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
+       // wait(100);
+       // txtOrganization.clear();
+       // txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
         btnLogin.click();
         Thread.sleep(7000);
         txtKnowledgebase.isDisplayed();

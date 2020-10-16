@@ -1,27 +1,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Smoke suite">
+<suite name="Smoke suite" parallel="tests">
 
     <test name="Posting">
         <classes>
             <class name="Execution.PostingTestCase"/>
         </classes>
     </test>
-    <test name="Posting">
+    <test name="ASIAutomation">
         <classes>
-            <class name="Execution.PostingTestCase"/>
+            <class name="Execution.ASIAutomation"/>
         </classes>
     </test>
-    <test name="BasicNavigation">
-        <classes>
-            <class name="Execution.BasicNavigationTestCase"/>
-        </classes>
-    </test>
-    <test name="MobileProfile">
-        <classes>
-            <class name="Execution.MobileTestCase"/>
-        </classes>
-    </test>
-    <test name="Enwuservavigation">
+    <test name="EnwuserNavigation">
         <classes>
             <class name="Execution.EnwUserNavigationTestCase"/>
         </classes>

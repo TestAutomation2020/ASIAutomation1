@@ -32,6 +32,8 @@ public class EActions {
     private WebElement lnkSearchedDocument;
     @FindBy(xpath = "//a[@class='x-btn list-page-arrow list-page-prev x-unselectable x-box-item x-toolbar-item x-btn-plain-toolbar-small x-btn-no-text x-item-disabled x-btn-disabled']")
     private WebElement searchResultPagination;
+    @FindBy(xpath = "//span[@class='x-btn-inner x-btn-inner-plain-toolbar-small' and text()='Home']")
+    private WebElement HomeLink;
 
     public EActions(WebDriver webDriver) {
         PageFactory.initElements(new AjaxElementLocatorFactory(webDriver, 10), this);
@@ -123,6 +125,13 @@ public class EActions {
         Assert.assertTrue(searchResultPagination.isDisplayed(), "Pagination is not displayed on search result page.");
 
     }
+    public void HomeLink()
+    {
+        HomeLink.click();
+        waitForLoadingIconToBeDisappeared();
+
+    }
+
    /* public static void highlighted(WebElement element)
     {
         var javaScriptDriver = (IJavaScriptExecutor)HrsdBrowserFactory._driver;

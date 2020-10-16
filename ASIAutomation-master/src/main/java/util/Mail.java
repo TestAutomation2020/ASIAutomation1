@@ -13,8 +13,8 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Mail {
-    private static final String USERNAME = System.getenv("EMAIL_USERNAME");
-    private static final String PASSWORD = System.getenv("EMAIL_PASSWORD");
+    private static final String USERNAME = System.getenv("smita.mane@harbingergroup.com");
+    private static final String PASSWORD = System.getenv("test");
     public static void sendEmail() {
 
         try {
