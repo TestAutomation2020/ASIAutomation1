@@ -2,6 +2,7 @@ package Execution;
 
 import org.testng.annotations.Test;
 import pages.*;
+import util.ConfigReader;
 import util.Constants;
 
 import java.io.IOException;
@@ -11,7 +12,8 @@ public class BasicNavigationTestCase extends Base{
     private void navigateToHomePage() throws InterruptedException {
         Login login = new Login(getDriver());
         login.LaunchApplication(getDriver());
-        login.LoginBasicuser(getDriver());
+        login.LoginBasicuser(getDriver(), ConfigReader.getProperty("basicuser"),ConfigReader.getProperty("basicpassword"),ConfigReader
+        .getProperty("organization"));
     }
 
     @Test(priority = 1)

@@ -33,8 +33,11 @@ public class Login extends BasePage
 
     public void Loginpage(WebDriver webDriver) throws InterruptedException {
         PageFactory.initElements(webDriver, this);
+        txtUserName.clear();
         txtUserName.sendKeys(ConfigReader.getProperty("userid"));
+        txtPassword.clear();
         txtPassword.sendKeys(ConfigReader.getProperty("password"));
+        txtOrganization.clear();
         txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
         btnLogin.click();
         Thread.sleep(7000);
@@ -44,14 +47,14 @@ public class Login extends BasePage
         webDriver.get(ConfigReader.getProperty("url"));
         WebDriverWait wait = new WebDriverWait(webDriver,220);
     }
-    public void LoginBasicuser(WebDriver webDriver) throws InterruptedException {
+    public void LoginBasicuser(WebDriver webDriver,String username, String password, String Organization) throws InterruptedException {
         PageFactory.initElements(webDriver, this);
-
-        txtUserName.sendKeys(ConfigReader.getProperty("basicuser"));
-        txtPassword.sendKeys(ConfigReader.getProperty("basicpassword"));
-       // wait(100);
-       // txtOrganization.clear();
-       // txtOrganization.sendKeys(ConfigReader.getProperty("organization"));
+        txtUserName.clear();
+        txtUserName.sendKeys(username);
+        txtPassword.clear();
+        txtPassword.sendKeys(password);
+        txtOrganization.clear();
+        txtOrganization.sendKeys(Organization);
         btnLogin.click();
         Thread.sleep(7000);
         txtKnowledgebase.isDisplayed();
