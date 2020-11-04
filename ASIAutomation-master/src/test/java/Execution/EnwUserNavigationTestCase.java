@@ -15,7 +15,7 @@ public class EnwUserNavigationTestCase extends Base {
         login.Loginpage(getDriver());
     }
 
-   /* @Test(priority = 1)
+    @Test(priority = 1)
     private void EnwuseronHomePage() throws InterruptedException, IOException {
 
         BasicNavigation Basicuser = new BasicNavigation(getDriver());
@@ -45,7 +45,7 @@ public class EnwUserNavigationTestCase extends Base {
         EActions eActions = new EActions(getDriver());
         eActions.validateSearchedPosting(Constants.Searchtermforbasicuser);
 
-    }*/
+    }
     @Test(priority = 3)
     private void navigateToBasicuser() throws InterruptedException {
         Login login = new Login(getDriver());
@@ -68,6 +68,31 @@ public class EnwUserNavigationTestCase extends Base {
         EActions eActions=new EActions(getDriver());
         eActions.validateSearchedPosting(Constants.Searchtermforbasicuser);
 
+    }
+    @Test(priority = 5)
+    private void navigateToGroupMenu() throws InterruptedException, IOException {
+        try {
+            Login login = new Login(getDriver());
+            login.LaunchApplication(getDriver());
+            login.Loginpage(getDriver());
+
+            GroupUpdateDelete group = new GroupUpdateDelete(getDriver());
+            group.NavigateToGroup(getDriver());
+
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+    @Test(priority = 6, dependsOnMethods = "navigateToGroupMenu")
+    private void UpdateDeleteGroup() throws InterruptedException, IOException {
+        try {
+            GroupUpdateDelete group = new GroupUpdateDelete(getDriver());
+            group.GroupUpdate(getDriver());
+            group.GroupDelete(getDriver());
+
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
 }
