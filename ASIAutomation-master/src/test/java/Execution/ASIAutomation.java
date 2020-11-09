@@ -10,7 +10,7 @@ public class ASIAutomation extends Base  {
 
     @Test
     public void SmokeTest() throws InterruptedException, IOException {
-        Login login = new Login(getDriver());
+    /*    Login login = new Login(getDriver());
         login.LaunchApplication(getDriver());
         login.Loginpage(getDriver());
 
@@ -30,7 +30,16 @@ public class ASIAutomation extends Base  {
         ublock.Userblock();
 
         UserStartPage ustartpage = new UserStartPage(getDriver());
-        ustartpage.UStartPage();
+        ustartpage.UStartPage(); */
+
+      //  UserLocale ulocale = new UserLocale(getDriver());
+     //   ulocale.localeuser();
+
+        ContentWebService cwebservice = new ContentWebService(getDriver());
+        cwebservice.ContentService();
+
+     //   EnwisenWebService ewebservice = new EnwisenWebService(getDriver());
+     //   ewebservice.EnwisenService();
 
         //    BasicNavigationTestCase basicn = new BasicNavigationTestCase();
         //    basicn.Searchandvalidatebuttons();

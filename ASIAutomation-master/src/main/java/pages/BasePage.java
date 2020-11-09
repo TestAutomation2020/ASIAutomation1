@@ -7,6 +7,7 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
+import util.ConfigReader;
 
 import java.io.File;
 import java.io.IOException;
@@ -96,6 +97,26 @@ public class BasePage  {
         }
     }
 
+    public void ContentWebServiceUATURL(WebDriver webDriver){
+        webDriver.get(ConfigReader.getProperty("uatcontenturl"));
+        WebDriverWait wait = new WebDriverWait(webDriver,220);
+    }
+
+    public void EnwisenWebServiceUATURL(WebDriver webDriver){
+        webDriver.get(ConfigReader.getProperty("uatenwisenurl"));
+        WebDriverWait wait = new WebDriverWait(webDriver,220);
+    }
+
+    public static String extractInt(String str)
+    {
+        str = str.replaceAll("[^\\d]", " ");
+        str = str.trim();
+        str = str.replaceAll(" +", " ");
+        if (str.equals(""))
+            return "-1";
+        return str;
+    }
+
     public void navigateDefaultTab() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -138,12 +159,12 @@ public class BasePage  {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public void ScreenPrints(WebDriver driver) throws IOException
+    public void ScreenPrints(WebDriver webDriver) throws IOException
     {
         Date d = new Date();
         System.out.println(d.toString());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        File scrFile = ((TakesScreenshot)webDriver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(scrFile,  new File(System.getProperty("user.dir")+"\\Screenshots\\"+sdf.format(d)+".png"));
     }
 
