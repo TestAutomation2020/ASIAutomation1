@@ -6,6 +6,11 @@
             <class name="Execution.PostingTestCase"/>
         </classes>
     </test>
+    <test name="Analytics">
+        <classes>
+            <class name="Execution.AnalyticsReport"/>
+        </classes>
+    </test>
     <test name="ASIAutomation">
         <classes>
             <class name="Execution.ASIAutomation"/>
