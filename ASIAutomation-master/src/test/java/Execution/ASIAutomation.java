@@ -6,7 +6,7 @@ import pages.*;
 
 import java.io.IOException;
 
-public class ASIAutomation extends Base  {
+public class ASIAutomation extends Base {
 
     @Test
     public void SmokeTest() throws InterruptedException, IOException {

@@ -13,7 +13,7 @@ import util.ConfigReader;
 public class Login extends BasePage
 {
     @FindBy(how = How.NAME, using = "txtUserId")
-    private static WebElement txtUserName;
+    private WebElement txtUserName;
 
     @FindBy(how = How.NAME, using = "txtPassword")
     private WebElement txtPassword;
