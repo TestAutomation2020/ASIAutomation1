@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
-import util.ConfigReader;
+
 
 import java.io.IOException;
 
@@ -35,7 +35,7 @@ public class UserMenuNavigation extends BasePage {
         super(webDriver);
     }
 
-    public boolean UserMenu(WebDriver webDriver) throws InterruptedException, IOException {
+    public void UserMenu(WebDriver webDriver) throws InterruptedException, IOException {
          String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             Reporter.log("---------- User menu navigation script ----------");
@@ -55,14 +55,14 @@ public class UserMenuNavigation extends BasePage {
             Reporter.log("UserID text is displayed");
             Reporter.log("---------- End of User menu navigation script ----------");
             ScreenPrints(webDriver);
-            return false;
+
         }
         catch (Exception e)
         {
             ScreenPrints(webDriver);
             e.printStackTrace();
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            return false;
+          throw e;
         }
     }
 }

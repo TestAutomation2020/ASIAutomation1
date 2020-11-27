@@ -171,7 +171,7 @@ public class UserLocale extends BasePage {
         super(webDriver);
     }
 
-    public boolean localeuser() throws InterruptedException, IOException {
+    public void localeuser() throws InterruptedException, IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
     try {
         Reporter.log("---------- Locale User Script ----------");
@@ -287,14 +287,14 @@ public class UserLocale extends BasePage {
         Thread.sleep(10000);
 
         ScreenPrints(webDriver);
-        return false;
+
     }
         catch (Exception e)
         {
         ScreenPrints(webDriver);
         e.printStackTrace();
         Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-        return false;
+      throw e;
         }
     }
 }

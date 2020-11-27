@@ -97,21 +97,21 @@ public class MobileProfile extends EActions {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
 
         try {
-            waitForLoadingIconToBeDisappeared();
+           waitForLoadingIconToBeDisappeared();
             Thread.sleep(5000);
             JavascriptExecutor js = (JavascriptExecutor) webDriver;
             WebElement Element = webDriver.findElement(By.xpath("//a[@href='#'][contains(.,'mobile')]"));
             js.executeScript("arguments[0].scrollIntoView();", Element);
-            System.out.println("Add Mobile Profile link clicked");
-            Reporter.log("Add Mobile Profile link clicked as Expected");
+            System.out.println("Add Mobile Profile link clicked !!!");
+            Reporter.log("Add Mobile Profile link clicked as expected");
             Thread.sleep(5000);
             //Click on Add Mobile profile link
             Element.click();
             Thread.sleep(10000);
             String abc = EditMobileProfile.getText();
             System.out.println(abc);
-            //Copy Link
-            String copylink = clipboardlink.getText();
+           //Copy Link
+            String copylink= clipboardlink.getText();
             System.out.println(copylink);
             System.out.println("Mobile link is copied successfully");
             Reporter.log("Mobile link is copied successfully");
@@ -119,9 +119,9 @@ public class MobileProfile extends EActions {
             System.out.println(mobilelink);
 
             webDriver.navigate().to(mobilelink);
-            WebDriverWait wait = new WebDriverWait(webDriver, 220);
+            WebDriverWait wait = new WebDriverWait(webDriver,220);
             System.out.println("Mobile user link is opened");
-            Reporter.log("Mobile user link is opened successfully");
+            Reporter.log("Mobile link is copied successfully");
 
             IsElementExists(Logoforpinscreen);
             System.out.println("Logo of Mobile screen is displayed as expected");
@@ -133,14 +133,14 @@ public class MobileProfile extends EActions {
             Thread.sleep(2000);
             ScreenPrints(webDriver);
             clickwhenready(Buttonpinok);
+            Reporter.log("Mobile user login screen is displayed as expected");
             Thread.sleep(2000);
-            Reporter.log("Mobile user loged in as expected");
-
+            ScreenPrints(webDriver);
 
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
-            Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
+            Reporter.log(nameOfCurrMethod +ex.toString());
         }
 
     }

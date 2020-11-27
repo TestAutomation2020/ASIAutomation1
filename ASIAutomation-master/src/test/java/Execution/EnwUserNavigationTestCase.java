@@ -1,5 +1,6 @@
 package Execution;
 
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.*;
 import util.ConfigReader;
@@ -7,6 +8,7 @@ import util.Constants;
 
 import java.io.IOException;
 
+@Listeners(listener.TestStatistics.class)
 public class EnwUserNavigationTestCase extends Base {
    @Test(priority = 0)
     private void navigateToHomePage() throws InterruptedException {
@@ -69,7 +71,7 @@ public class EnwUserNavigationTestCase extends Base {
         eActions.validateSearchedPosting(Constants.Searchtermforbasicuser);
 
     }
-    @Test(priority = 5)
+    @Test(priority = 5,enabled = false)
     private void navigateToGroupMenu() throws InterruptedException, IOException {
         try {
             Login login = new Login(getDriver());
@@ -83,7 +85,7 @@ public class EnwUserNavigationTestCase extends Base {
             throw e;
         }
     }
-    @Test(priority = 6, dependsOnMethods = "navigateToGroupMenu")
+    @Test(priority = 6, dependsOnMethods = "navigateToGroupMenu",enabled = false)
     private void UpdateDeleteGroup() throws InterruptedException, IOException {
         try {
             GroupUpdateDelete group = new GroupUpdateDelete(getDriver());

@@ -80,7 +80,7 @@ public class UserDelete extends BasePage {
         super(webDriver);
     }
 
-    public boolean DeleteUser() throws InterruptedException, IOException {
+    public void DeleteUser() throws InterruptedException, IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
               /*      clickwhenready(txtUserid);
@@ -117,13 +117,13 @@ public class UserDelete extends BasePage {
                             Thread.sleep(3000);
                             System.out.println("User deletion successful");
                             Reporter.log("---------- End of Delete User Script ----------");
-                            return true;
+
                         }
                         ScreenPrints(webDriver);
-                        return false;
+
                     }
                     ScreenPrints(webDriver);
-                    return false;
+
         }
         catch (Exception e)
         {
@@ -131,7 +131,7 @@ public class UserDelete extends BasePage {
             ScreenPrints(webDriver);
             e.printStackTrace();
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            return false;
+           throw e;
         }
     }
 }

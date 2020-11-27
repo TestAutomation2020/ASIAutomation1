@@ -1,10 +1,12 @@
 package Execution;
 
+import listener.TestStatistics;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.ITestContext;
-import org.testng.TestRunner;
+import org.testng.*;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import util.ConfigReader;
@@ -32,7 +34,15 @@ public class Base {
             driver = new FirefoxDriver();
         } else {
             System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\drivers\\chromedriver.exe");
-            driver = new ChromeDriver();
+            //driver = new ChromeDriver();
+            //create object of chrome options
+            ChromeOptions options = new ChromeOptions();
+
+            //add the headless argument
+            options.addArguments("headless");
+
+            //pass the options parameter in the Chrome driver declaration
+            driver = new ChromeDriver(options);
 
         }
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -43,4 +53,13 @@ public class Base {
     public void tearDown() {
         driver.quit();
     }
+
+    @AfterSuite
+    public void writeTest(){
+        System.out.println(TestStatistics.getPassedTests());
+        System.out.println(TestStatistics.getFailedTests());
+        System.out.println(TestStatistics.getSkippedTests());
+        System.out.println(TestStatistics.getCount());
+    }
+
 }

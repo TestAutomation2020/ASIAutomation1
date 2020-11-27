@@ -1,5 +1,6 @@
 package Execution;
 
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.BasePage;
 import pages.Login;
@@ -8,6 +9,7 @@ import util.Constants;
 
 import java.io.IOException;
 
+@Listeners(listener.TestStatistics.class)
 public class PostingTestCase extends Base {
 
     @Test(priority = 0)
@@ -31,11 +33,11 @@ public class PostingTestCase extends Base {
         BasePage basePage = new BasePage(getDriver());
         basePage.openDuplicateTab();
         basePage.switchAnotherTab();
-        posting.searchPosting(Constants.postingTitle);
-        posting.validateSearchedPosting(Constants.postingTitle);
+        posting.searchPosting(Constants.TITLE);
+        posting.validateSearchedPosting(Constants.TITLE);
         //posting.openSearchedPosting();
         basePage.navigateDefaultTab();
-        posting.filterPosting(Constants.postingTitle);
+        posting.filterPosting(Constants.TITLE);
         posting.updatePosting();
         posting.validatePostingUpdated();
         posting.filterPosting(Constants.UpdateTitle);
@@ -53,11 +55,11 @@ public class PostingTestCase extends Base {
         BasePage basePage = new BasePage(getDriver());
         basePage.openDuplicateTab();
         basePage.switchAnotherTab();
-        posting.searchPosting(Constants.postingTitle);
-        posting.validateSearchedPosting(Constants.postingTitle);
+        posting.searchPosting(Constants.TITLE);
+        posting.validateSearchedPosting(Constants.TITLE);
         //posting.openSearchedPosting();
         basePage.navigateDefaultTab();
-        posting.filterPosting(Constants.postingTitle);
+        posting.filterPosting(Constants.TITLE);
         posting.updatePosting();
         posting.validatePostingUpdated();
         posting.filterPosting(Constants.UpdateTitle);
@@ -76,11 +78,11 @@ public class PostingTestCase extends Base {
         BasePage basePage = new BasePage(getDriver());
         basePage.openDuplicateTab();
         basePage.switchAnotherTab();
-        posting.searchPosting(Constants.postingTitle);
-        posting.validateSearchedPosting(Constants.postingTitle);
+        posting.searchPosting(Constants.TITLE);
+        posting.validateSearchedPosting(Constants.TITLE);
         //posting.openSearchedPosting();
         basePage.navigateDefaultTab();
-        posting.filterPosting(Constants.postingTitle);
+        posting.filterPosting(Constants.TITLE);
         posting.updatePosting();
         posting.validatePostingUpdated();
         posting.filterPosting(Constants.UpdateTitle);

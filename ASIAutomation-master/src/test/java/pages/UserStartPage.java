@@ -135,7 +135,7 @@ public class UserStartPage extends BasePage  {
         super(webDriver);
     }
 
-    public boolean UStartPage() throws InterruptedException, IOException {
+    public void UStartPage() throws InterruptedException, IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             Reporter.log("---------- User Startpage Script ----------");
@@ -238,14 +238,14 @@ public class UserStartPage extends BasePage  {
             }
             Thread.sleep(5000);
             ScreenPrints(webDriver);
-            return false;
+
         }
         catch (Exception e)
         {
             ScreenPrints(webDriver);
             e.printStackTrace();
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            return false;
+          throw e;
         }
     }
 }

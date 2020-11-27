@@ -11,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 import util.ConfigReader;
 
+
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -24,7 +25,7 @@ public class BasePage  {
     @FindBy(xpath = "//span[text()='Administration']")
     private WebElement lnkAdministration;
 
-    @FindBy(xpath = "//span[text()='Knowledgebase Admin']")
+    @FindBy(xpath = "//span[contains(text(),'Knowledgebase Admin')]")
     private WebElement lnkKnowledgebaseAdmin;
 
     @FindBy(xpath = "//span[text()='Analytics']")
@@ -44,6 +45,10 @@ public class BasePage  {
         PageFactory.initElements(webDriver, this);
         this.webDriver = webDriver;
         wait = new WebDriverWait(webDriver, 30);
+    }
+
+    public void pageReload(){
+        webDriver.navigate().refresh();
     }
 
     public void waitForLoadingIconToBeDisappeared() {
@@ -165,6 +170,15 @@ public class BasePage  {
         action.moveToElement(element).build().perform();
     }
 
+    public boolean isElementPresent(WebElement element){
+        boolean isElementPresent;
+        try {
+            isElementPresent = element.isDisplayed();
+            return isElementPresent;
+        }catch (Exception e){
+            return false;
+        }
+    }
     public void ScreenPrints(WebDriver webDriver) throws IOException
     {
         Date d = new Date();

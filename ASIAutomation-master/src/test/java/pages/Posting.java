@@ -147,8 +147,8 @@ public class Posting extends BasePage {
             Reporter.log("Type select dropdown clicked.");
             clickAfterVisibilityOfElement(selectMessage);
             Reporter.log("Message Type selected.");
-            txtTitle.sendKeys(Constants.postingTitle);
-            Reporter.log("Posting Title " + Constants.postingTitle + " typed.");
+            txtTitle.sendKeys(Constants.TITLE);
+            Reporter.log("Posting Title " + Constants.TITLE + " typed.");
             txtMessage.sendKeys(ConfigReader.getProperty("messagepostingmessage"));
             Reporter.log("Posting message typed.");
             if (shouldUploadToLive()) {
@@ -176,8 +176,8 @@ public class Posting extends BasePage {
             Reporter.log("Type select dropdown clicked.");
             clickAfterVisibilityOfElement(selectLink);
             Reporter.log("Link Type selected.");
-            txtTitle.sendKeys(Constants.postingTitle);
-            Reporter.log("Posting Title " + Constants.postingTitle + " typed.");
+            txtTitle.sendKeys(Constants.TITLE);
+            Reporter.log("Posting Title " + Constants.TITLE + " typed.");
             txtURL.sendKeys(ConfigReader.getProperty("linkpostingurl"));
             Reporter.log("Posting Link URL typed.");
             if (shouldUploadToLive()) {
@@ -207,8 +207,8 @@ public class Posting extends BasePage {
             Runtime.getRuntime().exec(ConfigReader.getProperty("documentpostingpath"));
             Reporter.log("Executed AutoIT and File taken in machine.");
             Thread.sleep(2000);
-            txtTitle.sendKeys(Constants.postingTitle);
-            Reporter.log("Posting Title " + Constants.postingTitle + " typed.");
+            txtTitle.sendKeys(Constants.TITLE);
+            Reporter.log("Posting Title " + Constants.TITLE + " typed.");
             if (shouldUploadToLive()) {
                 clickAfterVisibilityOfElement(switchUploadToLive);
                 Reporter.log("Upload to live switch off.");

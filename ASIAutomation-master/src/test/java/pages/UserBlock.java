@@ -77,7 +77,7 @@ public class UserBlock extends BasePage {
 
     public UserBlock(WebDriver webDriver) {   super(webDriver);  }
 
-    public boolean Userblock() throws InterruptedException, IOException {
+    public void Userblock() throws InterruptedException, IOException {
 
         try {
             clearAfterVisibilityOfElement(useridfield);
@@ -142,13 +142,13 @@ public class UserBlock extends BasePage {
                 clickwhenready(Signout);
             }
             ScreenPrints(webDriver);
-            return false;
+
         }
         catch (Exception e)
         {
             ScreenPrints(webDriver);
             e.printStackTrace();
-            return false;
+           throw e;
         }
     }
 }

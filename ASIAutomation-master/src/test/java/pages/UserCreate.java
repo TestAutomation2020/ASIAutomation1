@@ -295,7 +295,7 @@ public class UserCreate extends BasePage {
         super(webDriver);
     }
 
-    public boolean UserAdd() throws InterruptedException, IOException
+    public void UserAdd() throws InterruptedException, IOException
     {   String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try
         {
@@ -499,20 +499,20 @@ public class UserCreate extends BasePage {
                         Reporter.log("Username link clicked");
                         Reporter.log("---------- End of Add User Script ----------");
                         Thread.sleep(5000);
-                        return true;
+
                     }
                     ScreenPrints(webDriver);
-                    return false;
+
                   }
                 ScreenPrints(webDriver);
-                return false;
+
             }
         catch (Exception e)
         {
             ScreenPrints(webDriver);
             e.printStackTrace();
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            return false;
+           throw e;
         }
     }
 }

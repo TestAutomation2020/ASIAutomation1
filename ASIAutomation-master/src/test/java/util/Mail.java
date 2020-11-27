@@ -1,6 +1,7 @@
 package util;
 
 
+import listener.TestStatistics;
 import org.testng.Reporter;
 
 import javax.mail.*;
@@ -13,8 +14,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class Mail {
-    private static final String USERNAME = System.getenv("smita.mane@harbingergroup.com");
-    private static final String PASSWORD = System.getenv("test");
+    private static final String USERNAME = System.getenv("EMAIL_USERNAME");
+    private static final String PASSWORD = System.getenv("EMAIL_PASSWORD");
+
     public static void sendEmail() {
 
         try {
@@ -34,23 +36,33 @@ public class Mail {
                     });
 
             try {
-                Address[] addresses = new InternetAddress[4];
+                Address[] addresses = new InternetAddress[3];
                 addresses[0] = new InternetAddress("riddhi.kalolia@harbingergroup.com");
-                addresses[1] = new InternetAddress("riddhi.kalolia@infor.com");
-                addresses[2] = new InternetAddress("Imran.Shaikh@infor.com");
-                addresses[3] = new InternetAddress("smita.Mane@infor.com");
+                addresses[1] = new InternetAddress("smita.mane@harbingergroup.com");
+                addresses[2] = new InternetAddress("imran.shaikh@harbingergroup.com");
+
 
                 Message message = new MimeMessage(session);
                 message.setFrom(new InternetAddress("riddhi.kalolia@harbingergroup.com"));
                 message.setRecipients(Message.RecipientType.TO, addresses);
-                message.setSubject("Smoke test report");
-                message.setText("PFA");
+                message.setSubject("ASI Smoke test execution report");
+                //message.setText("Smoke Test Result: test");
+
 
                 MimeBodyPart messageBodyPart = new MimeBodyPart();
 
                 Multipart multipart = new MimeMultipart();
-
-                messageBodyPart.setContent("test", "text/html");
+                BodyPart textBodyPart = new MimeBodyPart();
+                textBodyPart.setContent("We have completed Smoke testing on below Organization and Browser:" + "\n"
+                        + "URL: " + ConfigReader.getProperty("url") + "\n"
+                        + "Organization: " + ConfigReader.getProperty("organization") + "\n"
+                        + "Browser: " + ConfigReader.getProperty("test.browser.name") + "\n" + "\n"
+                        + "Please find below Test Result:" + "\n"
+                        + "Result: " + TestStatistics.getCount() + "\n" + "\n"
+                        + "Failed Test Case: " + TestStatistics.getFailedTests() + "\n" + "\n"
+                        + "Skipped Test Case: " + TestStatistics.getSkippedTests() + "\n" + "\n"
+                        + "Passed Test Case: " + TestStatistics.getPassedTests(), "text/plain");
+                multipart.addBodyPart(textBodyPart);
                 messageBodyPart.attachFile(new File(System.getProperty("user.dir") + "\\Zip\\ReportsFolder.zip"));
                 messageBodyPart.setHeader("Content-Type", "text/plain; charset=\"us-ascii\"; name=\"mail.txt\"");
                 multipart.addBodyPart(messageBodyPart);

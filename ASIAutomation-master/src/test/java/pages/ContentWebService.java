@@ -6,12 +6,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
 import org.testng.Reporter;
 import util.ConfigReader;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import java.io.IOException;
-
-import static com.sun.javaws.jnl.XMLUtils.getAttribute;
 
 public class ContentWebService extends BasePage
 {
@@ -50,7 +46,7 @@ public class ContentWebService extends BasePage
         super(webDriver);
     }
 
-    public boolean ContentService() throws InterruptedException, IOException
+    public void ContentService() throws InterruptedException, IOException
     {   String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try
         {
@@ -102,14 +98,14 @@ public class ContentWebService extends BasePage
             SignOut.click();
             Reporter.log("Logout from the KB application");
             Reporter.log("---------- End of the Content WebService Script ----------");
-            return false;
+
         }
         catch (Exception e)
         {
             ScreenPrints(webDriver);
             e.printStackTrace();
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            return false;
+            throw e;
         }
     }
 }

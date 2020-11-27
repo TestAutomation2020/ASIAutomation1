@@ -303,8 +303,7 @@ public class UserUpdate extends BasePage {
         super(webDriver);
     }
 
-    public boolean UpdateUser() throws IOException
-    {    String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+    public void UpdateUser() throws IOException, InterruptedException {    String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try
         {
            // clearAfterVisibilityOfElement(txtUserid);
@@ -505,13 +504,13 @@ public class UserUpdate extends BasePage {
                     Reporter.log("Username link clicked");
                     Reporter.log("---------- End of Update User Script ----------");
                     Thread.sleep(5000);
-                    return true;
+
                 }
                 ScreenPrints(webDriver);
-                return false;
+
             }
             ScreenPrints(webDriver);
-            return false;
+
         }
         catch (Exception e)
         {
@@ -519,7 +518,7 @@ public class UserUpdate extends BasePage {
             ScreenPrints(webDriver);
             e.printStackTrace();
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            return false;
+           throw e;
         }
     }
 }

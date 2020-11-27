@@ -1,5 +1,6 @@
 package Execution;
 
+import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.*;
 import util.ConfigReader;
@@ -7,6 +8,7 @@ import util.Constants;
 
 import java.io.IOException;
 
+@Listeners(listener.TestStatistics.class)
 public class BasicNavigationTestCase extends Base{
     @Test(priority = 0)
     private void navigateToHomePage() throws InterruptedException {
