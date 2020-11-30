@@ -49,6 +49,7 @@ public class BasePage  {
 
     public void pageReload(){
         webDriver.navigate().refresh();
+        waitForLoadingIconToBeDisappeared();
     }
 
     public void waitForLoadingIconToBeDisappeared() {

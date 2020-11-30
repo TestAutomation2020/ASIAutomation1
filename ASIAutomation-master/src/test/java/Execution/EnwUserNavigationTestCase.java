@@ -8,7 +8,7 @@ import util.Constants;
 
 import java.io.IOException;
 
-@Listeners(listener.TestStatistics.class)
+
 public class EnwUserNavigationTestCase extends Base {
    @Test(priority = 0)
     private void navigateToHomePage() throws InterruptedException {

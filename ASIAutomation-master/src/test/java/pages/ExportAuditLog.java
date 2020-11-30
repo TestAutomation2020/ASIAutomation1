@@ -99,24 +99,38 @@ public class ExportAuditLog extends BasePage {
     }
 
     public void appliedLast2DaysFilter() throws IOException {
-        waitForLoadingIconToBeDisappeared();
-        clickAfterVisibilityOfElement(dropTimePeriod);
-        Reporter.log("Time Period dropdown select.");
-        clickAfterVisibilityOfElement(selectLast2Days);
-        Reporter.log("Today value selected in Time Period dropdown.");
-        patternCodeFilter.sendKeys(ConfigReader.getProperty("patterncodeexportauditlog"));
-        clickAfterVisibilityOfElement(fileFormatFilter);
-        clickAfterVisibilityOfElement(csvFileFormat);
-        clickAfterVisibilityOfElement(btnApply);
-        waitForLoadingIconToBeDisappeared();
-        Reporter.log("Clicked on Apply button.");
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(dropTimePeriod);
+            Reporter.log("Time Period dropdown select.");
+            clickAfterVisibilityOfElement(selectLast2Days);
+            Reporter.log("Today value selected in Time Period dropdown.");
+            patternCodeFilter.sendKeys(ConfigReader.getProperty("patterncodeexportauditlog"));
+            clickAfterVisibilityOfElement(fileFormatFilter);
+            clickAfterVisibilityOfElement(csvFileFormat);
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+            Reporter.log("Clicked on Apply button.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
 
     }
 
-    public void verifiedAppliedFilter() throws InterruptedException {
-        Thread.sleep(5000);
-        Assert.assertTrue(gridCodeData.isDisplayed(),"Grid data is not available.");
-        Assert.assertTrue(gridCSVData.isDisplayed(), "Grid data is not present.");
+    public void verifiedAppliedFilter() throws InterruptedException, IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            Thread.sleep(5000);
+            Assert.assertTrue(gridCodeData.isDisplayed(),"Grid data is not available.");
+            Assert.assertTrue(gridCSVData.isDisplayed(), "Grid data is not present.");
+        } catch (InterruptedException e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
     }
 
 

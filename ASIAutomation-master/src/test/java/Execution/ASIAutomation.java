@@ -7,7 +7,7 @@ import pages.*;
 
 import java.io.IOException;
 
-@Listeners(listener.TestStatistics.class)
+
 public class ASIAutomation extends Base {
 
     @Test(priority = 0)

@@ -9,7 +9,7 @@ import util.Constants;
 
 import java.io.IOException;
 
-@Listeners(listener.TestStatistics.class)
+
 public class PostingTestCase extends Base {
 
     @Test(priority = 0)

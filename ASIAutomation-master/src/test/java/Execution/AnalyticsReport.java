@@ -8,7 +8,7 @@ import util.ConfigReader;
 
 import java.io.IOException;
 
-@Listeners(listener.TestStatistics.class)
+
 public class AnalyticsReport extends Base {
 
     @Test(priority = 0)

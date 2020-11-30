@@ -191,15 +191,23 @@ public class FrequentSearches extends BasePage {
         }
     }
 
-    public void verifyGraph() throws InterruptedException {
-        clickAfterVisibilityOfElement(gridValue);
-        waitForLoadingIconToBeDisappeared();
-        clickAndHold(graphPercentageOfTotalSearch);
-        Reporter.log("Pie Chart Tooltip"+pieChartTooltip.getText());
-        Assert.assertEquals(labelSearchTrend.getText(), "Search Trends - Last 2 Days - Health & wellness", "Label of Search Trend is not verified.");
-        Assert.assertTrue(barGraph.isDisplayed(),"Bar Graph is not loaded.");
-        Reporter.log("Bar chart tooltip"+barGraph.getText());
-        Assert.assertTrue(Double.parseDouble(barGraph.getText()) >0,"Bar Grpah is not loaded.");
+    public void verifyGraph() throws InterruptedException, IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(gridValue);
+            waitForLoadingIconToBeDisappeared();
+            clickAndHold(graphPercentageOfTotalSearch);
+            Reporter.log("Pie Chart Tooltip"+pieChartTooltip.getText());
+            Assert.assertEquals(labelSearchTrend.getText(), "Search Trends - Last 2 Days - Health & wellness", "Label of Search Trend is not verified.");
+            Assert.assertTrue(barGraph.isDisplayed(),"Bar Graph is not loaded.");
+            Reporter.log("Bar chart tooltip"+barGraph.getText());
+            Assert.assertTrue(Double.parseDouble(barGraph.getText()) >0,"Bar Grpah is not loaded.");
+        } catch (NumberFormatException e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+
+        }
 
 
     }

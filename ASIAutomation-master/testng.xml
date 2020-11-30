@@ -1,11 +1,9 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Smoke suite" parallel="tests">
 
-    <test name="Posting">
-        <classes>
-            <class name="Execution.PostingTestCase"/>
-        </classes>
-    </test>
+<suite name="Smoke suite" parallel="tests">
+    <listeners>
+        <listener class-name="listener.TestStatistics"/>
+    </listeners>
     <test name="Analytics">
         <classes>
             <class name="Execution.AnalyticsReport"/>
@@ -21,4 +19,11 @@
             <class name="Execution.EnwUserNavigationTestCase"/>
         </classes>
     </test>
+    <test name="Posting">
+        <classes>
+            <class name="Execution.PostingTestCase"/>
+        </classes>
+    </test>
+
+
 </suite>
