@@ -10,11 +10,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 import util.ConfigReader;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.util.List;
-
-import static java.sql.DriverManager.getDriver;
 
 public class MobileProfile extends EActions {
     //Mobile profile link on Home Page

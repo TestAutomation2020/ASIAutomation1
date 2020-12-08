@@ -2,9 +2,7 @@ package pages;
 
 
 import org.apache.commons.lang3.StringUtils;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
@@ -55,8 +53,14 @@ public class Posting extends BasePage {
     @FindBy(xpath = "(//div[@class='x-btn x-form-file-btn x-unselectable x-btn-default-small'])[1]")
     private WebElement btnFileUpload;
 
+    @FindBy(xpath = "//textarea[@name='aliasname']")
+    private WebElement txtAliasName;
+
     @FindBy(xpath = "//span[text()='Upload to Live']/../../../div/div/label")
     private WebElement switchUploadToLive;
+
+    @FindBy(xpath = "//span[text()='New Window']/../../../div/div/label")
+    private WebElement switchNewWindow;
 
     @FindBy(xpath = "//span[text()= 'Next']")
     private WebElement btnNext;
@@ -106,6 +110,30 @@ public class Posting extends BasePage {
     @FindBy(xpath = "//span[text()='Ok']")
     private WebElement btnDeleteOk;
 
+    @FindBy(xpath = "//div[@class='x-grid-cell-inner ']//a[contains(text(),'Groups')]")
+    private WebElement lnkGroupsInGrid;
+
+    @FindBy(xpath = "//span[text()='Unassigned Groups']")
+    private WebElement lnkUnAssignedGroups;
+
+    @FindBy(xpath = "(//div[./span[text()='Group Name']]//..//..//..//..//input)[2]")
+    private WebElement inputGroupName;
+
+    @FindBy(xpath = "(//span[@class='x-column-header-checkbox'])[5]")
+    private WebElement checkbox;
+
+    @FindBy(xpath = "//span[text()='Assign']")
+    private WebElement btnAssign;
+
+    @FindBy(xpath = "//div[@class='x-grid-cell-inner ']/a[text()='View']")
+    private WebElement btnView;
+
+    @FindBy(xpath = "//div[@id='BulletinHeader']")
+    private WebElement getMessagePostingTitle;
+
+    @FindBy(xpath = "//textarea[@id='txtBulletinText']")
+    private WebElement getMessagePostingText;
+
     public Posting(WebDriver webDriver) {
         super(webDriver);
     }
@@ -141,24 +169,29 @@ public class Posting extends BasePage {
     public void addMessagePosting() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
+            waitForLoadingIconToBeDisappeared();
             clickAfterVisibilityOfElement(btnAddNew);
             Reporter.log("Add New button clicked.");
             clickAfterVisibilityOfElement(drpSelectType);
             Reporter.log("Type select dropdown clicked.");
             clickAfterVisibilityOfElement(selectMessage);
             Reporter.log("Message Type selected.");
-            txtTitle.sendKeys(Constants.TITLE);
-            Reporter.log("Posting Title " + Constants.TITLE + " typed.");
+            txtTitle.sendKeys(Constants.MESSAGEPOSTINGTITLE);
+            Reporter.log("Posting Title " + Constants.MESSAGEPOSTINGTITLE + " typed.");
             txtMessage.sendKeys(ConfigReader.getProperty("messagepostingmessage"));
             Reporter.log("Posting message typed.");
+            txtAliasName.sendKeys(ConfigReader.getProperty("aliasmessageposting"));
             if (shouldUploadToLive()) {
                 clickAfterVisibilityOfElement(switchUploadToLive);
                 Reporter.log("Upload to live switch off.");
             }
+            // clickAfterVisibilityOfElement(switchNewWindow);
+            Reporter.log("New Window Switch off.");
             clickAfterVisibilityOfElement(btnNext);
             Reporter.log("Next button clicked.");
             clickAfterVisibilityOfElement(btnSave);
             Reporter.log("Save button clicked.");
+            waitForLoadingIconToBeDisappeared();
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
@@ -170,24 +203,28 @@ public class Posting extends BasePage {
     public void addLinkPosting() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
+            waitForLoadingIconToBeDisappeared();
             clickAfterVisibilityOfElement(btnAddNew);
             Reporter.log("Add New button clicked.");
             clickAfterVisibilityOfElement(drpSelectType);
             Reporter.log("Type select dropdown clicked.");
             clickAfterVisibilityOfElement(selectLink);
             Reporter.log("Link Type selected.");
-            txtTitle.sendKeys(Constants.TITLE);
-            Reporter.log("Posting Title " + Constants.TITLE + " typed.");
+            txtTitle.sendKeys(Constants.LINKPOSTINGTITLE);
+            Reporter.log("Posting Title " + Constants.LINKPOSTINGTITLE + " typed.");
             txtURL.sendKeys(ConfigReader.getProperty("linkpostingurl"));
             Reporter.log("Posting Link URL typed.");
             if (shouldUploadToLive()) {
                 clickAfterVisibilityOfElement(switchUploadToLive);
                 Reporter.log("Upload to live switch off.");
             }
+            // clickAfterVisibilityOfElement(switchNewWindow);
+            Reporter.log("New Window Switch off.");
             clickAfterVisibilityOfElement(btnNext);
             Reporter.log("Next button clicked.");
             clickAfterVisibilityOfElement(btnSave);
             Reporter.log("Save button clicked.");
+            waitForLoadingIconToBeDisappeared();
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
@@ -199,6 +236,7 @@ public class Posting extends BasePage {
     public void addFilePosting() throws Exception {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
+            waitForLoadingIconToBeDisappeared();
             clickAfterVisibilityOfElement(btnAddNew);
             Reporter.log("Add New button clicked.");
             clickAfterVisibilityOfElement(btnFileUpload);
@@ -207,16 +245,19 @@ public class Posting extends BasePage {
             Runtime.getRuntime().exec(ConfigReader.getProperty("documentpostingpath"));
             Reporter.log("Executed AutoIT and File taken in machine.");
             Thread.sleep(2000);
-            txtTitle.sendKeys(Constants.TITLE);
-            Reporter.log("Posting Title " + Constants.TITLE + " typed.");
+            txtTitle.sendKeys(Constants.FILEPOSTINGTITLE);
+            Reporter.log("Posting Title " + Constants.FILEPOSTINGTITLE + " typed.");
             if (shouldUploadToLive()) {
                 clickAfterVisibilityOfElement(switchUploadToLive);
                 Reporter.log("Upload to live switch off.");
             }
+            //clickAfterVisibilityOfElement(switchNewWindow);
+            Reporter.log("New Window Switch off.");
             clickAfterVisibilityOfElement(btnNext);
             Reporter.log("Next button clicked.");
             clickAfterVisibilityOfElement(btnSave);
             Reporter.log("Save button clicked.");
+
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
@@ -278,6 +319,9 @@ public class Posting extends BasePage {
     public void filterPosting(String postingName) throws InterruptedException, IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            js.executeScript("arguments[0].scrollIntoView();", txtTitleFilter);
+            waitForLoadingIconToBeDisappeared();
             wait.until(ExpectedConditions.visibilityOf(txtTitleFilter));
             txtTitleFilter.clear();
             Reporter.log("Title Filter cleared.");
@@ -295,7 +339,7 @@ public class Posting extends BasePage {
         }
     }
 
-    public void updatePosting() throws IOException {
+    public void updatePosting(String postingName) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(lnkPostingGrid);
@@ -303,7 +347,7 @@ public class Posting extends BasePage {
             waitForLoadingIconToBeDisappeared();
             clearAfterVisibilityOfElement(txtTitle);
             Reporter.log("Title field cleared.");
-            txtTitle.sendKeys(Constants.UpdateTitle);
+            txtTitle.sendKeys(postingName);
             Reporter.log("Title Updated.");
             clickAfterVisibilityOfElement(btnUpdate);
             Reporter.log("Clicked on Update button.");
@@ -331,17 +375,101 @@ public class Posting extends BasePage {
         }
     }
 
-    public void validatePostingAdded() throws IOException {
+    public void giveGroupAccess() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
-            Assert.assertEquals(notificationAddedSuccessfully.getText(), "Added Successfully", "Posting is not added successfully.");
-            Reporter.log("Posting added successfully.");
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(lnkGroupsInGrid);
+            Reporter.log("clicked on Group link.");
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(lnkUnAssignedGroups);
+            Reporter.log("Clicked on UnAssigned Group tab.");
+            inputGroupName.sendKeys("Basic");
+            inputGroupName.sendKeys(Keys.ENTER);
+            Reporter.log("Basic filter applied");
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(checkbox);
+            Reporter.log("Clicked on select all checkbox.");
+            clickAfterVisibilityOfElement(btnAssign);
+            Reporter.log("Clicked on Assign button.");
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void viewPosting() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(btnView);
+            clickAfterVisibilityOfElement(btnView);
+            Reporter.log("Clicked on View button.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void validateViewMessagePosting() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            //webDriver.switchTo().frame(webDriver.findElement(By.xpath("//*[@src='/ASI/Tools/Postings/Posting_Bulletin.aspx']")));
+            Assert.assertEquals(getMessagePostingTitle.getText(), Constants.MESSAGEPOSTINGTITLE, "Posting Title is not verified.");
+            Reporter.log("Posting Title Verified.");
+            Assert.assertEquals(getMessagePostingText.getText(), ConfigReader.getProperty("messagepostingmessage"), "Posting Message is not verified.");
+            Reporter.log("Message Posting title verified.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void validateViewLinkPosting() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            //webDriver.switchTo().frame(webDriver.findElement(By.xpath("//*[@src='/ASI/Tools/Postings/Posting_Bulletin.aspx']")));
+            Assert.assertEquals(webDriver.getCurrentUrl().toLowerCase(), webDriver.getCurrentUrl().toLowerCase(), "Posting URL is not verified.");
+            Reporter.log("Link Posting URL verified.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void openPostingUsingAliasName() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            String url = webDriver.getCurrentUrl();
+            String[] splitStrings = StringUtils.split(url, '?');
+            webDriver.get(splitStrings[0].toString() + "?alias=" + ConfigReader.getProperty("aliasmessageposting"));
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
             throw e;
         }
 
+    }
+
+
+    public void validatePostingAdded() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            Assert.assertEquals(notificationAddedSuccessfully.getText(), "Added Successfully", "Posting is not added successfully.");
+            Reporter.log("Posting added successfully.");
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
 
     }
 

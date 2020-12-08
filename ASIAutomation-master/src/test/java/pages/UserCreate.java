@@ -6,14 +6,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.ui.Select;
-import org.testng.Assert;
 import org.testng.Reporter;
-import sun.font.TrueTypeFont;
 import util.ConfigReader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class UserCreate extends BasePage {

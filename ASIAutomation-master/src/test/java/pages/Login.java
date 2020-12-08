@@ -10,8 +10,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ConfigReader;
 
-public class Login extends BasePage
-{
+
+public class Login extends BasePage {
     @FindBy(how = How.NAME, using = "txtUserId")
     private WebElement txtUserName;
 
@@ -27,7 +27,7 @@ public class Login extends BasePage
     @FindBy(how = How.XPATH, using = "//span[text()='Knowledgebase']")
     private WebElement txtKnowledgebase;
 
-    public Login(WebDriver webDriver)  {
+    public Login(WebDriver webDriver) {
         super(webDriver);
     }
 
@@ -43,11 +43,13 @@ public class Login extends BasePage
         Thread.sleep(7000);
         txtKnowledgebase.isDisplayed();
     }
-    public void LaunchApplication(WebDriver webDriver){
+
+    public void LaunchApplication(WebDriver webDriver) {
         webDriver.get(ConfigReader.getProperty("url"));
-        WebDriverWait wait = new WebDriverWait(webDriver,220);
+        WebDriverWait wait = new WebDriverWait(webDriver, 220);
     }
-    public void LoginBasicuser(WebDriver webDriver,String username, String password, String Organization) throws InterruptedException {
+
+    public void LoginBasicuser(WebDriver webDriver, String username, String password, String Organization) throws InterruptedException {
         PageFactory.initElements(webDriver, this);
         txtUserName.clear();
         txtUserName.sendKeys(username);
@@ -59,4 +61,5 @@ public class Login extends BasePage
         Thread.sleep(7000);
         txtKnowledgebase.isDisplayed();
     }
+
 }

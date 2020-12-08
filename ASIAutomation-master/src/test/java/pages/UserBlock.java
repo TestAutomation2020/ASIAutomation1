@@ -1,17 +1,11 @@
 package pages;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.How;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import util.ConfigReader;
 
-import java.io.File;
 import java.io.IOException;
-import org.testng.Assert;
 
 public class UserBlock extends BasePage {
 

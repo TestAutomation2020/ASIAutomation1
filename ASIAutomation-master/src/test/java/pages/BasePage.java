@@ -16,9 +16,10 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.Set;
 
-public class BasePage  {
+public class BasePage {
     @FindBy(xpath = "//span[text()='Knowledgebase']")
     private WebElement lnkKnowledgebase;
 
@@ -37,6 +38,12 @@ public class BasePage  {
     @FindBy(xpath = "//div[text()='Loading...']")
     private WebElement loading;
 
+    @FindBy(xpath = "//span[@id='PageHeaderLogout-btnInnerEl']")
+    private WebElement btnUserName;
+
+    @FindBy(xpath = "//a[@class='x-menu-item-link cls-has-icon']")
+    private WebElement btnSignOut;
+
     protected WebDriver webDriver;
     protected WebDriverWait wait;
     private String currentTab;
@@ -44,10 +51,10 @@ public class BasePage  {
     public BasePage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
         this.webDriver = webDriver;
-        wait = new WebDriverWait(webDriver, 30);
+        wait = new WebDriverWait(webDriver, 40);
     }
 
-    public void pageReload(){
+    public void pageReload() {
         webDriver.navigate().refresh();
         waitForLoadingIconToBeDisappeared();
     }
@@ -105,18 +112,17 @@ public class BasePage  {
         }
     }
 
-    public void ContentWebServiceUATURL(WebDriver webDriver){
+    public void ContentWebServiceUATURL(WebDriver webDriver) {
         webDriver.get(ConfigReader.getProperty("uatcontenturl"));
-        WebDriverWait wait = new WebDriverWait(webDriver,220);
+        WebDriverWait wait = new WebDriverWait(webDriver, 220);
     }
 
-    public void EnwisenWebServiceUATURL(WebDriver webDriver){
+    public void EnwisenWebServiceUATURL(WebDriver webDriver) {
         webDriver.get(ConfigReader.getProperty("uatenwisenurl"));
-        WebDriverWait wait = new WebDriverWait(webDriver,220);
+        WebDriverWait wait = new WebDriverWait(webDriver, 220);
     }
 
-    public static String extractInt(String str)
-    {
+    public static String extractInt(String str) {
         str = str.replaceAll("[^\\d]", " ");
         str = str.trim();
         str = str.replaceAll(" +", " ");
@@ -155,51 +161,78 @@ public class BasePage  {
 
     }
 
-    public void clickAfterVisibilityOfElement(WebElement element) {
+    public void navigateAnotherOpenedTab() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            currentTab = webDriver.getWindowHandle();
+
+            Set<String> s = webDriver.getWindowHandles();
+            Iterator<String> I1 = s.iterator();
+            while (I1.hasNext()) {
+                String child_window = I1.next();
+                if (!currentTab.equals(child_window)) {
+                    webDriver.switchTo().window(child_window);
+                    Reporter.log("Switched to child window.");
+                }
+            }
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void clickAfterVisibilityOfElement (WebElement element){
         getElement(element).click();
     }
 
-    public void clearAfterVisibilityOfElement(WebElement element) {
+    public void clearAfterVisibilityOfElement (WebElement element){
         getElement(element).clear();
     }
 
-    private WebElement getElement(WebElement element) {
+    private WebElement getElement (WebElement element){
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
-    public void clickAndHold(WebElement element){
+    public void moveToElement (WebElement element){
         Actions action = new Actions(webDriver);
         action.moveToElement(element).build().perform();
     }
+    public void clickAndHold (WebElement element){
+        Actions actions = new Actions(webDriver);
+        actions.moveToElement(element).clickAndHold(element).build().perform();
+    }
 
-    public boolean isElementPresent(WebElement element){
+    public boolean isElementPresent (WebElement element){
         boolean isElementPresent;
         try {
             isElementPresent = element.isDisplayed();
             return isElementPresent;
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
     }
-    public void ScreenPrints(WebDriver webDriver) throws IOException
+    public void ScreenPrints (WebDriver webDriver) throws IOException
     {
         Date d = new Date();
         System.out.println(d.toString());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
-        File scrFile = ((TakesScreenshot)webDriver).getScreenshotAs(OutputType.FILE);
-        FileUtils.copyFile(scrFile,  new File(System.getProperty("user.dir")+"\\Screenshots\\"+sdf.format(d)+".png"));
+        File scrFile = ((TakesScreenshot) webDriver).getScreenshotAs(OutputType.FILE);
+        FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir") + "\\Screenshots\\" + sdf.format(d) + ".png"));
     }
 
-    public void clickwhenready(WebElement element) {
+    public void clickwhenready (WebElement element){
         wait.until(ExpectedConditions.visibilityOf(element));
-        if(element!=null) {
+        if (element != null) {
             element.click();
-        }
-        else
-        {
+        } else {
             throw new ElementNotVisibleException("Element not found");
         }
     }
 
+    public void signOutUser () {
+        clickAndHold(btnUserName);
+        clickAfterVisibilityOfElement(btnSignOut);
+    }
 
 
 }

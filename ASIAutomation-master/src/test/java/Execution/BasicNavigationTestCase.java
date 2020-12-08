@@ -1,6 +1,5 @@
 package Execution;
 
-import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.*;
 import util.ConfigReader;

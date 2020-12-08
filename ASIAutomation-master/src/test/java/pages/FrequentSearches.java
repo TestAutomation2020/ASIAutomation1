@@ -196,7 +196,7 @@ public class FrequentSearches extends BasePage {
         try {
             clickAfterVisibilityOfElement(gridValue);
             waitForLoadingIconToBeDisappeared();
-            clickAndHold(graphPercentageOfTotalSearch);
+            moveToElement(graphPercentageOfTotalSearch);
             Reporter.log("Pie Chart Tooltip"+pieChartTooltip.getText());
             Assert.assertEquals(labelSearchTrend.getText(), "Search Trends - Last 2 Days - Health & wellness", "Label of Search Trend is not verified.");
             Assert.assertTrue(barGraph.isDisplayed(),"Bar Graph is not loaded.");
