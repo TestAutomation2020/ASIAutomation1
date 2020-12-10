@@ -14,6 +14,7 @@ import util.ConfigReader;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -54,9 +55,16 @@ public class BasePage {
         wait = new WebDriverWait(webDriver, 40);
     }
 
-    public void pageReload() {
-        webDriver.navigate().refresh();
-        waitForLoadingIconToBeDisappeared();
+    public void pageReload() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            webDriver.navigate().refresh();
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
     }
 
     public void waitForLoadingIconToBeDisappeared() {
@@ -238,6 +246,13 @@ public class BasePage {
         } else {
             throw new ElementNotVisibleException("Element not found");
         }
+    }
+
+    public String getTodayDate(){
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy ");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
+        return dateFormat.format(date).trim();
     }
 
     public void signOutUser () {

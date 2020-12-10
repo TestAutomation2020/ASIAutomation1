@@ -54,12 +54,4 @@ public class Base {
         driver.quit();
     }
 
-    @AfterSuite
-    public void writeTest(){
-        System.out.println(TestStatistics.getPassedTests());
-        System.out.println(TestStatistics.getFailedTests());
-        System.out.println(TestStatistics.getSkippedTests());
-        System.out.println(TestStatistics.getCount());
-    }
-
 }

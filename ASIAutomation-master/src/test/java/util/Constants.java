@@ -11,7 +11,7 @@ public interface Constants {
     String MESSAGETITLEUPDATE = ConfigReader.getProperty("updatemessage") +Constants.RANDOM_NUMBER +" Message";
     String LINKTITLEUPDATE = ConfigReader.getProperty("updatemessage") + Constants.RANDOM_NUMBER+ " Link";
     String SEARCHPOSTINGTERMFORBASICUSER = ConfigReader.getProperty("updatemessage") + Constants.RANDOM_NUMBER;
-
+    String ALIASNAMEFORMESSAGEPOSTING=ConfigReader.getProperty("aliasmessageposting")+Constants.RANDOM_NUMBER;
     String MobileUser=ConfigReader.getProperty("Mobileuser");
     int mobilepin= Integer.parseInt(ConfigReader.getProperty("Mobilepin"));
     String mobileEmail=ConfigReader.getProperty("Mobileemail");

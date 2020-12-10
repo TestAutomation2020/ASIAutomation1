@@ -1,6 +1,5 @@
 package Execution;
 
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
 import util.ConfigReader;
@@ -118,6 +117,40 @@ public class AdminScreenTestCase extends Base {
     }
 
     @Test(priority = 7)
+    private void validateExcludeFromSearchFunctionality() throws IOException, InterruptedException {
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingMenu();
+        posting.filterPosting(Constants.MESSAGEPOSTINGTITLE);
+        posting.updateExcludeFromSearch();
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
+        posting.searchPosting(Constants.MESSAGEPOSTINGTITLE);
+        posting.validateExcludeFromSearchAndExpire();
+        basePage.pageReload();
+    }
+
+    @Test(priority = 8)
+    private void validateExpirePosting() throws IOException, InterruptedException {
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingMenu();
+        posting.filterPosting(Constants.LINKPOSTINGTITLE);
+        posting.updateExpirationDate();
+        Login login = new Login(getDriver());
+        login.LaunchApplication(getDriver());
+        login.LoginBasicuser(getDriver(), ConfigReader.getProperty("basicuser"), ConfigReader.getProperty("basicpassword"), ConfigReader
+                .getProperty("organization"));
+        posting.searchPosting(Constants.LINKPOSTINGTITLE);
+        posting.validateExcludeFromSearchAndExpire();
+        login.LaunchApplication(getDriver());
+        login.Loginpage(getDriver());
+        posting.searchPosting(Constants.LINKPOSTINGTITLE);
+        posting.validateExcludeFromSearchAndExpire();
+
+    }
+
+    @Test(priority = 9)
     private void validationForMimeTypePostingWhileAdd() throws Exception {
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
@@ -127,7 +160,7 @@ public class AdminScreenTestCase extends Base {
 
     }
 
-    @Test(priority = 8)
+    @Test(priority = 10)
     private void validateMoreThan10MBFileWhileAdd() throws IOException, InterruptedException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
@@ -137,11 +170,9 @@ public class AdminScreenTestCase extends Base {
         posting.addMoreThan10MBFile(ConfigReader.getProperty("morethan10mbfilepostingpath"));
         posting.validateMoreThan10mbFilePostingNotification();
     }
-    @Test(priority = 9)
+
+    @Test(priority = 11)
     private void validateMoreThan10MBFileWhileUpdate() throws IOException, InterruptedException {
-        Login login = new Login(getDriver());
-        login.LaunchApplication(getDriver());
-        login.Loginpage(getDriver());
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
         Posting posting = new Posting(getDriver());
@@ -151,8 +182,57 @@ public class AdminScreenTestCase extends Base {
         posting.fileUploadWhileUpdate(ConfigReader.getProperty("morethan10mbfilepostingpath"));
         posting.validateMoreThan10mbFilePostingNotification();
         posting.fileUploadWhileUpdate(ConfigReader.getProperty("mimetypepostingpath"));
-        posting.filepostingUpdate();
+        posting.filePostingUpdate();
         posting.validateMimePostingNotification();
+        basePage.pageReload();
     }
 
+    @Test(priority = 12)
+    private void validateLocationAdded() throws IOException, InterruptedException {
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToLocationMenu();
+        posting.addLocation();
+        posting.validatePostingAdded();
+        posting.openNewlyAddedLocation(ConfigReader.getProperty("locationcode"));
+        posting.validateNewlyAddedLocation(ConfigReader.getProperty("locationname"), ConfigReader.getProperty("locationcode"), ConfigReader.getProperty("locationNote"));
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingMenu();
+        posting.appliedTypeFilter();
+        posting.validateAddedLocationOnPosting(ConfigReader.getProperty("locationname"));
+        basePage.pageReload();
+    }
+
+    @Test(priority = 13)
+    private void validateLocationUpdated() throws IOException {
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToLocationMenu();
+        posting.openNewlyAddedLocation(ConfigReader.getProperty("locationcode"));
+        posting.updateLocation();
+        posting.validatePostingUpdated();
+        posting.openNewlyAddedLocation(ConfigReader.getProperty("locationcode") + ConfigReader.getProperty("updatemessage"));
+        posting.validateNewlyAddedLocation(ConfigReader.getProperty("locationname") + ConfigReader.getProperty("updatemessage"),
+                ConfigReader.getProperty("locationcode") + ConfigReader.getProperty("updatemessage"),
+                ConfigReader.getProperty("locationNote") + ConfigReader.getProperty("updatemessage"));
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingMenu();
+        posting.appliedTypeFilter();
+        posting.validateAddedLocationOnPosting(ConfigReader.getProperty("locationname") + ConfigReader.getProperty("updatemessage"));
+        basePage.pageReload();
+    }
+
+    @Test(priority = 14)
+    private void validateDeleteLocation() throws IOException, InterruptedException {
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToLocationMenu();
+        posting.openNewlyAddedLocation(ConfigReader.getProperty("locationcode") + ConfigReader.getProperty("updatemessage"));
+        posting.deletePosting();
+        posting.validatePostingDeleted();
+    }
 }
