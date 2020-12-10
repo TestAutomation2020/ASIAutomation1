@@ -1,5 +1,6 @@
 package Execution;
 
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import pages.*;
 import util.ConfigReader;
@@ -17,7 +18,7 @@ public class AdminScreenTestCase extends Base {
         login.Loginpage(getDriver());
     }
 
-    @Test(priority = 1,enabled = false)
+    @Test(priority = 1, enabled = false)
     private void regionLocale() throws InterruptedException, IOException {
         BasePage basePage = new BasePage(getDriver());
         basePage.navigateToKbAdmin();
@@ -36,7 +37,7 @@ public class AdminScreenTestCase extends Base {
         regionLocale.deleteRegionLocale();
     }
 
-    @Test(priority = 2,enabled = false)
+    @Test(priority = 2, enabled = false)
     private void federatedSearch() throws IOException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
@@ -53,7 +54,7 @@ public class AdminScreenTestCase extends Base {
     }
 
     @Test(priority = 3)
-    private void basicUserSearchPosting() throws Exception {
+    private void addMessageLinkPostingVerifyAddGroupAccess() throws IOException, InterruptedException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
         basePage.navigateToKbAdmin();
@@ -63,23 +64,29 @@ public class AdminScreenTestCase extends Base {
         posting.addMessagePosting();
         posting.validatePostingAdded();
         posting.filterPosting(Constants.MESSAGEPOSTINGTITLE);
-        //basePage.signOutUser();
+        posting.validateDefaultEnwisenGroupAccess();
         posting.giveGroupAccess();
         posting.addLinkPosting();
         posting.validatePostingAdded();
         posting.filterPosting(Constants.LINKPOSTINGTITLE);
+        posting.validateDefaultEnwisenGroupAccess();
         posting.giveGroupAccess();
+    }
+
+    @Test(priority = 4)
+    private void basicUserSearchPosting() throws Exception {
         Login login = new Login(getDriver());
         login.LaunchApplication(getDriver());
-        login.LoginBasicuser(getDriver(), ConfigReader.getProperty("basicuser"),ConfigReader.getProperty("basicpassword"),ConfigReader
+        login.LoginBasicuser(getDriver(), ConfigReader.getProperty("basicuser"), ConfigReader.getProperty("basicpassword"), ConfigReader
                 .getProperty("organization"));
+        Posting posting = new Posting(getDriver());
         posting.searchPosting(Constants.MESSAGEPOSTINGTITLE);
         posting.validateSearchedPosting(Constants.MESSAGEPOSTINGTITLE);
         posting.searchPosting(Constants.LINKPOSTINGTITLE);
         posting.validateSearchedPosting(Constants.LINKPOSTINGTITLE);
     }
 
-    @Test(priority = 4)
+    @Test(priority = 5)
     private void viewPostingUsingViewLink() throws Exception {
         Login login = new Login(getDriver());
         login.LaunchApplication(getDriver());
@@ -101,14 +108,51 @@ public class AdminScreenTestCase extends Base {
         basePage.navigateDefaultTab();
     }
 
-    @Test(priority = 5)
+    @Test(priority = 6)
     private void postingOpenUsingAlias() throws IOException {
-        BasePage basePage = new BasePage(getDriver());
-        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.openPostingUsingAliasName();
         posting.validateViewMessagePosting();
+        BasePage basePage = new BasePage(getDriver());
+        basePage.backButton();
     }
 
+    @Test(priority = 7)
+    private void validationForMimeTypePostingWhileAdd() throws Exception {
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingMenu();
+        posting.addFilePosting(ConfigReader.getProperty("mimetypepostingpath"));
+        posting.validateMimePostingNotification();
+
+    }
+
+    @Test(priority = 8)
+    private void validateMoreThan10MBFileWhileAdd() throws IOException, InterruptedException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingMenu();
+        posting.addMoreThan10MBFile(ConfigReader.getProperty("morethan10mbfilepostingpath"));
+        posting.validateMoreThan10mbFilePostingNotification();
+    }
+    @Test(priority = 9)
+    private void validateMoreThan10MBFileWhileUpdate() throws IOException, InterruptedException {
+        Login login = new Login(getDriver());
+        login.LaunchApplication(getDriver());
+        login.Loginpage(getDriver());
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingMenu();
+        posting.appliedTypeFilter();
+        posting.fileUploadWhileUpdate(ConfigReader.getProperty("morethan10mbfilepostingpath"));
+        posting.validateMoreThan10mbFilePostingNotification();
+        posting.fileUploadWhileUpdate(ConfigReader.getProperty("mimetypepostingpath"));
+        posting.filepostingUpdate();
+        posting.validateMimePostingNotification();
+    }
 
 }

@@ -143,6 +143,17 @@ public class BasePage {
             throw e;
         }
     }
+    public void backButton() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            webDriver.navigate().back();
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
 
     public void openDuplicateTab() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();

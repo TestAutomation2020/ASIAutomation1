@@ -53,6 +53,9 @@ public class Posting extends BasePage {
     @FindBy(xpath = "(//div[@class='x-btn x-form-file-btn x-unselectable x-btn-default-small'])[1]")
     private WebElement btnFileUpload;
 
+    @FindBy(xpath = "(//div[@class='x-btn x-form-file-btn x-unselectable x-btn-default-small'])[2]")
+    private WebElement btnFileUploadWhileUpdate;
+
     @FindBy(xpath = "//textarea[@name='aliasname']")
     private WebElement txtAliasName;
 
@@ -76,6 +79,13 @@ public class Posting extends BasePage {
 
     @FindBy(xpath = "//div[text()='Updated Successfully']")
     private WebElement notificationUpdatedSuccessfully;
+
+    @FindBy(xpath = "//div[text()=\"'mimetype.htm' file and 'text/plain' mime type is not supported\"]")
+    private WebElement notificationMimePosting;
+
+    @FindBy(xpath = "//div[text()='File exceeds the size limit. Use the CCT to upload the file.']")
+    private WebElement notificationMoreThan10MBFilePosting;
+
 
     @FindBy(xpath = "//div[text()='Deleted Successfully']")
     private WebElement notificationDeletedSuccessfully;
@@ -133,6 +143,18 @@ public class Posting extends BasePage {
 
     @FindBy(xpath = "//textarea[@id='txtBulletinText']")
     private WebElement getMessagePostingText;
+
+    @FindBy(xpath = "(//div[contains(text(),'Enwisen') and @class='x-grid-cell-inner '])[2]")
+    private WebElement txtEnwisenGroup;
+
+    @FindBy(xpath = "//input[@name='patternType']")
+    private WebElement inputTypeFilter;
+
+    @FindBy(xpath = "//li[text()='DOC']")
+    private WebElement filterDoc;
+
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner ']//a)[1]")
+    private WebElement open1stDocPosting;
 
     public Posting(WebDriver webDriver) {
         super(webDriver);
@@ -197,7 +219,6 @@ public class Posting extends BasePage {
             ScreenPrints(webDriver);
             throw e;
         }
-
     }
 
     public void addLinkPosting() throws IOException {
@@ -230,10 +251,9 @@ public class Posting extends BasePage {
             ScreenPrints(webDriver);
             throw e;
         }
-
     }
 
-    public void addFilePosting() throws Exception {
+    public void addFilePosting(String documentpostingpath) throws Exception {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             waitForLoadingIconToBeDisappeared();
@@ -242,7 +262,7 @@ public class Posting extends BasePage {
             clickAfterVisibilityOfElement(btnFileUpload);
             Reporter.log("Type select dropdown clicked.");
             Thread.sleep(2000);
-            Runtime.getRuntime().exec(ConfigReader.getProperty("documentpostingpath"));
+            Runtime.getRuntime().exec(documentpostingpath);
             Reporter.log("Executed AutoIT and File taken in machine.");
             Thread.sleep(2000);
             txtTitle.sendKeys(Constants.FILEPOSTINGTITLE);
@@ -263,9 +283,7 @@ public class Posting extends BasePage {
             ScreenPrints(webDriver);
             throw e;
         }
-
     }
-
 
     public void searchPosting(String postingName) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
@@ -378,9 +396,7 @@ public class Posting extends BasePage {
     public void giveGroupAccess() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
-            waitForLoadingIconToBeDisappeared();
-            clickAfterVisibilityOfElement(lnkGroupsInGrid);
-            Reporter.log("clicked on Group link.");
+
             waitForLoadingIconToBeDisappeared();
             clickAfterVisibilityOfElement(lnkUnAssignedGroups);
             Reporter.log("Clicked on UnAssigned Group tab.");
@@ -455,9 +471,43 @@ public class Posting extends BasePage {
             ScreenPrints(webDriver);
             throw e;
         }
-
     }
 
+    public void validateDefaultEnwisenGroupAccess() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(lnkGroupsInGrid.getText(), ConfigReader.getProperty("grouplink"), "1 Group is not present for the posting.");
+            Reporter.log("1 Group is present for newly added posting.");
+            clickAfterVisibilityOfElement(lnkGroupsInGrid);
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(txtEnwisenGroup.getText(), ConfigReader.getProperty("enwisengroup"), "Enwisen Group assigned by default.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void addMoreThan10MBFile(String documentpostingpath) throws InterruptedException, IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(btnAddNew);
+            Reporter.log("Add New button clicked.");
+            clickAfterVisibilityOfElement(btnFileUpload);
+            Reporter.log("Type select dropdown clicked.");
+            Thread.sleep(2000);
+            Runtime.getRuntime().exec(documentpostingpath);
+            Reporter.log("Executed AutoIT and File taken in machine.");
+            Thread.sleep(2000);
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+
+        }
+    }
 
     public void validatePostingAdded() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
@@ -470,7 +520,32 @@ public class Posting extends BasePage {
             ScreenPrints(webDriver);
             throw e;
         }
+    }
 
+    public void validateMimePostingNotification() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(notificationMimePosting.getText(), ConfigReader.getProperty("mimepostingnotification"), "mime type posting validation message is not matched.");
+            Reporter.log("Mime type posting is verified.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void validateMoreThan10mbFilePostingNotification() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(notificationMoreThan10MBFilePosting.getText(), ConfigReader.getProperty("morethan10mbnotification"), "More than 10 mb file posting validation message is not matched.");
+            Reporter.log("More than 10 mb file posting is verified.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
     }
 
     public void validatePostingUpdated() throws IOException {
@@ -483,9 +558,56 @@ public class Posting extends BasePage {
             ScreenPrints(webDriver);
             throw e;
         }
-
     }
 
+    public void appliedTypeFilter() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            JavascriptExecutor js = (JavascriptExecutor) webDriver;
+            js.executeScript("arguments[0].scrollIntoView();", inputTypeFilter);
+            clickAfterVisibilityOfElement(inputTypeFilter);
+            clickAfterVisibilityOfElement(filterDoc);
+            inputTypeFilter.sendKeys(Keys.ENTER);
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(open1stDocPosting);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void fileUploadWhileUpdate(String documentpostingpath) throws InterruptedException, IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(btnFileUploadWhileUpdate);
+            Reporter.log("Type select dropdown clicked.");
+            Thread.sleep(2000);
+            Runtime.getRuntime().exec(documentpostingpath);
+            Reporter.log("Executed AutoIT and File taken in machine.");
+            Thread.sleep(2000);
+
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void filepostingUpdate() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(btnDeleteOk);
+            clickAfterVisibilityOfElement(btnUpdate);
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+
+    }
     public void validatePostingDeleted() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {

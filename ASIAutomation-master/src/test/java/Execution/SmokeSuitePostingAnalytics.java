@@ -37,7 +37,7 @@ public class SmokeSuitePostingAnalytics extends Base{
     @Test(priority = 2)
     private void filePostingAddSearchUpdateDelete() throws Exception {
         Posting posting = new Posting(getDriver());
-        posting.addFilePosting();
+        posting.addFilePosting(ConfigReader.getProperty("documentpostingpath"));
         posting.validatePostingAdded();
         BasePage basePage = new BasePage(getDriver());
         basePage.openDuplicateTab();
