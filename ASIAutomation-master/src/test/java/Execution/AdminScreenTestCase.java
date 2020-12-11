@@ -234,5 +234,44 @@ public class AdminScreenTestCase extends Base {
         posting.openNewlyAddedLocation(ConfigReader.getProperty("locationcode") + ConfigReader.getProperty("updatemessage"));
         posting.deletePosting();
         posting.validatePostingDeleted();
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingMenu();
+        posting.appliedTypeFilter();
+        posting.validateDeleteLocationOnPosting(ConfigReader.getProperty("locationname") + ConfigReader.getProperty("updatemessage"));
+        basePage.pageReload();
+    }
+
+    @Test(priority = 15)
+    private void validatePostingAuditReport() throws IOException, InterruptedException {
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingAuditReportMenu();
+        posting.appliedFilterInPostingAuditReport();
+        posting.validatePostingAuditReportGrid();
+    }
+
+    @Test(priority = 16)
+    private void validateAllPostingReport() throws IOException, InterruptedException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToAllPosting();
+        posting.appliedFilterInAllPostingReport();
+        posting.validateAllPostingReportGrid();
+        basePage.pageReload();
+    }
+    @Test(priority = 16)
+    private void validatePostingUsageReport() throws IOException, InterruptedException {
+        Login login = new Login(getDriver());
+        login.LaunchApplication(getDriver());
+        login.Loginpage(getDriver());
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingUsageMenu();
+        posting.appliedFilterInPostingUsageReport();
+        posting.validatePostingUsageReportGrid();
     }
 }

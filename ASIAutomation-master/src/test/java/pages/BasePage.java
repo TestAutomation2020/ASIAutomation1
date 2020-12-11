@@ -230,6 +230,16 @@ public class BasePage {
             return false;
         }
     }
+
+    public boolean isElementPresent (String xpath){
+        boolean isElementPresent;
+        try {
+            isElementPresent = webDriver.findElement(By.xpath(xpath)).isDisplayed();
+            return isElementPresent;
+        } catch (Exception e) {
+            return false;
+        }
+    }
     public void ScreenPrints (WebDriver webDriver) throws IOException
     {
         Date d = new Date();

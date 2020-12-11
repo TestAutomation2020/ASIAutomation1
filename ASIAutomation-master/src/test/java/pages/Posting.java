@@ -15,7 +15,7 @@ import java.io.IOException;
 public class Posting extends BasePage {
 
     @FindBy(xpath = "//span[contains(@class,'x-tree-node-text')][contains(text(),'Postings')]")
-    private WebElement postingsMenu;
+    private WebElement menuPostings;
 
     @FindBy(xpath = "(//span[text()='Postings'])[2]")
     private WebElement postings;
@@ -189,6 +189,68 @@ public class Posting extends BasePage {
     @FindBy(xpath = "//input[@name='locationlabel']")
     private WebElement dropdownLocationOnPosting;
 
+    @FindBy(xpath = "//label[@class='x-form-cb-label x-form-cb-label-default x-form-cb-label-after ' and text()='Create new Folder']")
+    private WebElement radioCreateNewFolder;
+
+    @FindBy(xpath = "//input[@name='newfolder']")
+    private WebElement inputNewFolder;
+
+    @FindBy(xpath = "//span[text()='Posting Audit Report' and @class='x-tree-node-text ']")
+    private WebElement menuPostingAuditReport;
+
+    @FindBy(xpath = "//span[text()='Start Date']/../../..//input")
+    private WebElement inputStartDatePostingAuditReport;
+
+    @FindBy(xpath = "//span[text()='End Date']/../../..//input")
+    private WebElement inputEndDatePostingAuditReport;
+
+    @FindBy(xpath = "//input[@name='accountId']")
+    private WebElement inputAccountIDPostingAuditReport;
+
+    @FindBy(xpath = "//input[@name='titlePosting']")
+    private WebElement inputTitlePostingAuditReport;
+
+    @FindBy(xpath = "//span[text()='Apply']")
+    private WebElement btnApply;
+
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner '])[1]")
+    private WebElement gridTitleOnPostingAuditReport;
+
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner '])[2]")
+    private WebElement gridAccountIdOnPostingAuditReport;
+
+    @FindBy(xpath = "//span[text()='All Postings' and @class='x-tree-node-text ']")
+    private WebElement menuAllPosting;
+
+    @FindBy(xpath = "//input[@name='folderList']")
+    private WebElement inputFolderAllPosting;
+
+    @FindBy(xpath = "//input[@name='postingTitle']")
+    private WebElement inputTitleAllPosting;
+
+    @FindBy(xpath = "//input[@name='aliasName']")
+    private WebElement inputAliasAllPosting;
+
+    @FindBy(xpath = "//input[@name='name']")
+    private WebElement inputSelectFolder;
+
+    @FindBy(xpath = "//input[@name='keywords']")
+    private WebElement inputKeyword;
+
+    @FindBy(xpath = "//label[@class='x-form-cb-label x-form-cb-label-default x-form-cb-label-after  ' and text()='Both']")
+    private WebElement radioBothAllPosting;
+
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner ' and text()='Link'])[1]")
+    private WebElement gridLinkTypeAllPosting;
+
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner ' and text()='Message'])[1]")
+    private WebElement gridMessageTypePostingUsage;
+
+    @FindBy(xpath = "//span[text()='Posting Usage' and @class='x-tree-node-text ']")
+    private WebElement menuPostingUsage;
+
+
+
     public Posting(WebDriver webDriver) {
         super(webDriver);
     }
@@ -196,7 +258,7 @@ public class Posting extends BasePage {
     public void navigateToPostingMenu() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
-            clickAfterVisibilityOfElement(postingsMenu);
+            clickAfterVisibilityOfElement(menuPostings);
             Reporter.log("Posting menu opened.");
             clickAfterVisibilityOfElement(postings);
             Reporter.log("Posting screen opened.");
@@ -233,7 +295,7 @@ public class Posting extends BasePage {
             Reporter.log("Message Type selected.");
             txtTitle.sendKeys(Constants.MESSAGEPOSTINGTITLE);
             Reporter.log("Posting Title " + Constants.MESSAGEPOSTINGTITLE + " typed.");
-            txtMessage.sendKeys(ConfigReader.getProperty("messagepostingmessage"));
+            txtMessage.sendKeys(Constants.FILEPOSTINGTITLE);
             Reporter.log("Posting message typed.");
             txtAliasName.sendKeys(Constants.ALIASNAMEFORMESSAGEPOSTING);
             if (shouldUploadToLive()) {
@@ -241,7 +303,11 @@ public class Posting extends BasePage {
                 Reporter.log("Upload to live switch off.");
             }
             // clickAfterVisibilityOfElement(switchNewWindow);
-            Reporter.log("New Window Switch off.");
+            // Reporter.log("New Window Switch off.");
+            clickAfterVisibilityOfElement(radioCreateNewFolder);
+            Reporter.log("Create New Folder radio button clicked.");
+            inputNewFolder.sendKeys(Constants.NEWFOLDER);
+            Reporter.log("Entered New folder text box.");
             clickAfterVisibilityOfElement(btnNext);
             Reporter.log("Next button clicked.");
             clickAfterVisibilityOfElement(btnSave);
@@ -268,12 +334,17 @@ public class Posting extends BasePage {
             Reporter.log("Posting Title " + Constants.LINKPOSTINGTITLE + " typed.");
             txtURL.sendKeys(ConfigReader.getProperty("linkpostingurl"));
             Reporter.log("Posting Link URL typed.");
+            inputKeyword.sendKeys(Constants.FILEPOSTINGTITLE);
             if (shouldUploadToLive()) {
                 clickAfterVisibilityOfElement(switchUploadToLive);
                 Reporter.log("Upload to live switch off.");
             }
             // clickAfterVisibilityOfElement(switchNewWindow);
-            Reporter.log("New Window Switch off.");
+            // Reporter.log("New Window Switch off.");
+            clickAfterVisibilityOfElement(inputSelectFolder);
+            Reporter.log("Create New Folder radio button clicked.");
+            inputSelectFolder.sendKeys(Constants.NEWFOLDER);
+            Reporter.log("Entered New folder text box.");
             clickAfterVisibilityOfElement(btnNext);
             Reporter.log("Next button clicked.");
             clickAfterVisibilityOfElement(btnSave);
@@ -305,7 +376,7 @@ public class Posting extends BasePage {
                 Reporter.log("Upload to live switch off.");
             }
             //clickAfterVisibilityOfElement(switchNewWindow);
-            Reporter.log("New Window Switch off.");
+            //Reporter.log("New Window Switch off.");
             clickAfterVisibilityOfElement(btnNext);
             Reporter.log("Next button clicked.");
             clickAfterVisibilityOfElement(btnSave);
@@ -423,11 +494,18 @@ public class Posting extends BasePage {
         }
     }
 
-    private void deleteFunctionality() {
-        clickAfterVisibilityOfElement(btnDelete);
-        Reporter.log("Clicked on Delete button.");
-        clickAfterVisibilityOfElement(btnDeleteOk);
-        Reporter.log("Clicked on OK button.");
+    private void deleteFunctionality() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(btnDelete);
+            Reporter.log("Clicked on Delete button.");
+            clickAfterVisibilityOfElement(btnDeleteOk);
+            Reporter.log("Clicked on OK button.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
     }
 
     public void giveGroupAccess() throws IOException {
@@ -474,7 +552,7 @@ public class Posting extends BasePage {
             //webDriver.switchTo().frame(webDriver.findElement(By.xpath("//*[@src='/ASI/Tools/Postings/Posting_Bulletin.aspx']")));
             Assert.assertEquals(getMessagePostingTitle.getText(), Constants.MESSAGEPOSTINGTITLE, "Posting Title is not verified.");
             Reporter.log("Posting Title Verified.");
-            Assert.assertEquals(getMessagePostingText.getText(), ConfigReader.getProperty("messagepostingmessage"), "Posting Message is not verified.");
+            Assert.assertEquals(getMessagePostingText.getText(), Constants.FILEPOSTINGTITLE, "Posting Message is not verified.");
             Reporter.log("Message Posting title verified.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
@@ -714,7 +792,7 @@ public class Posting extends BasePage {
     public void navigateToLocationMenu() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
-            clickAfterVisibilityOfElement(postingsMenu);
+            clickAfterVisibilityOfElement(menuPostings);
             Reporter.log("Posting menu opened.");
             clickAfterVisibilityOfElement(menuLocation);
             Reporter.log("Posting screen opened.");
@@ -769,22 +847,22 @@ public class Posting extends BasePage {
         }
     }
 
-    public void validateAddedLocationOnPosting(String locationname) throws IOException {
+    public void validateAddedLocationOnPosting(String locationName) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
-            Assert.assertTrue(webDriver.findElement(By.xpath("//div[text()='"+ locationname +"']")).isDisplayed(),"Newly Added Location is not present.");
+            Assert.assertTrue(webDriver.findElement(By.xpath("//div[text()='" + locationName + "']")).isDisplayed(), "Newly Added Location is not present.");
             Reporter.log("Newly Added Location is present.");
-            webDriver.findElement(By.xpath("//div[text()='"+ locationname +"']/../../../../div[2]/div//label")).click();
+            webDriver.findElement(By.xpath("//div[text()='" + locationName + "']/../../../../div[2]/div//label")).click();
             clickAfterVisibilityOfElement(btnUpdate);
             Reporter.log("Clicked on Update button.");
             validatePostingUpdated();
             Reporter.log("Validate Posting update.");
             waitForLoadingIconToBeDisappeared();
             clickAfterVisibilityOfElement(dropdownLocationOnPosting);
-            webDriver.findElement(By.xpath("//li[text()='" + locationname + "']")).click();
+            webDriver.findElement(By.xpath("//li[text()='" + locationName + "']")).click();
             dropdownLocationOnPosting.sendKeys(Keys.ENTER);
             waitForLoadingIconToBeDisappeared();
-            Assert.assertEquals(gridLocationOnPosting.getText(), locationname,"Location applied to the posting.");
+            Assert.assertEquals(gridLocationOnPosting.getText(), locationName, "Location applied to the posting.");
             Reporter.log("Location Name present on Posting Grid.");
         } catch (IOException e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
@@ -808,6 +886,164 @@ public class Posting extends BasePage {
         }
     }
 
+    public void validateDeleteLocationOnPosting(String locationName) {
+        Assert.assertFalse(isElementPresent("//div[text()='" + locationName + "']"), "Location should be present in form..");
+        Reporter.log("Location is not present.");
+        clickAfterVisibilityOfElement(dropdownLocationOnPosting);
+        Assert.assertFalse(isElementPresent("//li[text()='" + locationName + "']"), "Location should be present in dropdown.");
+    }
+
+    public void navigateToPostingAuditReportMenu() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(menuPostings);
+            Reporter.log("Posting menu opened.");
+            clickAfterVisibilityOfElement(menuPostingAuditReport);
+            Reporter.log("Posting Audit Report Menu screen opened.");
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void appliedFilterInPostingAuditReport() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            inputStartDatePostingAuditReport.sendKeys(getTodayDate());
+            Reporter.log("StartDate entered in Posting Audit Report.");
+            inputEndDatePostingAuditReport.sendKeys(getTodayDate());
+            Reporter.log("EndDate entered in Posting Audit Report.");
+            inputAccountIDPostingAuditReport.sendKeys(ConfigReader.getProperty("userid"));
+            Reporter.log("Account ID enterted in Posting Audit Report.");
+            inputTitlePostingAuditReport.sendKeys(Constants.MESSAGEPOSTINGTITLE);
+            Reporter.log("Posting Title entered in Posting Audit Report.");
+            clickAfterVisibilityOfElement(btnApply);
+            Reporter.log("Clicked on apply button.");
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void validatePostingAuditReportGrid() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(gridTitleOnPostingAuditReport.getText(), Constants.MESSAGEPOSTINGTITLE, "Posting title is not matched.");
+            Reporter.log("Posting Title is matched on Posting Audit Report.");
+            Assert.assertEquals(gridAccountIdOnPostingAuditReport.getText().toLowerCase(), ConfigReader.getProperty("userid").toLowerCase(), "User ID is not matched.");
+            Reporter.log("User ID is matched on Posting Audit Repost.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void navigateToAllPosting() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(menuPostings);
+            Reporter.log("Posting menu opened.");
+            clickAfterVisibilityOfElement(menuAllPosting);
+            Reporter.log("All Posting Menu screen opened.");
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void appliedFilterInAllPostingReport() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            inputFolderAllPosting.sendKeys(Constants.NEWFOLDER);
+            inputFolderAllPosting.click();
+            inputTitleAllPosting.sendKeys(Constants.LINKPOSTINGTITLE);
+            //inputAliasAllPosting.sendKeys(Constants.ALIASNAMEFORMESSAGEPOSTING);
+            inputKeyword.sendKeys(Constants.FILEPOSTINGTITLE);
+            clickAfterVisibilityOfElement(radioBothAllPosting);
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void validateAllPostingReportGrid() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(gridLinkTypeAllPosting.getText(), "Link", "Posting Type Link is not matched.");
+            Reporter.log("Posting Type is matched on All Posting.");
+            Assert.assertEquals(webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner ' and text()='" + Constants.LINKPOSTINGTITLE + "']")).getText(), Constants.LINKPOSTINGTITLE, "Link Posting title is not matched.");
+            Reporter.log("Link Posting Title is matched on All Posting.");
+            Assert.assertEquals(webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner ' and text()='" + Constants.NEWFOLDER + "']")).getText(), Constants.NEWFOLDER, "Posting folder is not matched.");
+            Reporter.log("Posting folder is matched on All Posting.");
+            Assert.assertEquals(webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner ' and text()='" + Constants.FILEPOSTINGTITLE + "']")).getText(), Constants.FILEPOSTINGTITLE, "Posting Keyword is not matched.");
+            Reporter.log("Posting Keyword is matched on All Posting.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void navigateToPostingUsageMenu() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(menuPostings);
+            Reporter.log("Posting menu opened.");
+            clickAfterVisibilityOfElement(menuPostingUsage);
+            Reporter.log("Posting Usage Menu screen opened.");
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void appliedFilterInPostingUsageReport() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            inputAccountIDPostingAuditReport.sendKeys(ConfigReader.getProperty("userid"));
+            inputTitleAllPosting.sendKeys(Constants.MESSAGEPOSTINGTITLE);
+            inputAliasAllPosting.sendKeys(Constants.ALIASNAMEFORMESSAGEPOSTING);
+            //inputKeyword.sendKeys(Constants.FILEPOSTINGTITLE);
+            clickAfterVisibilityOfElement(radioBothAllPosting);
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void validatePostingUsageReportGrid() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(gridMessageTypePostingUsage.getText(), "Message", "Posting Type Message is not matched.");
+            Reporter.log("Posting Type is matched on Posting Usage.");
+            Assert.assertEquals(webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner ' and text()='" + Constants.MESSAGEPOSTINGTITLE + "']")).getText(), Constants.MESSAGEPOSTINGTITLE, "Link Posting title is not matched.");
+            Reporter.log("Message Posting Title is matched on All Posting.");
+            Assert.assertEquals(webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner ' and text()='" + Constants.ALIASNAMEFORMESSAGEPOSTING + "']")).getText(), Constants.ALIASNAMEFORMESSAGEPOSTING, "Posting alias name is not matched.");
+            Reporter.log("Posting alias namme is matched on All Posting.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
 
     private boolean shouldUploadToLive() {
         return ConfigReader.getProperty("uploadtolive").equalsIgnoreCase(Constants.KEYWORD_YES);
