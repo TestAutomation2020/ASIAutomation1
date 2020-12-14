@@ -166,6 +166,7 @@ public class BasePage {
     public void openDuplicateTab() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
+            waitForLoadingIconToBeDisappeared();
             currentTab = webDriver.getWindowHandle();
             String currentUrl = webDriver.getCurrentUrl();
             String link = String.format("window.open('%s','_blank');", currentUrl);

@@ -249,7 +249,17 @@ public class Posting extends BasePage {
     @FindBy(xpath = "//span[text()='Posting Usage' and @class='x-tree-node-text ']")
     private WebElement menuPostingUsage;
 
+    @FindBy(xpath = "//span[text()='Posting Images' and @class='x-tree-node-text ']")
+    private WebElement menuPostingImage;
 
+    @FindBy(xpath = "//input[@name='imageupload']")
+    private WebElement btnImageFileUpload;
+
+    @FindBy(xpath = "//span[text()='UPDATE']")
+    private WebElement btnUpdatePostingImage;
+
+    @FindBy(xpath = "//img")
+    private WebElement imgPosting;
 
     public Posting(WebDriver webDriver) {
         super(webDriver);
@@ -580,7 +590,7 @@ public class Posting extends BasePage {
         try {
             String url = webDriver.getCurrentUrl();
             String[] splitStrings = StringUtils.split(url, '?');
-            webDriver.get(splitStrings[0].toString() + "?alias=" + Constants.ALIASNAMEFORMESSAGEPOSTING);
+            webDriver.get(splitStrings[0] + "?alias=" + Constants.ALIASNAMEFORMESSAGEPOSTING);
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
@@ -1038,6 +1048,75 @@ public class Posting extends BasePage {
             Reporter.log("Message Posting Title is matched on All Posting.");
             Assert.assertEquals(webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner ' and text()='" + Constants.ALIASNAMEFORMESSAGEPOSTING + "']")).getText(), Constants.ALIASNAMEFORMESSAGEPOSTING, "Posting alias name is not matched.");
             Reporter.log("Posting alias namme is matched on All Posting.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void navigateToPostingImage() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(menuPostings);
+            Reporter.log("Posting menu opened.");
+            clickAfterVisibilityOfElement(menuPostingImage);
+            Reporter.log("Posting Image menu opened.");
+
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void addedImagePosting() throws IOException, InterruptedException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(btnFileUpload);
+            Reporter.log("clicked on Image upload button.");
+            Thread.sleep(2000);
+            Runtime.getRuntime().exec(ConfigReader.getProperty("imagePostingPath"));
+            Reporter.log("Executed AutoIT and File taken in machine.");
+            Thread.sleep(2000);
+            if (shouldUploadToLive()) {
+                clickAfterVisibilityOfElement(switchUploadToLive);
+                Reporter.log("Upload to live switch off.");
+            }
+            clickAfterVisibilityOfElement(btnUpdatePostingImage);
+
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void openAddedImagePosting() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            String url = webDriver.getCurrentUrl();
+            String[] splitStrings = StringUtils.split(url, '/');
+            System.out.println(splitStrings[1]);
+            webDriver.get("https://"+ splitStrings[1] + "/HR/" + ConfigReader.getProperty("organization")+"/Images/AutoImage.jpg");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void validateOpenedImagePosting() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+           Assert.assertTrue(imgPosting.isDisplayed(),"Image Posting should not be opened.");
+           Reporter.log("Image Posting is opened properly.");
+           Assert.assertEquals(imgPosting.getAttribute("src"),webDriver.getCurrentUrl(),"Image posting path should not be matched.");
+           Reporter.log("Image Posting path is opened properly.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);

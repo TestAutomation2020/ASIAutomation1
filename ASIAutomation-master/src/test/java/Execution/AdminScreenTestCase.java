@@ -1,5 +1,6 @@
 package Execution;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 import pages.*;
 import util.ConfigReader;
@@ -265,13 +266,30 @@ public class AdminScreenTestCase extends Base {
     }
     @Test(priority = 16)
     private void validatePostingUsageReport() throws IOException, InterruptedException {
-        Login login = new Login(getDriver());
-        login.LaunchApplication(getDriver());
-        login.Loginpage(getDriver());
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToPostingUsageMenu();
         posting.appliedFilterInPostingUsageReport();
         posting.validatePostingUsageReportGrid();
     }
+
+    @Test(priority = 17)
+    private void validatePostingImage() throws IOException, InterruptedException {
+        Login login = new Login(getDriver());
+        login.LaunchApplication(getDriver());
+        login.Loginpage(getDriver());
+        BasePage basePage = new BasePage(getDriver());
+        //basePage.pageReload();
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToPostingImage();
+        posting.addedImagePosting();
+        posting.validatePostingAdded();
+        basePage.openDuplicateTab();
+        basePage.navigateAnotherOpenedTab();
+        posting.openAddedImagePosting();
+        posting.validateOpenedImagePosting();
+
+    }
+
 }
