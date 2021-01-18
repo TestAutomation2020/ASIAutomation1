@@ -36,10 +36,14 @@ public class Mail {
                     });
 
             try {
-                Address[] addresses = new InternetAddress[3];
+                Address[] addresses = new InternetAddress[5];
                 addresses[0] = new InternetAddress("riddhi.kalolia@harbingergroup.com");
-                addresses[1] = new InternetAddress("smita.mane@harbingergroup.com");
-                addresses[2] = new InternetAddress("imran.shaikh@harbingergroup.com");
+                addresses[1] = new InternetAddress("Smita.mane@harbingergroup.com");
+                addresses[2] = new InternetAddress("Imran.shaikh@harbingergroup.com");
+                addresses[3] = new InternetAddress("Aniket.Khedkar@harbingergroup.com");
+                addresses[4] = new InternetAddress("Yogesh.Potdar@harbingergroup.com");
+
+
 
 
                 Message message = new MimeMessage(session);
@@ -56,7 +60,7 @@ public class Mail {
                 textBodyPart.setContent("We have completed Smoke testing on below Organization and Browser:" + "\n"
                         + "URL: " + ConfigReader.getProperty("url") + "\n"
                         + "Organization: " + ConfigReader.getProperty("organization") + "\n"
-                        + "Browser: " + ConfigReader.getProperty("test.browser.name") + "\n" + "\n"
+                        + "Browser: " + "Chrome" + "\n" + "\n"
                         + "Please find below Test Result:" + "\n"
                         + "Result: " + TestStatistics.getCount() + "\n" + "\n"
                         + "Failed Test Case: " + TestStatistics.getFailedTests() + "\n" + "\n"

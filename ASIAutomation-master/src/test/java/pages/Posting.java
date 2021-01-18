@@ -68,6 +68,12 @@ public class Posting extends BasePage {
     @FindBy(xpath = "//span[text()='Exclude From Search']/../../../div/div/label")
     private WebElement switchExcludeFromSearch;
 
+    @FindBy(xpath = "//div[text()='Announcements']/../../../..//label[@data-ref='boxLabelEl']")
+    private WebElement switchAnnouncements;
+
+    @FindBy(xpath = "//div[text()='Bulletins']/../../../..//label[@data-ref='boxLabelEl']")
+    private WebElement switchBulletins;
+
     @FindBy(xpath = "(//div[@class='x-grid-cell-inner '])[2]")
     private WebElement gridLocationOnPosting;
 
@@ -160,7 +166,7 @@ public class Posting extends BasePage {
     private WebElement filterDoc;
 
     @FindBy(xpath = "(//div[@class='x-grid-cell-inner ']//a)[1]")
-    private WebElement open1stDocPosting;
+    private WebElement open1stPostingInGrid;
 
     @FindBy(xpath = "//div[@class='x-tool-tool-el x-tool-img x-tool-close ']")
     private WebElement btnCloseIconInNotification;
@@ -261,6 +267,15 @@ public class Posting extends BasePage {
     @FindBy(xpath = "//img")
     private WebElement imgPosting;
 
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner ']//h4//a)[1]")
+    private WebElement filePostingSearchPage;
+
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner ']//h4//a)[2]")
+    private WebElement linkPostingSearchPage;
+
+    @FindBy(xpath = "(//div[@class='x-grid-cell-inner ']//h4//a)[3]")
+    private WebElement messagePostingSearchPage;
+
     public Posting(WebDriver webDriver) {
         super(webDriver);
     }
@@ -318,6 +333,10 @@ public class Posting extends BasePage {
             Reporter.log("Create New Folder radio button clicked.");
             inputNewFolder.sendKeys(Constants.NEWFOLDER);
             Reporter.log("Entered New folder text box.");
+            clickAfterVisibilityOfElement(switchAnnouncements);
+            Reporter.log("Announcement location on");
+            clickAfterVisibilityOfElement(switchBulletins);
+            Reporter.log("Bulletin location on");
             clickAfterVisibilityOfElement(btnNext);
             Reporter.log("Next button clicked.");
             clickAfterVisibilityOfElement(btnSave);
@@ -367,7 +386,7 @@ public class Posting extends BasePage {
         }
     }
 
-    public void addFilePosting(String documentpostingpath) throws Exception {
+    public void addFilePosting(String documentpostingpath, String filepostingtitle) throws Exception {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             waitForLoadingIconToBeDisappeared();
@@ -379,7 +398,7 @@ public class Posting extends BasePage {
             Runtime.getRuntime().exec(documentpostingpath);
             Reporter.log("Executed AutoIT and File taken in machine.");
             Thread.sleep(2000);
-            txtTitle.sendKeys(Constants.FILEPOSTINGTITLE);
+            txtTitle.sendKeys(filepostingtitle);
             Reporter.log("Posting Title " + Constants.FILEPOSTINGTITLE + " typed.");
             if (shouldUploadToLive()) {
                 clickAfterVisibilityOfElement(switchUploadToLive);
@@ -402,13 +421,14 @@ public class Posting extends BasePage {
     public void searchPosting(String postingName) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
+            //  waitForLoadingIconToBeDisappeared();
             clearAfterVisibilityOfElement(txtSearchbar);
             Reporter.log("Search bar cleared.");
-            waitForLoadingIconToBeDisappeared();
             txtSearchbar.sendKeys(postingName);
             Reporter.log("Posting name typed in search text box.");
             txtSearchbar.sendKeys(Keys.ENTER);
             Reporter.log("Enter button clicked.");
+
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
@@ -655,6 +675,7 @@ public class Posting extends BasePage {
     public void validateExcludeFromSearchAndExpire() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
+            waitForLoadingIconToBeDisappeared();
             Assert.assertEquals(txt0ResultFound.getText(), ConfigReader.getProperty("search0resultfound"), "0 Result found message is not verified.");
             Reporter.log("0 Result found message verified.");
         } catch (Exception e) {
@@ -738,17 +759,17 @@ public class Posting extends BasePage {
         }
     }
 
-    public void appliedTypeFilter() throws IOException {
+    public void appliedTypeFilter(String patternType) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             waitForLoadingIconToBeDisappeared();
             JavascriptExecutor js = (JavascriptExecutor) webDriver;
             js.executeScript("arguments[0].scrollIntoView();", inputTypeFilter);
             clickAfterVisibilityOfElement(inputTypeFilter);
-            clickAfterVisibilityOfElement(filterDoc);
+            webDriver.findElement(By.xpath("//li[text()='" + patternType + "']")).click();
             inputTypeFilter.sendKeys(Keys.ENTER);
             waitForLoadingIconToBeDisappeared();
-            clickAfterVisibilityOfElement(open1stDocPosting);
+            clickAfterVisibilityOfElement(open1stPostingInGrid);
             waitForLoadingIconToBeDisappeared();
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
@@ -1006,6 +1027,39 @@ public class Posting extends BasePage {
         }
     }
 
+    public void appliedFilterInAllPostingReportForFolder(String postingTitle) throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            inputFolderAllPosting.clear();
+            inputFolderAllPosting.sendKeys(postingTitle);
+            inputFolderAllPosting.click();
+            clickAfterVisibilityOfElement(radioBothAllPosting);
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void validateAllPostingReportGridForFolder(String validPostingTitle, String postingFolderName, String invalidPostingTitle) throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner ' and text()='" + validPostingTitle + "']")).getText(), validPostingTitle, "Posting title is not matched.");
+            Reporter.log("Posting Title is matched on All Posting.");
+            Assert.assertEquals(webDriver.findElement(By.xpath("//div[@class='x-grid-cell-inner ' and text()='" + postingFolderName + "']")).getText(), postingFolderName, "Posting folder is not matched.");
+            Reporter.log("Posting folder is matched on All Posting.");
+            Assert.assertFalse(isElementPresent("//div[@class='x-grid-cell-inner ' and text()='" + invalidPostingTitle + "']"), "Posting is present");
+            Reporter.log("Posting Title(_) is not matched on All Posting.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
     public void navigateToPostingUsageMenu() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -1101,7 +1155,7 @@ public class Posting extends BasePage {
             String url = webDriver.getCurrentUrl();
             String[] splitStrings = StringUtils.split(url, '/');
             System.out.println(splitStrings[1]);
-            webDriver.get("https://"+ splitStrings[1] + "/HR/" + ConfigReader.getProperty("organization")+"/Images/AutoImage.jpg");
+            webDriver.get("https://" + splitStrings[1] + "/HR/" + ConfigReader.getProperty("organization") + "/Images/AutoImage.jpg");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
@@ -1113,16 +1167,24 @@ public class Posting extends BasePage {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             waitForLoadingIconToBeDisappeared();
-           Assert.assertTrue(imgPosting.isDisplayed(),"Image Posting should not be opened.");
-           Reporter.log("Image Posting is opened properly.");
-           Assert.assertEquals(imgPosting.getAttribute("src"),webDriver.getCurrentUrl(),"Image posting path should not be matched.");
-           Reporter.log("Image Posting path is opened properly.");
+            Assert.assertTrue(imgPosting.isDisplayed(), "Image Posting should not be opened.");
+            Reporter.log("Image Posting is opened properly.");
+            Assert.assertEquals(imgPosting.getAttribute("src"), webDriver.getCurrentUrl(), "Image posting path should not be matched.");
+            Reporter.log("Image Posting path is opened properly.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
             throw e;
         }
     }
+
+    public void validatePostingTitleKeywordContent() {
+        waitForLoadingIconToBeDisappeared();
+        Assert.assertEquals(filePostingSearchPage.getText(), Constants.FILEPOSTINGTITLE, "File Posting should present on Search result page first.");
+        Assert.assertEquals(linkPostingSearchPage.getText(), Constants.LINKPOSTINGTITLE, "Link Posting should present on Search result page second.");
+        Assert.assertEquals(messagePostingSearchPage.getText(), Constants.MESSAGEPOSTINGTITLE, "Message Posting should present on Search result page third.");
+    }
+
 
     private boolean shouldUploadToLive() {
         return ConfigReader.getProperty("uploadtolive").equalsIgnoreCase(Constants.KEYWORD_YES);

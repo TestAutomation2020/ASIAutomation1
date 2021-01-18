@@ -34,10 +34,10 @@ public class SmokeSuitePostingAnalytics extends Base{
         posting.validatePostingScreen();
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2,enabled = false)
     private void filePostingAddSearchUpdateDelete() throws Exception {
         Posting posting = new Posting(getDriver());
-        posting.addFilePosting(ConfigReader.getProperty("documentpostingpath"));
+        posting.addFilePosting(ConfigReader.getProperty("documentpostingpath"), Constants.FILEPOSTINGTITLE);
         posting.validatePostingAdded();
         BasePage basePage = new BasePage(getDriver());
         basePage.openDuplicateTab();
@@ -119,7 +119,7 @@ public class SmokeSuitePostingAnalytics extends Base{
         frequentSearches.verifyExportFunctionality();
     }
 
-    @Test(priority = 7)
+    @Test(priority = 7, enabled = false)
     private void appliedTodayFilter() throws IOException, InterruptedException {
         FrequentSearches frequentSearches = new FrequentSearches(getDriver());
         frequentSearches.appliedLast2DaysFilter();

@@ -1,0 +1,14 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Smoke suite" parallel="tests">
+    <listeners>
+        <listener class-name="listener.TestStatistics"/>
+    </listeners>
+
+    <test name="AdminScreen">
+        <classes>
+            <class name="Execution.AdminScreenTestCase"/>
+        </classes>
+    </test>
+
+</suite>

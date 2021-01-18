@@ -4,11 +4,7 @@
     <listeners>
         <listener class-name="listener.TestStatistics"/>
     </listeners>
-    <test name="Analytics">
-        <classes>
-            <class name="Execution.AnalyticsReport"/>
-        </classes>
-    </test>
+
     <test name="ASIAutomation">
         <classes>
             <class name="Execution.ASIAutomation"/>
@@ -21,7 +17,7 @@
     </test>
     <test name="Posting">
         <classes>
-            <class name="Execution.PostingTestCase"/>
+            <class name="Execution.SmokeSuitePostingAnalytics"/>
         </classes>
     </test>
 

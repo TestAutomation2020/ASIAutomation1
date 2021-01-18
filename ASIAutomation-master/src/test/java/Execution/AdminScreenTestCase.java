@@ -1,6 +1,5 @@
 package Execution;
 
-import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.Test;
 import pages.*;
 import util.ConfigReader;
@@ -18,8 +17,11 @@ public class AdminScreenTestCase extends Base {
         login.Loginpage(getDriver());
     }
 
-    @Test(priority = 1, enabled = false)
+    @Test(priority = 1)
     private void regionLocale() throws InterruptedException, IOException {
+        Login login = new Login(getDriver());
+        login.LaunchApplication(getDriver());
+        login.Loginpage(getDriver());
         BasePage basePage = new BasePage(getDriver());
         basePage.navigateToKbAdmin();
         RegionLocale regionLocale = new RegionLocale(getDriver());
@@ -30,6 +32,9 @@ public class AdminScreenTestCase extends Base {
         regionLocale.verifiedAppliedFilter();
         basePage.openDuplicateTab();
         basePage.switchAnotherTab();
+        HomePage homePage = new HomePage(getDriver());
+        homePage.navigateToSetUpHomePage();
+        homePage.localeSelectionWidgetComparison();
         regionLocale.verifiedLocaleSelection();
         basePage.navigateDefaultTab();
         regionLocale.updateRegionLocale();
@@ -37,7 +42,7 @@ public class AdminScreenTestCase extends Base {
         regionLocale.deleteRegionLocale();
     }
 
-    @Test(priority = 2, enabled = false)
+    @Test(priority = 2)
     private void federatedSearch() throws IOException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
@@ -54,13 +59,18 @@ public class AdminScreenTestCase extends Base {
     }
 
     @Test(priority = 3)
-    private void addMessageLinkPostingVerifyAddGroupAccess() throws IOException, InterruptedException {
+    private void addMessageLinkFilePostingVerifyAddGroupAccess() throws Exception {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
         basePage.navigateToKbAdmin();
         Posting posting = new Posting(getDriver());
         posting.navigateToPostingMenu();
         posting.validatePostingScreen();
+        posting.addFilePosting(ConfigReader.getProperty("documentpostingpath"), Constants.FILEPOSTINGTITLE);
+        posting.validatePostingAdded();
+        posting.filterPosting(Constants.FILEPOSTINGTITLE);
+        posting.validateDefaultEnwisenGroupAccess();
+        posting.giveGroupAccess();
         posting.addMessagePosting();
         posting.validatePostingAdded();
         posting.filterPosting(Constants.MESSAGEPOSTINGTITLE);
@@ -74,12 +84,14 @@ public class AdminScreenTestCase extends Base {
     }
 
     @Test(priority = 4)
-    private void basicUserSearchPosting() throws Exception {
+    private void basicUserSearchPostingAndSearchTitleKeywordContent() throws Exception {
         Login login = new Login(getDriver());
         login.LaunchApplication(getDriver());
         login.LoginBasicuser(getDriver(), ConfigReader.getProperty("basicuser"), ConfigReader.getProperty("basicpassword"), ConfigReader
                 .getProperty("organization"));
         Posting posting = new Posting(getDriver());
+        posting.searchPosting(Constants.FILEPOSTINGTITLE);
+        posting.validatePostingTitleKeywordContent();
         posting.searchPosting(Constants.MESSAGEPOSTINGTITLE);
         posting.validateSearchedPosting(Constants.MESSAGEPOSTINGTITLE);
         posting.searchPosting(Constants.LINKPOSTINGTITLE);
@@ -113,26 +125,27 @@ public class AdminScreenTestCase extends Base {
         Posting posting = new Posting(getDriver());
         posting.openPostingUsingAliasName();
         posting.validateViewMessagePosting();
-        BasePage basePage = new BasePage(getDriver());
-        basePage.backButton();
+
     }
 
     @Test(priority = 7)
     private void validateExcludeFromSearchFunctionality() throws IOException, InterruptedException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.backButton();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToPostingMenu();
         posting.filterPosting(Constants.MESSAGEPOSTINGTITLE);
         posting.updateExcludeFromSearch();
-        BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
         posting.searchPosting(Constants.MESSAGEPOSTINGTITLE);
         posting.validateExcludeFromSearchAndExpire();
-        basePage.pageReload();
     }
 
     @Test(priority = 8)
     private void validateExpirePosting() throws IOException, InterruptedException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToPostingMenu();
@@ -156,7 +169,7 @@ public class AdminScreenTestCase extends Base {
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToPostingMenu();
-        posting.addFilePosting(ConfigReader.getProperty("mimetypepostingpath"));
+        posting.addFilePosting(ConfigReader.getProperty("mimetypepostingpath"), Constants.FILEPOSTINGTITLE+"MIME");
         posting.validateMimePostingNotification();
 
     }
@@ -179,17 +192,18 @@ public class AdminScreenTestCase extends Base {
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToPostingMenu();
-        posting.appliedTypeFilter();
+        posting.appliedTypeFilter("DOC");
         posting.fileUploadWhileUpdate(ConfigReader.getProperty("morethan10mbfilepostingpath"));
         posting.validateMoreThan10mbFilePostingNotification();
         posting.fileUploadWhileUpdate(ConfigReader.getProperty("mimetypepostingpath"));
         posting.filePostingUpdate();
         posting.validateMimePostingNotification();
-        basePage.pageReload();
     }
 
     @Test(priority = 12)
     private void validateLocationAdded() throws IOException, InterruptedException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToLocationMenu();
@@ -197,17 +211,17 @@ public class AdminScreenTestCase extends Base {
         posting.validatePostingAdded();
         posting.openNewlyAddedLocation(ConfigReader.getProperty("locationcode"));
         posting.validateNewlyAddedLocation(ConfigReader.getProperty("locationname"), ConfigReader.getProperty("locationcode"), ConfigReader.getProperty("locationNote"));
-        BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
         posting.navigateToKbAdmin();
         posting.navigateToPostingMenu();
-        posting.appliedTypeFilter();
+        posting.appliedTypeFilter("DOC");
         posting.validateAddedLocationOnPosting(ConfigReader.getProperty("locationname"));
-        basePage.pageReload();
     }
 
     @Test(priority = 13)
     private void validateLocationUpdated() throws IOException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToLocationMenu();
@@ -218,34 +232,34 @@ public class AdminScreenTestCase extends Base {
         posting.validateNewlyAddedLocation(ConfigReader.getProperty("locationname") + ConfigReader.getProperty("updatemessage"),
                 ConfigReader.getProperty("locationcode") + ConfigReader.getProperty("updatemessage"),
                 ConfigReader.getProperty("locationNote") + ConfigReader.getProperty("updatemessage"));
-        BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
         posting.navigateToKbAdmin();
         posting.navigateToPostingMenu();
-        posting.appliedTypeFilter();
+        posting.appliedTypeFilter("DOC");
         posting.validateAddedLocationOnPosting(ConfigReader.getProperty("locationname") + ConfigReader.getProperty("updatemessage"));
-        basePage.pageReload();
     }
 
     @Test(priority = 14)
     private void validateDeleteLocation() throws IOException, InterruptedException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToLocationMenu();
         posting.openNewlyAddedLocation(ConfigReader.getProperty("locationcode") + ConfigReader.getProperty("updatemessage"));
         posting.deletePosting();
         posting.validatePostingDeleted();
-        BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
         posting.navigateToKbAdmin();
         posting.navigateToPostingMenu();
-        posting.appliedTypeFilter();
+        posting.appliedTypeFilter("DOC");
         posting.validateDeleteLocationOnPosting(ConfigReader.getProperty("locationname") + ConfigReader.getProperty("updatemessage"));
-        basePage.pageReload();
     }
 
     @Test(priority = 15)
     private void validatePostingAuditReport() throws IOException, InterruptedException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToPostingAuditReportMenu();
@@ -262,10 +276,25 @@ public class AdminScreenTestCase extends Base {
         posting.navigateToAllPosting();
         posting.appliedFilterInAllPostingReport();
         posting.validateAllPostingReportGrid();
-        basePage.pageReload();
     }
-    @Test(priority = 16)
+    @Test(priority = 17)
+    private void validateAllPostingReportForFolderTestCase() throws IOException, InterruptedException {
+        Login login = new Login(getDriver());
+        login.LaunchApplication(getDriver());
+        login.Loginpage(getDriver());
+        Posting posting = new Posting(getDriver());
+        posting.navigateToKbAdmin();
+        posting.navigateToAllPosting();
+        posting.appliedFilterInAllPostingReportForFolder(ConfigReader.getProperty("foldernameallposting&"));
+        posting.validateAllPostingReportGridForFolder(ConfigReader.getProperty("postingname&"), ConfigReader.getProperty("foldernameallposting&"), ConfigReader.getProperty("postingname_"));
+        posting.appliedFilterInAllPostingReportForFolder(ConfigReader.getProperty("foldernameallposting_"));
+        posting.validateAllPostingReportGridForFolder(ConfigReader.getProperty("postingname_"), ConfigReader.getProperty("foldernameallposting_"), ConfigReader.getProperty("postingname&"));
+    }
+
+    @Test(priority = 18)
     private void validatePostingUsageReport() throws IOException, InterruptedException {
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToPostingUsageMenu();
@@ -273,13 +302,10 @@ public class AdminScreenTestCase extends Base {
         posting.validatePostingUsageReportGrid();
     }
 
-    @Test(priority = 17)
+    @Test(priority = 19)
     private void validatePostingImage() throws IOException, InterruptedException {
-        Login login = new Login(getDriver());
-        login.LaunchApplication(getDriver());
-        login.Loginpage(getDriver());
         BasePage basePage = new BasePage(getDriver());
-        //basePage.pageReload();
+        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToPostingImage();

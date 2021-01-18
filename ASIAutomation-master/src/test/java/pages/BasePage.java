@@ -16,9 +16,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.Set;
+import java.util.*;
 
 public class BasePage {
     @FindBy(xpath = "//span[text()='Knowledgebase']")
@@ -52,7 +50,7 @@ public class BasePage {
     public BasePage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
         this.webDriver = webDriver;
-        wait = new WebDriverWait(webDriver, 40);
+        wait = new WebDriverWait(webDriver, 30);
     }
 
     public void pageReload() throws IOException {
@@ -269,6 +267,12 @@ public class BasePage {
     public void signOutUser () {
         clickAndHold(btnUserName);
         clickAfterVisibilityOfElement(btnSignOut);
+    }
+
+    public boolean compareList(List<String> listOne, List<String> listTwo){
+        Collections.sort(listOne);
+        Collections.sort(listTwo);
+       return listOne.containsAll(listTwo);
     }
 
 
