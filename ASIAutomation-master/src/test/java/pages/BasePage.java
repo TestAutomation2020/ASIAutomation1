@@ -2,7 +2,6 @@ package pages;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -10,7 +9,6 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Reporter;
 import util.ConfigReader;
-
 
 import java.io.File;
 import java.io.IOException;
@@ -149,6 +147,7 @@ public class BasePage {
             throw e;
         }
     }
+
     public void backButton() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -200,27 +199,29 @@ public class BasePage {
         }
     }
 
-    public void clickAfterVisibilityOfElement (WebElement element){
+    public void clickAfterVisibilityOfElement(WebElement element) {
         getElement(element).click();
     }
 
-    public void clearAfterVisibilityOfElement (WebElement element){
+    public void clearAfterVisibilityOfElement(WebElement element) {
         getElement(element).clear();
     }
 
-    private WebElement getElement (WebElement element){
+    private WebElement getElement(WebElement element) {
         return wait.until(ExpectedConditions.visibilityOf(element));
     }
-    public void moveToElement (WebElement element){
+
+    public void moveToElement(WebElement element) {
         Actions action = new Actions(webDriver);
         action.moveToElement(element).build().perform();
     }
-    public void clickAndHold (WebElement element){
+
+    public void clickAndHold(WebElement element) {
         Actions actions = new Actions(webDriver);
         actions.moveToElement(element).clickAndHold(element).build().perform();
     }
 
-    public boolean isElementPresent (WebElement element){
+    public boolean isElementPresent(WebElement element) {
         boolean isElementPresent;
         try {
             isElementPresent = element.isDisplayed();
@@ -230,7 +231,7 @@ public class BasePage {
         }
     }
 
-    public boolean isElementPresent (String xpath){
+    public boolean isElementPresent(String xpath) {
         boolean isElementPresent;
         try {
             isElementPresent = webDriver.findElement(By.xpath(xpath)).isDisplayed();
@@ -239,8 +240,8 @@ public class BasePage {
             return false;
         }
     }
-    public void ScreenPrints (WebDriver webDriver) throws IOException
-    {
+
+    public void ScreenPrints(WebDriver webDriver) throws IOException {
         Date d = new Date();
         System.out.println(d.toString());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
@@ -248,7 +249,7 @@ public class BasePage {
         FileUtils.copyFile(scrFile, new File(System.getProperty("user.dir") + "\\Screenshots\\" + sdf.format(d) + ".png"));
     }
 
-    public void clickwhenready (WebElement element){
+    public void clickwhenready(WebElement element) {
         wait.until(ExpectedConditions.visibilityOf(element));
         if (element != null) {
             element.click();
@@ -257,22 +258,22 @@ public class BasePage {
         }
     }
 
-    public String getTodayDate(){
+    public String getTodayDate() {
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy ");
         Date date = new Date();
         System.out.println(dateFormat.format(date));
         return dateFormat.format(date).trim();
     }
 
-    public void signOutUser () {
+    public void signOutUser() {
         clickAndHold(btnUserName);
         clickAfterVisibilityOfElement(btnSignOut);
     }
 
-    public boolean compareList(List<String> listOne, List<String> listTwo){
+    public boolean compareList(List<String> listOne, List<String> listTwo) {
         Collections.sort(listOne);
         Collections.sort(listTwo);
-       return listOne.containsAll(listTwo);
+        return listOne.containsAll(listTwo);
     }
 
 

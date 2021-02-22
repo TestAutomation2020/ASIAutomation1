@@ -18,13 +18,19 @@ public class ExecutionOfHomePage extends Base {
         login.Loginpage(getDriver());
     }
 
+    @Test(priority = 1)
+    private void validateBanner(){
+        HomePage homePage = new HomePage(getDriver());
+        homePage.validateBanner();
+    }
+
     /**
      * EWRD-6759 and EWRD-6831
      *
      * @throws IOException
      * @throws InterruptedException
      */
-    @Test(priority = 1, enabled = false)
+    @Test(priority = 2, enabled = false)
     private void widgetCheckAndUncheck() throws IOException, InterruptedException {
         HomePage homePage = new HomePage(getDriver());
         homePage.validateCountHomepageWidgetWithSetUpHomePage();
@@ -37,7 +43,7 @@ public class ExecutionOfHomePage extends Base {
         homePage.verifiedWidgetTitle();
     }
 
-    @Test(priority = 2, enabled = false)
+    @Test(priority = 3, enabled = false)
     private void toolsWidgetTestCase() throws IOException, InterruptedException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
@@ -51,7 +57,7 @@ public class ExecutionOfHomePage extends Base {
      *Locale Selection widget functionality covered in Region locale testcase.
      *
      */
-    @Test(priority = 3, enabled = false)
+    @Test(priority = 4, enabled = false)
     private void localeSelectionWidgetTestCase() throws IOException, InterruptedException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
@@ -60,7 +66,7 @@ public class ExecutionOfHomePage extends Base {
         homePage.localeSelectionWidgetComparison();
     }
 
-    @Test(priority = 4)
+    @Test(priority = 5,enabled = false)
     private void announcementWidgetTestCase() throws IOException, InterruptedException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
@@ -79,7 +85,7 @@ public class ExecutionOfHomePage extends Base {
         basePage.navigateDefaultTab();
     }
 
-    @Test(priority = 4,dependsOnMethods = "announcementWidgetTestCase")
+    @Test(priority = 6,dependsOnMethods = "announcementWidgetTestCase",enabled = false)
     private void bulletinsWidgetTestCase() throws IOException, InterruptedException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();

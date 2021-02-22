@@ -17,7 +17,7 @@ public class AdminScreenTestCase extends Base {
         login.Loginpage(getDriver());
     }
 
-    @Test(priority = 1)
+    @Test(priority = 1,enabled = false)
     private void regionLocale() throws InterruptedException, IOException {
         Login login = new Login(getDriver());
         login.LaunchApplication(getDriver());
@@ -42,7 +42,7 @@ public class AdminScreenTestCase extends Base {
         regionLocale.deleteRegionLocale();
     }
 
-    @Test(priority = 2)
+    @Test(priority = 2,enabled = false)
     private void federatedSearch() throws IOException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
@@ -279,9 +279,8 @@ public class AdminScreenTestCase extends Base {
     }
     @Test(priority = 17)
     private void validateAllPostingReportForFolderTestCase() throws IOException, InterruptedException {
-        Login login = new Login(getDriver());
-        login.LaunchApplication(getDriver());
-        login.Loginpage(getDriver());
+        BasePage basePage = new BasePage(getDriver());
+        basePage.pageReload();
         Posting posting = new Posting(getDriver());
         posting.navigateToKbAdmin();
         posting.navigateToAllPosting();

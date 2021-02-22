@@ -1,18 +1,14 @@
 package pages;
 
 import org.apache.commons.lang3.StringUtils;
-import org.assertj.core.api.Assertions;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.testng.Assert;
 import org.testng.Reporter;
-import org.testng.asserts.Assertion;
-import util.Constants;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,6 +75,9 @@ public class HomePage extends BasePage {
 
     @FindBy(xpath = "//p[text()='Locale Selection']")
     private WebElement localeSelectionWidgetOnHomePage;
+
+    @FindBy(xpath = "//img[@alt='A woman standing in front of an iron bridge']")
+    private WebElement imgBanner;
 
     public HomePage(WebDriver webDriver) {
         super(webDriver);
@@ -282,10 +281,21 @@ public class HomePage extends BasePage {
         }
     }
 
-    public void bulletinsWidgetFunctionality(String postingName, String message) {
-        Assert.assertTrue(isElementPresent("//div[@class='wdg-bulletins-messagetitle-kb104' and contains(text(),'" +postingName + "')]"), "Posting: " + postingName + " is not present in Announcement widget.");
-       Assert.assertEquals((webDriver.findElement(By.xpath("//div[@class='wdg-bulletins-messagetitle-kb104' and contains(text(),'" + postingName + "')]//span")).getText().split("-"))[1].trim(), message, "Posting message is not matched");
-
-
+    public void bulletinsWidgetFunctionality(String postingName, String message) throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            Assert.assertTrue(isElementPresent("//div[@class='wdg-bulletins-messagetitle-kb104' and contains(text(),'" + postingName + "')]"), "Posting: " + postingName + " is not present in Announcement widget.");
+            Assert.assertEquals((webDriver.findElement(By.xpath("//div[@class='wdg-bulletins-messagetitle-kb104' and contains(text(),'" + postingName + "')]//span")).getText().split("-"))[1].trim(), message, "Posting message is not matched");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
     }
+
+    public void validateBanner(){
+        Assert.assertTrue(isElementPresent(imgBanner),"Banner is not present.");
+    }
+
+
 }
