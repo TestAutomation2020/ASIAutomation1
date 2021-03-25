@@ -116,7 +116,7 @@ public class SmokeSuitePostingAnalytics extends Base{
     @Test(priority = 6)
     private void exportFunctionality() throws Exception {
         FrequentSearches frequentSearches = new FrequentSearches(getDriver());
-        frequentSearches.verifyExportFunctionality();
+        frequentSearches.verifyCSVExportFunctionality();
     }
 
     @Test(priority = 7, enabled = false)
@@ -147,7 +147,7 @@ public class SmokeSuitePostingAnalytics extends Base{
     @Test(priority = 10)
     private void verifyExportFunctionality() throws IOException, InterruptedException {
         FrequentSearches frequentSearches= new FrequentSearches(getDriver());
-        frequentSearches.verifyExportFunctionality();
+        frequentSearches.verifyCSVExportFunctionality();
     }
 
 }
