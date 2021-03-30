@@ -92,6 +92,12 @@ public class FrequentSearches extends BasePage {
     @FindBy(xpath = "(//a[@class='x-btn x-unselectable x-box-item x-toolbar-item x-btn-default-toolbar-small x-btn-no-text'])[4]")
     private WebElement exportIcon;
 
+    @FindBy(xpath = "(//a[@class='x-btn x-unselectable x-box-item x-toolbar-item x-btn-default-toolbar-small x-btn-no-text'])[2]")
+    private WebElement filterIcon;
+
+    @FindBy(xpath = "//span[@class='x-btn-inner x-btn-inner-default-toolbar-small' and contains(text(),'Filters Applied')]")
+    private WebElement filterCount;
+
     @FindBy(xpath = "(//span[text()='Export'])[2]")
     private WebElement exportButtonFirstTime;
 
@@ -103,6 +109,9 @@ public class FrequentSearches extends BasePage {
 
     @FindBy(xpath = "(//span[text()='Export'])[8]")
     private WebElement exportButtonForthTime;
+
+    @FindBy(xpath = "(//span[text()='Export'])[10]")
+    private WebElement exportButtonFifthTime;
 
     @FindBy(xpath = "(//input[@class='x-form-field x-form-text x-form-text-default   ' and @value='CSV'])[2]")
     private WebElement dropdownExport;
@@ -149,6 +158,8 @@ public class FrequentSearches extends BasePage {
     @FindBy(xpath = "(//input[@class='x-form-field x-form-text x-form-text-default  x-form-empty-field x-form-empty-field-default'])[1]")
     private WebElement afterTheClearStartDate;
 
+    @FindBy(xpath = "//div[text()='Grid does not contain data for export. Please adjust filters if required.']")
+    private WebElement txtProcessingError;
 
     public FrequentSearches(WebDriver webDriver) {
         super(webDriver);
@@ -293,7 +304,7 @@ public class FrequentSearches extends BasePage {
             clickAfterVisibilityOfElement(btnApply);
             waitForLoadingIconToBeDisappeared();
             clickAfterVisibilityOfElement(btnGroupRadio);
-            Assert.assertTrue(groupTitleOnGroupGrid.isDisplayed(),"Group Title on Group Grid is not present.");
+            Assert.assertTrue(groupTitleOnGroupGrid.isDisplayed(), "Group Title on Group Grid is not present.");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
@@ -318,17 +329,17 @@ public class FrequentSearches extends BasePage {
         }
     }
 
-    public void appliedDateRangeFilter() throws IOException, InterruptedException {
+    public void appliedDateRangeFilter(String analyticsstartdate, String analyticsenddate) throws IOException, InterruptedException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             waitForLoadingIconToBeDisappeared();
             clickAfterVisibilityOfElement(radioDateRange);
             txtStartDate.clear();
             Thread.sleep(1000);
-            afterTheClearStartDate.sendKeys(ConfigReader.getProperty("analyticsstartdate"));
+            afterTheClearStartDate.sendKeys(analyticsstartdate);
             txtStartDate.clear();
-           Thread.sleep(1000);
-            afterTheClearStartDate.sendKeys(ConfigReader.getProperty("analyticsenddate"));
+            Thread.sleep(1000);
+            afterTheClearStartDate.sendKeys(analyticsenddate);
             inputSearchTerm.clear();
             clickAfterVisibilityOfElement(btnApply);
         } catch (Exception e) {
@@ -342,15 +353,16 @@ public class FrequentSearches extends BasePage {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             waitForLoadingIconToBeDisappeared();
-            Assert.assertEquals(labelFrequentSearchesGrid.getText(),"Frequent Searches "+ConfigReader.getProperty("analyticsstartdate")+" To "+ConfigReader.getProperty("analyticsenddate"));
-            Assert.assertEquals(labelPercentageOfTotalSearchesChart.getText(),"Percentage of Total Searches "+ConfigReader.getProperty("analyticsstartdate")+" To "+ConfigReader.getProperty("analyticsenddate"));
-            Assert.assertEquals(labelSearchTrendsChart.getText(),"Search Trends - "+ConfigReader.getProperty("analyticsstartdate")+" To "+ConfigReader.getProperty("analyticsenddate")+" -");
+            Assert.assertEquals(labelFrequentSearchesGrid.getText(), "Frequent Searches " + ConfigReader.getProperty("analyticsstartdate") + " To " + ConfigReader.getProperty("analyticsenddate"));
+            Assert.assertEquals(labelPercentageOfTotalSearchesChart.getText(), "Percentage of Total Searches " + ConfigReader.getProperty("analyticsstartdate") + " To " + ConfigReader.getProperty("analyticsenddate"));
+            Assert.assertEquals(labelSearchTrendsChart.getText(), "Search Trends - " + ConfigReader.getProperty("analyticsstartdate") + " To " + ConfigReader.getProperty("analyticsenddate") + " -");
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
             throw e;
         }
     }
+
     public void verifyXMLExportFunctionality() throws IOException, InterruptedException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -396,6 +408,39 @@ public class FrequentSearches extends BasePage {
             throw e;
         }
     }
+
+    public void appliedFilter() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(selectAllCheckBox);
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(filterIcon);
+            String filterText = filterCount.getText();
+            String[] count = filterText.split("\\s");
+            Assert.assertTrue(Integer.parseInt(count[0]) > 1, "Filter count is not greater than 1");
+        } catch (NumberFormatException e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+
+    public void validateBlankGridExport() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(exportIcon);
+            clickAfterVisibilityOfElement(exportButtonFifthTime);
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(txtProcessingError.getText(),ConfigReader.getProperty("processingErrorforgrid"));
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
 
 }
 

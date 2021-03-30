@@ -36,12 +36,16 @@ public class AnalyticsScreenTestCase extends Base {
         frequentSearches.verifyGraph();
         frequentSearches.groupRadioButton();
         frequentSearches.verifyHTMLExportFunctionality();
-        frequentSearches.appliedDateRangeFilter();
+        frequentSearches.appliedDateRangeFilter(ConfigReader.getProperty("analyticsstartdate"), ConfigReader.getProperty("analyticsenddate"));
         frequentSearches.verifiedAppliedDateRangeFilter();
         frequentSearches.verifyXMLExportFunctionality();
         frequentSearches.appliedClearButton();
         frequentSearches.validateFrequentSearchMenu();
         frequentSearches.verifyPDFExportFunctionality();
+        frequentSearches.appliedDateRangeFilter(ConfigReader.getProperty("analyticsstartdatefuture"),ConfigReader.getProperty("analyticsenddatefuture"));
+        frequentSearches.validateBlankGridExport();
+        frequentSearches.appliedFilter();
+
     }
 
 
