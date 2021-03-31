@@ -7,6 +7,7 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.Reporter;
 import util.ConfigReader;
 
@@ -41,14 +42,58 @@ public class BasePage {
     @FindBy(xpath = "//a[@class='x-menu-item-link cls-has-icon']")
     private WebElement btnSignOut;
 
+    @FindBy(xpath = "//span[text()='Start Date']//..//..//..//div[1]//input")
+    private WebElement txtStartDate;
+
+    @FindBy(xpath = "//span[text()='End Date']//..//..//..//div[1]//input")
+    private WebElement txtEndDate;
+
+    @FindBy(xpath = "//input[@name='searchTerm']")
+    private WebElement inputSearchTerm;
+
+    @FindBy(xpath = "//span[text()='APPLY']")
+    private WebElement btnApply;
+
+    @FindBy(xpath = "//label[text()='Date Range']")
+    private WebElement radioDateRange;
+
+    @FindBy(xpath = "//span[text()='CLEAR']")
+    private WebElement btnClear;
+
+    @FindBy(xpath = "(//a[@class='x-btn x-unselectable x-box-item x-toolbar-item x-btn-default-toolbar-small x-btn-no-text'])[2]")
+    private WebElement filterIcon;
+
+    @FindBy(xpath = "//span[@class='x-btn-inner x-btn-inner-default-toolbar-small' and contains(text(),'Filters Applied')]")
+    private WebElement filterCount;
+
+    @FindBy(xpath = "//span[@class='x-column-header-checkbox']")
+    private WebElement selectAllCheckBox;
+
+    @FindBy(xpath = "(//span[@class='x-grid-checkcolumn'])[1]")
+    private WebElement firstCheckBox;
+
+    @FindBy(xpath = "//div[@class='x-form-cb-wrap-inner']//label[normalize-space()='Group']")
+    private WebElement btnGroupRadio;
+
+    @FindBy(xpath = "//div[@class='x-grid-group-title']")
+    private WebElement groupTitleOnGroupGrid;
+
+    @FindBy(xpath = "//input[@name='timePeriod']")
+    private WebElement dropTimePeriod;
+
+    @FindBy(xpath = "//li[text()='Last 2 Days']")
+    private WebElement selectLast2Days;
+
+
     protected WebDriver webDriver;
     protected WebDriverWait wait;
     private String currentTab;
-
+    private final Calendar cal;
     public BasePage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
         this.webDriver = webDriver;
         wait = new WebDriverWait(webDriver, 30);
+      cal= Calendar.getInstance();
     }
 
     public void pageReload() throws IOException {
@@ -276,6 +321,120 @@ public class BasePage {
         return listOne.containsAll(listTwo);
     }
 
+    public String getLastDayOfCurrentMonth(){
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
+        DateFormat sdf = new SimpleDateFormat("M/d/yyyy");
+        System.out.println(sdf.format(cal.getTime()));
+        return sdf.format(cal.getTime());
+    }
+    public String getFirstDateOfCurrentMonth() {
+        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
+        DateFormat sdf = new SimpleDateFormat("M/d/yyyy");
+        System.out.println(sdf.format(cal.getTime()));
+        return sdf.format(cal.getTime());
+    }
+
+    public void appliedDateRangeFilter(String analyticsstartdate, String analyticsenddate) throws IOException, InterruptedException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(radioDateRange);
+            txtStartDate.clear();
+            Thread.sleep(1000);
+            txtStartDate.sendKeys(analyticsstartdate);
+            txtEndDate.clear();
+            Thread.sleep(1000);
+            txtEndDate.sendKeys(analyticsenddate);
+            inputSearchTerm.clear();
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void appliedClearDateRangeFilter() throws IOException, InterruptedException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(radioDateRange);
+            txtStartDate.clear();
+            Thread.sleep(1000);
+            txtEndDate.clear();
+            Thread.sleep(1000);
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+    public void appliedClearButton() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(btnClear);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void appliedFilter() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(selectAllCheckBox);
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(filterIcon);
+            String filterText = filterCount.getText();
+            String[] count = filterText.split("\\s");
+            Assert.assertTrue(Integer.parseInt(count[0]) > 1, "Filter count is not greater than 1");
+        } catch (NumberFormatException e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void groupRadioButton() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(selectAllCheckBox);
+            clickAfterVisibilityOfElement(firstCheckBox);
+            clickAfterVisibilityOfElement(btnApply);
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(btnGroupRadio);
+            Assert.assertTrue(groupTitleOnGroupGrid.isDisplayed(), "Group Title on Group Grid is not present.");
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+    public void appliedLast2DaysFilter() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(dropTimePeriod);
+            Reporter.log("Time Period dropdown select.");
+            clickAfterVisibilityOfElement(selectLast2Days);
+            Reporter.log("Today value selected in Time Period dropdown.");
+            inputSearchTerm.sendKeys(ConfigReader.getProperty("searchtermforfrequentsearch"));
+            Reporter.log("Search term entered in Search Term text box.");
+            clickAfterVisibilityOfElement(btnApply);
+            Reporter.log("Clicked on Apply button.");
+
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
 
 }
 

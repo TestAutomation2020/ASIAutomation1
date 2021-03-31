@@ -31,21 +31,22 @@ public class AnalyticsScreenTestCase extends Base {
         frequentSearches.navigateToFrequentSearchMenu();
         frequentSearches.verifyCSVExportFunctionality();
         frequentSearches.validateProcessingError();
-        frequentSearches.appliedLast2DaysFilter();
+        basePage.appliedLast2DaysFilter();
         frequentSearches.validateAppliedLast2DaysFilter();
         frequentSearches.verifyGraph();
-        frequentSearches.groupRadioButton();
+        basePage.groupRadioButton();
         frequentSearches.verifyHTMLExportFunctionality();
-        frequentSearches.appliedDateRangeFilter(ConfigReader.getProperty("analyticsstartdate"), ConfigReader.getProperty("analyticsenddate"));
-        frequentSearches.verifiedAppliedDateRangeFilter();
+        basePage.appliedDateRangeFilter(ConfigReader.getProperty("analyticsstartdate"), ConfigReader.getProperty("analyticsenddate"));
+        frequentSearches.verifiedAppliedDateRangeFilter(ConfigReader.getProperty("analyticsstartdate"), ConfigReader.getProperty("analyticsenddate"));
         frequentSearches.verifyXMLExportFunctionality();
-        frequentSearches.appliedClearButton();
+        basePage.appliedClearButton();
         frequentSearches.validateFrequentSearchMenu();
         frequentSearches.verifyPDFExportFunctionality();
         frequentSearches.appliedDateRangeFilter(ConfigReader.getProperty("analyticsstartdatefuture"),ConfigReader.getProperty("analyticsenddatefuture"));
         frequentSearches.validateBlankGridExport();
-        frequentSearches.appliedFilter();
-
+        basePage.appliedClearDateRangeFilter();
+        frequentSearches.verifiedAppliedDateRangeFilter(basePage.getFirstDateOfCurrentMonth(),basePage.getLastDayOfCurrentMonth());
+        basePage.appliedFilter();
     }
 
 
