@@ -84,6 +84,39 @@ public class BasePage {
     @FindBy(xpath = "//li[text()='Last 2 Days']")
     private WebElement selectLast2Days;
 
+    @FindBy(xpath = "(//a[@class='x-btn x-unselectable x-box-item x-toolbar-item x-btn-default-toolbar-small x-btn-no-text'])[4]")
+    private WebElement exportIcon;
+
+    @FindBy(xpath = "(//span[text()='Export'])[2]")
+    private WebElement exportButtonFirstTime;
+    @FindBy(xpath = "(//input[@class='x-form-field x-form-text x-form-text-default   ' and @value='CSV'])[2]")
+    private WebElement dropdownExport;
+
+    @FindBy(xpath = "//li[@class='x-boundlist-item' and text()='HTML']")
+    private WebElement selectHTML;
+
+    @FindBy(xpath = "(//li[@class='x-boundlist-item' and text()='PDF'])[3]")
+    private WebElement selectPDF;
+
+    @FindBy(xpath = "(//li[@class='x-boundlist-item' and text()='XML'])[2]")
+    private WebElement selectXML;
+    @FindBy(xpath = "(//span[text()='Export'])[4]")
+    private WebElement exportButtonSecondTime;
+
+    @FindBy(xpath = "(//span[text()='Export'])[6]")
+    private WebElement exportButtonThirdTime;
+
+    @FindBy(xpath = "(//span[text()='Export'])[8]")
+    private WebElement exportButtonForthTime;
+
+    @FindBy(xpath = "(//span[text()='Export'])[10]")
+    private WebElement exportButtonFifthTime;
+
+    @FindBy(xpath = "//div[text()='Grid does not contain data for export. Please adjust filters if required.']")
+    private WebElement txtProcessingError;
+
+
+
 
     protected WebDriver webDriver;
     protected WebDriverWait wait;
@@ -429,6 +462,84 @@ public class BasePage {
             clickAfterVisibilityOfElement(btnApply);
             Reporter.log("Clicked on Apply button.");
 
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+    public void verifyCSVExportFunctionality() throws IOException, InterruptedException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Thread.sleep(5000);
+            clickAfterVisibilityOfElement(exportIcon);
+            clickAfterVisibilityOfElement(exportButtonFirstTime);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+    public void verifyHTMLExportFunctionality() throws IOException, InterruptedException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Thread.sleep(5000);
+            clickAfterVisibilityOfElement(exportIcon);
+            clickAfterVisibilityOfElement(dropdownExport);
+            clickAfterVisibilityOfElement(selectHTML);
+            clickAfterVisibilityOfElement(exportButtonSecondTime);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+    public void verifyXMLExportFunctionality() throws IOException, InterruptedException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Thread.sleep(5000);
+            clickAfterVisibilityOfElement(exportIcon);
+            clickAfterVisibilityOfElement(dropdownExport);
+            clickAfterVisibilityOfElement(selectXML);
+            clickAfterVisibilityOfElement(exportButtonThirdTime);
+            waitForLoadingIconToBeDisappeared();
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+    public void validateBlankGridExport() throws IOException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            clickAfterVisibilityOfElement(exportIcon);
+            clickAfterVisibilityOfElement(exportButtonFifthTime);
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertEquals(txtProcessingError.getText(),ConfigReader.getProperty("processingErrorforgrid"));
+        } catch (Exception e) {
+            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
+            ScreenPrints(webDriver);
+            throw e;
+        }
+    }
+
+
+    public void verifyPDFExportFunctionality() throws IOException, InterruptedException {
+        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
+        try {
+            waitForLoadingIconToBeDisappeared();
+            Thread.sleep(5000);
+            clickAfterVisibilityOfElement(exportIcon);
+            clickAfterVisibilityOfElement(dropdownExport);
+            clickAfterVisibilityOfElement(selectPDF);
+            clickAfterVisibilityOfElement(exportButtonForthTime);
+            waitForLoadingIconToBeDisappeared();
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);

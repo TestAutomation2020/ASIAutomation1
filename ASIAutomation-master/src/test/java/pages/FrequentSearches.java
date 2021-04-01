@@ -56,9 +56,6 @@ public class FrequentSearches extends BasePage {
     @FindBy(xpath = "//span[text()='50 Records Per Page']")
     private WebElement labelPagination;
 
-
-
-
     @FindBy(xpath = "//span[text()='APPLY']")
     private WebElement btnApply;
 
@@ -86,41 +83,6 @@ public class FrequentSearches extends BasePage {
     @FindBy(xpath = "//div[contains(@id,'ext-element-')]//*[name()='svg']")
     private WebElement pieChart;
 
-    @FindBy(xpath = "(//a[@class='x-btn x-unselectable x-box-item x-toolbar-item x-btn-default-toolbar-small x-btn-no-text'])[4]")
-    private WebElement exportIcon;
-
-    @FindBy(xpath = "(//a[@class='x-btn x-unselectable x-box-item x-toolbar-item x-btn-default-toolbar-small x-btn-no-text'])[2]")
-    private WebElement filterIcon;
-
-    @FindBy(xpath = "//span[@class='x-btn-inner x-btn-inner-default-toolbar-small' and contains(text(),'Filters Applied')]")
-    private WebElement filterCount;
-
-    @FindBy(xpath = "(//span[text()='Export'])[2]")
-    private WebElement exportButtonFirstTime;
-
-    @FindBy(xpath = "(//span[text()='Export'])[4]")
-    private WebElement exportButtonSecondTime;
-
-    @FindBy(xpath = "(//span[text()='Export'])[6]")
-    private WebElement exportButtonThirdTime;
-
-    @FindBy(xpath = "(//span[text()='Export'])[8]")
-    private WebElement exportButtonForthTime;
-
-    @FindBy(xpath = "(//span[text()='Export'])[10]")
-    private WebElement exportButtonFifthTime;
-
-    @FindBy(xpath = "(//input[@class='x-form-field x-form-text x-form-text-default   ' and @value='CSV'])[2]")
-    private WebElement dropdownExport;
-
-    @FindBy(xpath = "//li[@class='x-boundlist-item' and text()='HTML']")
-    private WebElement selectHTML;
-
-    @FindBy(xpath = "(//li[@class='x-boundlist-item' and text()='PDF'])[3]")
-    private WebElement selectPDF;
-
-    @FindBy(xpath = "(//li[@class='x-boundlist-item' and text()='XML'])[2]")
-    private WebElement selectXML;
 
     @FindBy(xpath = "(//div[@class='x-panel-body x-panel-body-default x-panel-body-default x-noborder-trbl']//*[local-name()='svg' and @namespace='http://www.w3.org/2000/svg'])[2]")
     private WebElement graphPercentageOfTotalSearch;
@@ -134,12 +96,6 @@ public class FrequentSearches extends BasePage {
     @FindBy(xpath = "//div[contains(text(),'No data meets the provided criteria. Please adjust filters, if required.')]")
     private WebElement messageProcessingErrorForPrintChart;
 
-    @FindBy(xpath = "//span[@class='x-column-header-checkbox']")
-    private WebElement selectAllCheckBox;
-
-    @FindBy(xpath = "//label[text()='Date Range']")
-    private WebElement radioDateRange;
-
     @FindBy(xpath = "//span[text()='Start Date']//..//..//..//div[1]//input")
     private WebElement txtStartDate;
 
@@ -149,8 +105,6 @@ public class FrequentSearches extends BasePage {
     @FindBy(xpath = "//span[text()='End Date']//..//..//..//div[1]//input")
     private WebElement txtEndDate;
 
-    @FindBy(xpath = "//div[text()='Grid does not contain data for export. Please adjust filters if required.']")
-    private WebElement txtProcessingError;
 
     public FrequentSearches(WebDriver webDriver) {
         super(webDriver);
@@ -202,20 +156,6 @@ public class FrequentSearches extends BasePage {
         }
     }
 
-    public void verifyCSVExportFunctionality() throws IOException, InterruptedException {
-        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        try {
-            waitForLoadingIconToBeDisappeared();
-            Thread.sleep(5000);
-            clickAfterVisibilityOfElement(exportIcon);
-            clickAfterVisibilityOfElement(exportButtonFirstTime);
-            waitForLoadingIconToBeDisappeared();
-        } catch (Exception e) {
-            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            ScreenPrints(webDriver);
-            throw e;
-        }
-    }
 
     public void validateProcessingError() throws IOException, InterruptedException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
@@ -230,8 +170,6 @@ public class FrequentSearches extends BasePage {
             throw e;
         }
     }
-
-
 
 
     public void validateAppliedLast2DaysFilter() throws IOException {
@@ -270,26 +208,6 @@ public class FrequentSearches extends BasePage {
     }
 
 
-
-    public void verifyHTMLExportFunctionality() throws IOException, InterruptedException {
-        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        try {
-            waitForLoadingIconToBeDisappeared();
-            Thread.sleep(5000);
-            clickAfterVisibilityOfElement(exportIcon);
-            clickAfterVisibilityOfElement(dropdownExport);
-            clickAfterVisibilityOfElement(selectHTML);
-            clickAfterVisibilityOfElement(exportButtonSecondTime);
-            waitForLoadingIconToBeDisappeared();
-        } catch (Exception e) {
-            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            ScreenPrints(webDriver);
-            throw e;
-        }
-    }
-
-
-
     public void verifiedAppliedDateRangeFilter(String analyticsStartDate, String analyticsEndDate) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -303,61 +221,6 @@ public class FrequentSearches extends BasePage {
             throw e;
         }
     }
-
-
-    public void verifyXMLExportFunctionality() throws IOException, InterruptedException {
-        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        try {
-            waitForLoadingIconToBeDisappeared();
-            Thread.sleep(5000);
-            clickAfterVisibilityOfElement(exportIcon);
-            clickAfterVisibilityOfElement(dropdownExport);
-            clickAfterVisibilityOfElement(selectXML);
-            clickAfterVisibilityOfElement(exportButtonThirdTime);
-            waitForLoadingIconToBeDisappeared();
-        } catch (Exception e) {
-            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            ScreenPrints(webDriver);
-            throw e;
-        }
-    }
-
-
-
-    public void verifyPDFExportFunctionality() throws IOException, InterruptedException {
-        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        try {
-            waitForLoadingIconToBeDisappeared();
-            Thread.sleep(5000);
-            clickAfterVisibilityOfElement(exportIcon);
-            clickAfterVisibilityOfElement(dropdownExport);
-            clickAfterVisibilityOfElement(selectPDF);
-            clickAfterVisibilityOfElement(exportButtonForthTime);
-            waitForLoadingIconToBeDisappeared();
-        } catch (Exception e) {
-            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            ScreenPrints(webDriver);
-            throw e;
-        }
-    }
-
-
-    public void validateBlankGridExport() throws IOException {
-        String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        try {
-            clickAfterVisibilityOfElement(exportIcon);
-            clickAfterVisibilityOfElement(exportButtonFifthTime);
-            waitForLoadingIconToBeDisappeared();
-            Assert.assertEquals(txtProcessingError.getText(),ConfigReader.getProperty("processingErrorforgrid"));
-        } catch (Exception e) {
-            Reporter.log(nameOfCurrMethod + "\n" + e.toString());
-            ScreenPrints(webDriver);
-            throw e;
-        }
-    }
-
-
-
 
 
 }
