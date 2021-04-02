@@ -5,6 +5,7 @@ import pages.*;
 import util.ConfigReader;
 
 import java.io.IOException;
+import java.text.ParseException;
 
 public class AnalyticsScreenTestCase extends Base {
 
@@ -26,6 +27,8 @@ public class AnalyticsScreenTestCase extends Base {
         FrequentSearches frequentSearches = new FrequentSearches(getDriver());
         frequentSearches.navigateToFrequentSearchMenu();
         frequentSearches.validateFrequentSearchMenu();
+        basePage.getFirstDateOfCurrentMonth();
+        basePage.getLastDayOfCurrentMonth();
         basePage.verifyCSVExportFunctionality();
         frequentSearches.validateProcessingError();
         basePage.appliedLast2DaysFilter();
@@ -42,18 +45,20 @@ public class AnalyticsScreenTestCase extends Base {
         frequentSearches.appliedDateRangeFilter(ConfigReader.getProperty("analyticsstartdatefuture"),ConfigReader.getProperty("analyticsenddatefuture"));
         basePage.validateBlankGridExport();
         basePage.appliedClearDateRangeFilter();
-        frequentSearches.verifiedAppliedDateRangeFilter(basePage.getFirstDateOfCurrentMonth(),basePage.getLastDayOfCurrentMonth());
+        frequentSearches.verifiedAppliedDateRangeFilter(basePage.startDate_Format,basePage.endDate_Format);
         basePage.appliedFilter();
     }
 
     @Test(priority = 2)
-    private void recentSearches() throws IOException, InterruptedException {
+    private void recentSearches() throws IOException, InterruptedException, ParseException {
         BasePage basePage = new BasePage(getDriver());
         basePage.pageReload();
         basePage.navigateToKbAnalytics();
         RecentSearches recentSearches = new RecentSearches(getDriver());
         recentSearches.navigateToRecentSearchMenu();
         recentSearches.validateRecentSearchMenu();
+        basePage.getFirstDateOfCurrentMonth();
+        basePage.getLastDayOfCurrentMonth();
         basePage.verifyCSVExportFunctionality();
         recentSearches.validateProcessingError();
         basePage.appliedLast2DaysFilter();
@@ -70,7 +75,7 @@ public class AnalyticsScreenTestCase extends Base {
         recentSearches.appliedDateRangeFilter(ConfigReader.getProperty("analyticsstartdatefuture"),ConfigReader.getProperty("analyticsenddatefuture"));
         basePage.validateBlankGridExport();
         basePage.appliedClearDateRangeFilter();
-        recentSearches.verifiedAppliedDateRangeFilter(basePage.getFirstDateOfCurrentMonth(),basePage.getLastDayOfCurrentMonth());
+        recentSearches.verifiedAppliedDateRangeFilter(basePage.startDate_Format,basePage.endDate_Format);
         basePage.appliedFilter();
     }
 

@@ -74,7 +74,6 @@ public class RecentSearches extends BasePage {
     private WebElement barGraph;
 
 
-
     public RecentSearches(WebDriver webDriver) {
         super(webDriver);
     }
@@ -141,7 +140,7 @@ public class RecentSearches extends BasePage {
         try {
             waitForLoadingIconToBeDisappeared();
             Assert.assertEquals(labelRecentSearchesGrid.getText(), "Recent Searches " + analyticsStartDate + " To " + analyticsEndDate);
-            Assert.assertEquals(labelSearchTrendsChart.getText(), "Search Trends - " + analyticsStartDate + " To " + analyticsEndDate );
+            Assert.assertEquals(labelSearchTrendsChart.getText(), "Search Trends - " + analyticsStartDate + " To " + analyticsEndDate);
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
@@ -153,14 +152,15 @@ public class RecentSearches extends BasePage {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             waitForLoadingIconToBeDisappeared();
-            Assert.assertEquals(labelRecentSearchesGrid.getText(), "Recent Searches " + analyticsTimePeriod );
-            Assert.assertEquals(labelSearchTrendsChart.getText(), "Search Trends - " + analyticsTimePeriod );
+            Assert.assertEquals(labelRecentSearchesGrid.getText(), "Recent Searches " + analyticsTimePeriod);
+            Assert.assertEquals(labelSearchTrendsChart.getText(), "Search Trends - " + analyticsTimePeriod);
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
             throw e;
         }
     }
+
     public void verifyGraph() throws InterruptedException, IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -170,7 +170,7 @@ public class RecentSearches extends BasePage {
             Assert.assertTrue(barGraph.isDisplayed(), "Bar Graph is not loaded.");
             Reporter.log("Bar chart tooltip" + barGraph.getText());
             Thread.sleep(1000);
-           // Assert.assertTrue(Double.parseDouble(barGraph.getText()) > 0, "Bar Grpah is not loaded.");
+            // Assert.assertTrue(Double.parseDouble(barGraph.getText()) > 0, "Bar Grpah is not loaded.");
         } catch (NumberFormatException e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);

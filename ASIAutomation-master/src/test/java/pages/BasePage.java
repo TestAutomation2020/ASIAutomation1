@@ -14,6 +14,7 @@ import util.ConfigReader;
 import java.io.File;
 import java.io.IOException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -116,17 +117,18 @@ public class BasePage {
     private WebElement txtProcessingError;
 
 
-
-
     protected WebDriver webDriver;
     protected WebDriverWait wait;
     private String currentTab;
     private final Calendar cal;
+    public String startDate_Format;
+    public String endDate_Format;
+
     public BasePage(WebDriver webDriver) {
         PageFactory.initElements(webDriver, this);
         this.webDriver = webDriver;
         wait = new WebDriverWait(webDriver, 30);
-      cal= Calendar.getInstance();
+        cal = Calendar.getInstance();
     }
 
     public void pageReload() throws IOException {
@@ -354,17 +356,27 @@ public class BasePage {
         return listOne.containsAll(listTwo);
     }
 
-    public String getLastDayOfCurrentMonth(){
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMaximum(Calendar.DAY_OF_MONTH));
-        DateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        System.out.println(sdf.format(cal.getTime()));
-        return sdf.format(cal.getTime());
+    public void getLastDayOfCurrentMonth() throws ParseException {
+
+        String endDate = txtEndDate.getAttribute("value");
+        Date date = new SimpleDateFormat("M/d/yyyy").parse(endDate);
+        SimpleDateFormat formatter = new SimpleDateFormat("M/d/yyyy");
+        endDate_Format = formatter.format(date);
+
+
     }
-    public String getFirstDateOfCurrentMonth() {
-        cal.set(Calendar.DAY_OF_MONTH, cal.getActualMinimum(Calendar.DAY_OF_MONTH));
-        DateFormat sdf = new SimpleDateFormat("M/d/yyyy");
-        System.out.println(sdf.format(cal.getTime()));
-        return sdf.format(cal.getTime());
+
+    public void getFirstDateOfCurrentMonth() throws ParseException {
+
+
+        String startDate = txtStartDate.getAttribute("value");
+        System.out.println(startDate);
+        Date date = new SimpleDateFormat("M/d/yyyy").parse(startDate);
+        SimpleDateFormat formatter = new SimpleDateFormat("M/d/yyyy");
+        startDate_Format = formatter.format(date);
+        System.out.println(startDate_Format);
+
+
     }
 
     public void appliedDateRangeFilter(String analyticsstartdate, String analyticsenddate) throws IOException, InterruptedException {
@@ -405,6 +417,7 @@ public class BasePage {
             throw e;
         }
     }
+
     public void appliedClearButton() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -449,6 +462,7 @@ public class BasePage {
             throw e;
         }
     }
+
     public void appliedLast2DaysFilter() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -483,6 +497,7 @@ public class BasePage {
             throw e;
         }
     }
+
     public void verifyHTMLExportFunctionality() throws IOException, InterruptedException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -499,6 +514,7 @@ public class BasePage {
             throw e;
         }
     }
+
     public void verifyXMLExportFunctionality() throws IOException, InterruptedException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
@@ -515,13 +531,14 @@ public class BasePage {
             throw e;
         }
     }
+
     public void validateBlankGridExport() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
         try {
             clickAfterVisibilityOfElement(exportIcon);
             clickAfterVisibilityOfElement(exportButtonFifthTime);
             waitForLoadingIconToBeDisappeared();
-            Assert.assertEquals(txtProcessingError.getText(),ConfigReader.getProperty("processingErrorforgrid"));
+            Assert.assertEquals(txtProcessingError.getText(), ConfigReader.getProperty("processingErrorforgrid"));
         } catch (Exception e) {
             Reporter.log(nameOfCurrMethod + "\n" + e.toString());
             ScreenPrints(webDriver);
