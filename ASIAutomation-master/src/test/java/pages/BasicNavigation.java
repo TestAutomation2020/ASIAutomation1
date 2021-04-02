@@ -49,7 +49,6 @@ public class BasicNavigation extends BasePage {
     private WebElement PrintScreenFrame;
 
 
-
     @FindBy(how = How.XPATH, using = "//div[5]//div//a[@class='x-btn sw-tertiary x-unselectable x-box-item x-toolbar-item x-btn-default-toolbar-small x-btn-no-text']")
     private WebElement AskHRCloseform;
     @FindBy(how = How.XPATH, using = "//*[@data-ref='instrEl' and text()='Ask HR instructions.']")
@@ -82,7 +81,7 @@ public class BasicNavigation extends BasePage {
             AskHRIconbtn.click();
             waitForLoadingIconToBeDisappeared();
             Assert.assertTrue(AskHRlabelonform.isDisplayed(), "AskHR label on form is displayed on click of ASK HR button.");
-            Assert.assertTrue(AskHRLabelonAskHRform.isDisplayed(),"Ask HR Instructions are displayed");
+            Assert.assertTrue(AskHRLabelonAskHRform.isDisplayed(), "Ask HR Instructions are displayed");
             System.out.println("Ask HR form is open successfully");
             Reporter.log("Ask HR Form is displayed as Expected");
             waitForLoadingIconToBeDisappeared();
@@ -90,9 +89,7 @@ public class BasicNavigation extends BasePage {
             AskHRCloseform.click();
             System.out.println("Ask HR form is closed successfully");
             Reporter.log("Ask HR Form is displayed as Expected");
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
             Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
@@ -101,19 +98,17 @@ public class BasicNavigation extends BasePage {
 
     public void Favorite() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        try{
-        waitForLoadingIconToBeDisappeared();
-        clickAfterVisibilityOfElement(Favoritesbtn);
-        System.out.println("Favorite Button is displayed");
-        Reporter.log("Favorite Button is displayed as Expected");
-        waitForLoadingIconToBeDisappeared();
-        Assert.assertTrue(SavebuttoninFavoriteform.isDisplayed(), "Save button in Favorite form is displayed.");
-        System.out.println("Favorites button functionality is as expected");
-        Reporter.log("Favorites button functionality is as expected");
-        ScreenPrints(webDriver);
-    }
-        catch (Exception ex)
-        {
+        try {
+            waitForLoadingIconToBeDisappeared();
+            clickAfterVisibilityOfElement(Favoritesbtn);
+            System.out.println("Favorite Button is displayed");
+            Reporter.log("Favorite Button is displayed as Expected");
+            waitForLoadingIconToBeDisappeared();
+            Assert.assertTrue(SavebuttoninFavoriteform.isDisplayed(), "Save button in Favorite form is displayed.");
+            System.out.println("Favorites button functionality is as expected");
+            Reporter.log("Favorites button functionality is as expected");
+            ScreenPrints(webDriver);
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
             Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
@@ -122,8 +117,8 @@ public class BasicNavigation extends BasePage {
 
     public void Print() throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        try{
-        waitForLoadingIconToBeDisappeared();
+        try {
+            waitForLoadingIconToBeDisappeared();
             Printbtn.click();
             Reporter.log("Print button functionality is as expected");
             Thread.sleep(5000);
@@ -145,10 +140,9 @@ public class BasicNavigation extends BasePage {
             Thread.sleep(5000);
             System.out.println("Print form is closed as expected");
             Reporter.log("Print form is closed as expected");
-        ScreenPrints(webDriver);
+            ScreenPrints(webDriver);
 
-    }catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
             Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
@@ -156,26 +150,23 @@ public class BasicNavigation extends BasePage {
     }
 
 
-
-
-    public void SearchForBasicUser() throws IOException {
+    public void SearchForBasicUser(String searchText) throws IOException {
         String nameOfCurrMethod = new Throwable().getStackTrace()[0].getMethodName();
-        try{
+        try {
 
-        waitForLoadingIconToBeDisappeared();
-        Searchtxtbox.isDisplayed();
-        System.out.println("Search text box is displayed");
-        Reporter.log("Search text box is displayed");
-        clearAfterVisibilityOfElement(Searchtxtbox);
-        waitForLoadingIconToBeDisappeared();
-        Searchtxtbox.sendKeys("Health");
-        Searchtxtbox.sendKeys(Keys.ENTER);
-        System.out.println("Basic user is searched successfully");
-        Reporter.log("Basic user is searched successfully");
+            waitForLoadingIconToBeDisappeared();
+            Searchtxtbox.isDisplayed();
+            System.out.println("Search text box is displayed");
+            Reporter.log("Search text box is displayed");
+            clearAfterVisibilityOfElement(Searchtxtbox);
+            waitForLoadingIconToBeDisappeared();
+            Searchtxtbox.sendKeys(searchText);
+            Searchtxtbox.sendKeys(Keys.ENTER);
+            waitForLoadingIconToBeDisappeared();
+            System.out.println("Basic user is searched successfully");
+            Reporter.log("Basic user is searched successfully");
 
-    }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
             Reporter.log(nameOfCurrMethod + "\n" + ex.toString());
@@ -195,7 +186,7 @@ public class BasicNavigation extends BasePage {
         } catch (Exception ex) {
             System.out.println(ex.getMessage());
             ScreenPrints(webDriver);
-            Reporter.log(nameOfCurrMethod +ex.getMessage());
+            Reporter.log(nameOfCurrMethod + ex.getMessage());
         }
     }
 
