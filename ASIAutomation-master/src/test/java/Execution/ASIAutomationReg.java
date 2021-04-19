@@ -15,6 +15,31 @@ public class ASIAutomationReg extends Base {
         UserMenuNavigation usermenu = new UserMenuNavigation(getDriver());
         usermenu.UserMenu(getDriver());
     }
+    @Test(priority = 1)
+    public void KBUser() throws InterruptedException, IOException {
+        Users userlogin = new Users(getDriver());
+       // userlogin.UserAdd();
+       // userlogin.UpdateUser();
+       // userlogin.DeleteUser();
+       // userlogin.Userblock();
+       // userlogin.UStartPage();
+       // userlogin.DuplicateUser();
+       // userlogin.localeuser();
+      //  userlogin.USignOnLinkWChkPwd();
+      //  userlogin.USignOnLinkWOChkPwd();
+      //  userlogin.UChangePwdAtLogin();
+      //  userlogin.USignOnLinkWMURL();
+      //  userlogin.USignOnLinkWInvalidLink();
+      //  userlogin.SignOnUserblock();
+      //  userlogin.DeletedUserAdd();
+      //  userlogin.DeleteUser();
+      //  userlogin.SearchfilterUserslist();
+
+
+
+
+    }
+
 
  /*  @Test(priority = 1)
     public void uSignOnLink() throws InterruptedException, IOException {
@@ -55,11 +80,12 @@ public class ASIAutomationReg extends Base {
     @Test(priority = 7)
         public void uDeletedAdd() throws InterruptedException, IOException {
         DeletedUserCreation udeletedcreation = new DeletedUserCreation(getDriver());
-        udeletedcreation.DeletedUserAdd(); */
+        udeletedcreation.DeletedUserAdd();
 
     @Test(priority = 8)
-        public void uDuplicateAdd() throws InterruptedException, IOException {
-         ValidationOfDuplicateUser uduplicateadd = new ValidationOfDuplicateUser(getDriver());
-         uduplicateadd.DuplicateUser();
-    }
+        public void uCreate() throws InterruptedException, IOException {
+        Users userFilters = new Users(getDriver());
+        userFilters.SearchfilterUserslist();
+
+    }*/
 }
