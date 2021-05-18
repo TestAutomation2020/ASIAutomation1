@@ -564,5 +564,25 @@ public class BasePage {
         }
     }
 
+    public void FrameToBeAvailableAndSwitchToIt(WebDriver webDriver,String framename){
+        if(framename.contains(","))
+        {
+            String[] strframename = framename.split(",");
+            for(int i=0;i<strframename.length;i++)
+            {
+                if(i==0)
+                {
+                    webDriver.switchTo().defaultContent();
+                    webDriver.switchTo().frame(strframename[i]);
+                }
+            }
+        }
+        else {
+            webDriver.switchTo().defaultContent();
+            webDriver.switchTo().frame(framename);
+        }
+
+    }
+
 }
 
